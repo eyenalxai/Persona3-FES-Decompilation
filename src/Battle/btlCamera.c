@@ -7502,126 +7502,113 @@ void FUN_002b1060(BtlCamera* camera, f32 param_1, f32 param_2)
 }
 
 #pragma opt_dead_assignments reset
-/* W414/W421 classification: baseline verify nd3 at 1052/1056 (rate
- * 0.002852).  The +508 residual is the commutative swap
- * (ours mul.s $f1,$f20,$f0; retail mul.s $f1,$f0,$f20).  The +716
- * residual is the literal-width floor (ours addiu $s0,$zero,1; retail
- * daddiu $s0,$zero,1).  Direct spelling was byte-neutral; static-inline
- * helper probes that were not inlined measured nd805 at 1044/1056
- * (rate 0.771073), so retain the baseline source. */
-/* W422 three static-inline scalar helper directions at +508 all measured nd805 at 1044/1056; reverted. */
-// FUN_002b17a0 NONMATCHING
+static inline f32 b17a0_mul(f32 left, f32 right)
+{
+    return left * right;
+}
 
+// FUN_002b17a0
 void FUN_002b17a0(BtlCamera* camera, f32 param_1, f32 param_2)
 {
     struct
     {
         BtlCameraKeyFrame frames[4];
-        RwMatrix matrix;
-        f32 pair[4];
-        RwV3d center;
-        f32 pad_center;
-        RwV3d difference;
-        f32 pad_difference;
-        RwV3d transformed;
-        f32 pad_transformed;
+        u8 matrix[0x40];
+        f32 xzA[2];
+        f32 xzB[2];
+        RwV3d unit;
+        u8 pad12C[4];
+        RwV3d delta;
+        u8 pad13C[4];
+        RwV3d rotated;
+        u8 pad14C[4];
         RwV3d scaled;
-        f32 pad_scaled;
-        RwV3d normalized;
+        u8 pad15C[4];
+        RwV3d diff;
+        u8 pad16C[4];
     } work;
-    BtlUnit* unit;
-    BtlUnit* target;
-    RwV3d* framePos;
-    f32 distance;
+    u8 *arg0;
+    u8 *action;
+    u8 *s0;
+    u8 *s2;
+    f32 prod;
+    f32 height;
     f32 dot;
-    f32 halfDistance;
+    f32 len;
     f32 angle;
-    f32 half;
-    u32 index;
-    f32 tempHalf;
-    f32 sourceProduct;
-    unit = camera->action->unit;
-    target = camera->action->target.targetedActions[0]->unit;
-    FUN_002a4470((f32*)&work.frames[0], (f32*)((u8*)camera + 0x9c));
-    distance = unit->sphereCenter.y * unit->scale;
-    btlUnitGetSphereWorldCenter(target, &work.center);
+    f32 step;
+    f32 zero;
+    u16 i;
+    BtlCameraKeyFrame *base;
 
-    sourceProduct = unit->unk_8c * unit->scale;
-    sourceProduct = sourceProduct;
-    halfDistance = distance + fGpffff8094 * sourceProduct;
-    halfDistance = halfDistance +
-                   (work.center.y +
-                    fGpffff8094 * (target->unk_8c * target->scale));
-    work.center.y = 0.0f;
-    work.normalized.x = unit->unk_dc.x - work.center.x;
-    work.normalized.y = unit->unk_dc.y - work.center.y;
-    work.normalized.z = unit->unk_dc.z - work.center.z;
-    distance = RwV3dNormalize(&work.normalized, &work.normalized);
-    half = 0.5f;
-    work.scaled.x = work.normalized.x * (half * distance);
-    work.scaled.y = work.normalized.y * (half * distance);
-    work.scaled.z = work.normalized.z * (half * distance);
-    work.scaled.x = work.scaled.x + work.center.x;
-    work.scaled.y = work.scaled.y + work.center.y;
-    work.scaled.z = work.scaled.z + work.center.z;
-    tempHalf = half * halfDistance;
-    halfDistance = tempHalf;
-    work.scaled.y = halfDistance;
-    work.pair[0] = work.normalized.z;
-    work.pair[1] = -work.normalized.x;
-    work.pair[2] = work.frames[0].pos.x - work.scaled.x;
-    work.pair[3] = work.frames[0].pos.z - work.scaled.z;
-    FUN_004c6b20(work.pair, work.pair);
-    FUN_004c6b20(work.pair + 2, work.pair + 2);
-    dot = work.pair[0] * work.pair[2] + work.pair[1] * work.pair[3];
-    if (dot < 0.0f)
-        goto negative_distance;
-    tempHalf = fGpffff8094 * distance;
-    distance = tempHalf;
-    work.scaled.x = work.normalized.x * distance;
-    work.scaled.y = work.normalized.y * distance;
-    work.scaled.z = work.normalized.z * distance;
-    goto distance_done;
-negative_distance:
-    distance = 0.5f * distance;
-    work.scaled.x = work.normalized.x * distance;
-    work.scaled.y = work.normalized.y * distance;
-    work.scaled.z = work.normalized.z * distance;
-distance_done:
-    work.scaled.x = work.scaled.x + work.center.x;
-    work.scaled.y = work.scaled.y + work.center.y;
-    work.scaled.z = work.scaled.z + work.center.z;
-    work.scaled.y = halfDistance;
-    *(f32*)((u8*)camera + 0x10c) = 0.5f * *(f32*)((u8*)unit + 0xe8);
-    *(RwV3d*)((u8*)camera + 0x100) = work.scaled;
-    work.difference.x = work.frames[0].pos.x - work.scaled.x;
-    work.difference.y = work.frames[0].pos.y - work.scaled.y;
-    work.difference.z = work.frames[0].pos.z - work.scaled.z;
-    halfDistance = param_1 / 3.0f;
-    angle = halfDistance;
-    index = (u64)1;
-    while ((s32)(index & 0xffff) < 4)
-    {
-        if (dot < 0.0f)
-            goto rotate_negative;
-        RwMatrixRotate(&work.matrix, &D_00697880, halfDistance, rwCOMBINEREPLACE);
-        goto rotate_done;
-rotate_negative:
-        RwMatrixRotate(&work.matrix, &D_00697880, -halfDistance, rwCOMBINEREPLACE);
-rotate_done:
-        FUN_004c6c60(&work.transformed, &work.difference, &work.matrix);
-        framePos = &work.frames[(u16)index].pos;
-        framePos->x = work.transformed.x + work.scaled.x;
-        framePos->y = work.transformed.y + work.scaled.y;
-        framePos->z = work.transformed.z + work.scaled.z;
-        FUN_002a4690(&work.frames[(u16)index].rot, &work.frames[(u16)index].pos,
-                     &work.scaled, &D_00697880);
-        halfDistance = halfDistance + angle;
-        index = (index + 1) & 0xffff;
+    arg0 = (u8 *)camera;
+    action = *(u8 **)(arg0 + 0xE0);
+    s0 = *(u8 **)(action + 0x30);
+    s2 = *(u8 **)(*(u8 **)(action + 0x38) + 0x30);
+    FUN_002a4470((f32 *)&work.frames[0], (f32 *)(arg0 + 0x9C));
+    prod = *(f32 *)(s0 + 0x84) * *(f32 *)(s0 + 0x2C);
+    btlUnitGetSphereWorldCenter((BtlUnit *)s2, &work.unit);
+    height = (0.0f + prod + b17a0_mul(*(f32 *)(s0 + 0x8C), *(f32 *)(s0 + 0x2C)) * fGpffff8094);
+    height += (0.0f + work.unit.y + (*(f32 *)(s2 + 0x8C) * *(f32 *)(s2 + 0x2C)) * fGpffff8094);
+    work.unit.y = 0.0f;
+    zero = 0.0f;
+    work.diff.x = *(f32 *)(s0 + 0xDC) - work.unit.x;
+    work.diff.y = *(f32 *)(s0 + 0xE0) - zero;
+    work.diff.z = *(f32 *)(s0 + 0xE4) - work.unit.z;
+    len = RwV3dNormalize(&work.diff, &work.diff);
+    work.scaled.x = work.diff.x * (0.5f * len);
+    work.scaled.y = work.diff.y * (0.5f * len);
+    work.scaled.z = work.diff.z * (0.5f * len);
+    work.scaled.x = work.scaled.x + work.unit.x;
+    work.scaled.y = work.scaled.y + work.unit.y;
+    work.scaled.z = work.scaled.z + work.unit.z;
+    height = b17a0_mul(0.5f, height);
+    work.scaled.y = height;
+    work.xzA[0] = work.diff.z;
+    work.xzA[1] = -work.diff.x;
+    work.xzB[0] = work.frames[0].pos.x - work.scaled.x;
+    work.xzB[1] = work.frames[0].pos.z - work.scaled.z;
+    FUN_004c6b20(work.xzA, work.xzA);
+    FUN_004c6b20(work.xzB, work.xzB);
+    dot = work.xzA[0] * work.xzB[0] + work.xzA[1] * work.xzB[1];
+    if (!(dot < 0.0f)) {
+        work.scaled.x = work.diff.x * (fGpffff8094 * len);
+        work.scaled.y = work.diff.y * (fGpffff8094 * len);
+        work.scaled.z = work.diff.z * (fGpffff8094 * len);
+    } else {
+        work.scaled.x = work.diff.x * (0.5f * len);
+        work.scaled.y = work.diff.y * (0.5f * len);
+        work.scaled.z = work.diff.z * (0.5f * len);
     }
-    FUN_002a2660(camera, &work.frames[0], &work.frames[1],
-                 &work.frames[2], &work.frames[3], 1);
-    FUN_002a3110((u16*)camera, param_2);
+    work.scaled.x = work.scaled.x + work.unit.x;
+    work.scaled.y = work.scaled.y + work.unit.y;
+    work.scaled.z = work.scaled.z + work.unit.z;
+    work.scaled.y = height;
+    *(f32 *)(arg0 + 0x10C) = 0.5f * *(f32 *)(s0 + 0xE8);
+    *(RwV3d *)(arg0 + 0x100) = work.scaled;
+    work.delta.x = work.frames[0].pos.x - work.scaled.x;
+    work.delta.y = work.frames[0].pos.y - work.scaled.y;
+    work.delta.z = work.frames[0].pos.z - work.scaled.z;
+    angle = param_1 / 3.0f;
+    step = angle;
+    i = 1;
+    while (i < 4) {
+        if (!(dot < 0.0f)) {
+            RwMatrixRotate((RwMatrix *)work.matrix, &D_00697880, angle, rwCOMBINEREPLACE);
+        } else {
+            RwMatrixRotate((RwMatrix *)work.matrix, &D_00697880, -angle, rwCOMBINEREPLACE);
+        }
+        FUN_004c6c60(&work.rotated, &work.delta, (RwMatrix *)work.matrix);
+        base = &work.frames[(u16)i];
+        base->pos.x = work.rotated.x + work.scaled.x;
+        base->pos.y = work.rotated.y + work.scaled.y;
+        base->pos.z = work.rotated.z + work.scaled.z;
+        FUN_002a4690(&base->rot, &base->pos, &work.scaled, &D_00697880);
+        angle = angle + step;
+        i++;
+    }
+    FUN_002a2660(camera, &work.frames[0], &work.frames[1], &work.frames[2], &work.frames[3], 1);
+    FUN_002a3110((u16 *)arg0, param_2);
 }
 
 // FUN_002b1bc0

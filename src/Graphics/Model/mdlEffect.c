@@ -244,9 +244,8 @@ static __inline u32 mdlVuScalePackedColor(u32 color, const u8 (*scale)[16], u32 
 }
 
 /* Some retail paths reserve v0 for the macro-mode sequence and spill its result. */
-static __inline u32 mdlVuModulateStackedV0(const u32 *pc1, u32 c2, f32 inv255)
+static __inline void mdlVuModulateStackedV0(const u32 *pc1, u32 c2, f32 inv255, u32 *out)
 {
-    u32 tmp;
     __asm__ volatile (
         ".set noreorder                  \n"
         "lw          $v0, 0(%1)          \n"
@@ -280,10 +279,9 @@ static __inline u32 mdlVuModulateStackedV0(const u32 *pc1, u32 c2, f32 inv255)
         "ppacb       $v0, $zero, $v0     \n"
         "sw          $v0, 0x134($sp)      \n"
         ".set reorder"
-        : "=m"(tmp)
+        : "=m"(*out)
         : "r"(pc1), "r"(c2), "f"(inv255)
         : "memory");
-    return tmp;
 }
 
 
@@ -1006,6 +1004,8 @@ extern void FUN_003238d0_4arg(int param_1,int param_2,int param_3,int param_4);
 extern void FUN_003238d0_ptr4(u16 *param_1,u8 *param_2,u8 *param_3,u8 *param_4);
  #pragma alias FUN_00323920_out FUN_00323920
  extern void FUN_00323920_out(u8 *param_1);
+ #pragma alias FUN_00323920_ptr3 FUN_00323920
+ extern void FUN_00323920_ptr3(RwMatrix *param_1,void *param_2,void *param_3,f32 param_4);
  #pragma alias FUN_00323a30_out FUN_00323a30
  extern void FUN_00323a30_out(u8 *param_1);
 void FUN_00323920(RwMatrix *param_1,void *param_2,s32 param_3,f32 param_4);
@@ -1113,8 +1113,8 @@ void FUN_00326190(u64 param_1,u64 param_2);
 int FUN_003261c0(int param_1,int param_2);
 int FUN_00326200(int param_1,int param_2);
 int FUN_00326240(int param_1,int param_2);
-void FUN_00326280(int param_1,u32 param_2,u8 (*param_3) [16]);
-void FUN_003263b0(int param_1,u32 param_2,u8 (*param_3) [16]);
+u_long128 FUN_00326280(int param_1,u32 param_2,u8 (*param_3) [16]);
+u_long128 FUN_003263b0(int param_1,u32 param_2,u8 (*param_3) [16]);
 u32 FUN_00326490(u32 param_1);
 u32 FUN_00326510(u32 param_1);
 void FUN_00326740(int param_1);
@@ -1506,7 +1506,7 @@ void FUN_0034cc00(u32 *param_1);
 void FUN_0034cf30(int param_1);
 void FUN_0034d050(int param_1);
 void FUN_0034d150(u32 param_1,f32 *param_2);
-u64 FUN_0034d3a0(int param_1,int param_2,int param_3);
+void FUN_0034d3a0(int param_1,int param_2,int param_3);
 u32 FUN_0034d510(int param_1);
 void FUN_0034d670(int param_1);
 u32 FUN_0034d6f0(int param_1);
@@ -2002,6 +2002,8 @@ extern u32 DAT_0069c854;
 extern code DAT_0069c854_abs[];
 extern u32 DAT_0069c858;
 extern u32 DAT_0069c85c;
+#pragma alias DAT_0069c85c_abs DAT_0069c85c
+extern u8 DAT_0069c85c_abs[];
 extern MdlStridedCallback28 DAT_0069c860[];
 extern MdlStridedCallback28 DAT_0069c864[];
 extern u32 DAT_0069c868;
@@ -4124,163 +4126,98 @@ void FUN_00322a20(int param_1)
 
 
 
-// FUN_00322AB0 NONMATCHING
-
-
-void FUN_00322ab0(int *param_1,u8 *param_2,float *param_3)
-
-
-
+// FUN_00322AB0
+void FUN_00322ab0(int *param_1, u8 *param_2, float *param_3)
 {
+    u8 *arg0 = (u8 *)param_1;
+    u8 *arg1 = param_2;
+    u8 *arg2 = (u8 *)param_3;
+    f32 temp_f1;
+    f32 temp_f2;
+    f32 temp_f3;
+    f32 temp_f4;
+    f32 temp_f5;
+    f32 temp_f6;
+    s32 temp_7_2;
+    s32 temp_8;
+    s32 var_5;
+    u32 temp_9;
+    u32 temp_9_2;
+    u8 **temp_3_2;
+    u8 *temp_3;
+    u8 *temp_4;
+    u8 *temp_5;
+    u8 *temp_7;
 
-  short sVar1;
-
-  short sVar2;
-
-  short sVar3;
-
-  short sVar4;
-
-  int *piVar5;
-
-  u32 *puVar6;
-
-  int iVar7;
-
-  short *psVar8;
-
-  u32 uVar9;
-
-  float fVar10;
-
-  float fVar11;
-
-  
-
-  piVar5 = (int *)*param_1;
-
-  puVar6 = (u32 *)*(int *)(param_2 + 0xc);
-
-  if ((puVar6[4] & 0x10000000) == 0) {
-
-    if (*(int *)(param_2 + 8) < 1) {
-
-      uVar9 = *(int *)(param_2 + 4) + 1;
-
-      *(u32 *)(param_2 + 4) = uVar9;
-
-      if (puVar6[3] <= uVar9) {
-
-        if ((puVar6[4] & 0x10) == 0) {
-
-          *(u32 *)(param_2 + 4) = 0;
-
+    temp_3 = *(u8 **)(arg0 + 0);
+    temp_7 = *(u8 **)(arg1 + 0xC);
+    if ((*(s32 *)(temp_7 + 0x10) & 0x10000000) == 0) {
+        temp_8 = *(s32 *)(arg1 + 8);
+        if (temp_8 <= 0) {
+            temp_9 = *(u32 *)(arg1 + 4) + 1;
+            *(u32 *)(arg1 + 4) = temp_9;
+            if (temp_9 >= *(u32 *)(temp_7 + 0xC)) {
+                if ((*(s32 *)(temp_7 + 0x10) & 0x10) != 0) {
+                    *(s16 *)(arg0 + 0x14) = 0;
+                    *(u32 *)(arg1 + 4) = *(u32 *)(temp_7 + 0xC) - 1;
+                } else {
+                    *(u32 *)(arg1 + 4) = 0;
+                }
+            }
+            temp_5 = *(u8 **)(arg1 + 0x10);
+            temp_9_2 = *(u32 *)(arg1 + 4);
+            temp_4 = (u8 *)(temp_9_2 * 0x18);
+            temp_4 = (u8 *)((u32)temp_4 + (u32)temp_5);
+            *(s32 *)(arg1 + 8) = *(s16 *)(temp_4 + 0x12);
+        } else {
+            *(s32 *)(arg1 + 8) = temp_8 - 1;
         }
-
-        else {
-
-          *(u16 *)(param_1 + 5) = 0;
-
-          *(int *)(param_2 + 4) = puVar6[3] + -1;
-
+        temp_9_2 = *(u32 *)(arg1 + 4);
+        temp_4 = *(u8 **)(arg1 + 0x10) + (temp_9_2 * 0x18);
+        temp_7_2 = *(s32 *)(temp_7 + 0x10);
+        if ((temp_7_2 & 1) != 0) {
+            var_5 = *(s32 *)(*(u8 **)(temp_3 + 0) +
+                             *(s32 *)(temp_7 + 4) + (temp_9_2 * 4));
+        } else {
+            var_5 = -1;
         }
-
-      }
-
-      *(int *)(param_2 + 8) =
-
-           (int)*(short *)(*(int *)(param_2 + 4) * 0x18 + *(int *)(param_2 + 0x10) + 0x12);
-
+        *(s32 *)(arg2 + 0x2C) = var_5;
+        temp_3_2 = *(u8 ***)(*(u8 **)(temp_3 + 0x14) +
+                             (*(s16 *)(temp_4 + 0x10) * 4));
+        temp_5 = *(u8 **)(temp_3_2 + 0);
+        temp_f5 = (f32)*(s32 *)(temp_5 + 0xC);
+        temp_f6 = (f32)*(s32 *)(temp_5 + 0x10);
+        temp_7_2 = *(s32 *)(temp_7 + 0x10);
+        if ((temp_7_2 & 2) != 0) {
+            *(s16 *)(arg2 + 0x28) = 2;
+        } else if ((temp_7_2 & 4) != 0) {
+            *(s16 *)(arg2 + 0x28) = 3;
+        } else {
+            *(s16 *)(arg2 + 0x28) = 1;
+        }
+        *(f32 *)(arg2 + 0x10) = *(f32 *)(temp_4 + 0x14);
+        temp_f4 = (f32)*(s16 *)(temp_4 + 4);
+        temp_f3 = (f32)*(s16 *)(temp_4 + 6);
+        temp_f2 = (f32)*(s16 *)(temp_4 + 0);
+        temp_f1 = (f32)*(s16 *)(temp_4 + 2);
+        *(f32 *)(arg2 + 0x18) =
+            (f32)((s32)*(s16 *)(temp_4 + 8) >> 4) / temp_f5;
+        *(f32 *)(arg2 + 0x1C) =
+            (f32)((s32)*(s16 *)(temp_4 + 0xA) >> 4) / temp_f6;
+        *(f32 *)(arg2 + 0x20) =
+            (f32)((s32)*(s16 *)(temp_4 + 0xC) >> 4) / temp_f5;
+        *(f32 *)(arg2 + 0x24) =
+            (f32)((s32)*(s16 *)(temp_4 + 0xE) >> 4) / temp_f6;
+        temp_f2 = temp_f2 / 2.0f;
+        temp_f1 = temp_f1 / 2.0f;
+        *(f32 *)(arg2 + 0) = temp_f2 - temp_f4;
+        *(f32 *)(arg2 + 4) = temp_f1 - temp_f3;
+        *(f32 *)(arg2 + 8) = temp_f2;
+        *(f32 *)(arg2 + 0xC) = temp_f1;
+        *(f32 *)(arg2 + 0x30) = temp_f5;
+        *(f32 *)(arg2 + 0x34) = temp_f6;
+        *(u8 **)(arg2 + 0x14) = (u8 *)temp_3_2;
     }
-
-    else {
-
-      *(int *)(param_2 + 8) = *(int *)(param_2 + 8) + -1;
-
-    }
-
-    psVar8 = (short *)(*(int *)(param_2 + 0x10) + *(int *)(param_2 + 4) * 0x18);
-
-    if ((puVar6[4] & 1) == 0) {
-
-      fVar10 = -(*(f32*)&sMdlNanBits);
-
-    }
-
-    else {
-
-      fVar10 = *(float *)(*piVar5 + puVar6[1] + *(int *)(param_2 + 4) * 4);
-
-    }
-
-    param_3[0xb] = fVar10;
-
-    piVar5 = *(int **)(piVar5[5] + psVar8[8] * 4);
-
-    iVar7 = *piVar5;
-
-    fVar11 = (float)*(int *)(iVar7 + 0xc);
-
-    fVar10 = (float)*(int *)(iVar7 + 0x10);
-
-    if ((puVar6[4] & 2) == 0) {
-
-      if ((puVar6[4] & 4) == 0) {
-
-        *(u16 *)(param_3 + 10) = 1;
-
-      }
-
-      else {
-
-        *(u16 *)(param_3 + 10) = 3;
-
-      }
-
-    }
-
-    else {
-
-      *(u16 *)(param_3 + 10) = 2;
-
-    }
-
-    param_3[4] = *(float *)(psVar8 + 10);
-
-    sVar1 = psVar8[2];
-
-    sVar2 = psVar8[3];
-
-    sVar3 = *psVar8;
-
-    sVar4 = psVar8[1];
-
-    param_3[6] = (float)((int)psVar8[4] >> 4) / fVar11;
-
-    param_3[7] = (float)((int)psVar8[5] >> 4) / fVar10;
-
-    param_3[8] = (float)((int)psVar8[6] >> 4) / fVar11;
-
-    param_3[9] = (float)((int)psVar8[7] >> 4) / fVar10;
-
-    *param_3 = (float)(int)sVar3 / 2.0f - (float)(int)sVar1;
-
-    param_3[1] = (float)(int)sVar4 / 2.0f - (float)(int)sVar2;
-
-    param_3[2] = (float)(int)sVar3 / 2.0f;
-
-    param_3[3] = (float)(int)sVar4 / 2.0f;
-
-    param_3[0xc] = fVar11;
-
-    param_3[0xd] = fVar10;
-
-    *(u32 *)(param_3 + 5) = (u32)piVar5;
-
-  }
-
-  return;
-
 }
 
 
@@ -4823,88 +4760,55 @@ u32 FUN_003234f0(u16 param_1,u32 param_2)
 
 
 
-// FUN_00323640 NONMATCHING
-
-
+// FUN_00323640
 u32 FUN_00323640(u16 *param_1)
-
-
-
 {
+    u8 *arg0 = (u8 *)param_1;
+    u8 *self;
+    u8 *temp_2;
+    s32 temp_16;
+    s32 temp_5;
+    s32 temp_5_2;
+    s32 var_22;
+    u8 *temp_21;
+    u8 *temp_23;
+    u8 *var_20;
+    u8 *var_19;
+    self = arg0;
 
-  u32 uVar1;
-
-  int iVar2;
-
-  int iVar3;
-
-  u32 uVar4;
-
-  u16 *puVar5;
-
-  u16 *puVar6;
-
-  int lVar7;
-
-  
-
-  if ((*param_1 & 2) != 0) {
-
-    uVar4 = FUN_003234f0_u32(param_1[5],*(u32 *)(param_1 + 2));
-
-    if (*(int *)**(u32 **)(*(int *)(*(int *)(param_1 + 8) + 0x18) + 0x20) != 0) {
-
-      FUN_00494d50(**(u32 **)(*(int *)(*(int *)((int)uVar4 + 0x10) + 0x18) + 0x20),
-                      *(int *)**(u32 **)(*(int *)(*(int *)(param_1 + 8) + 0x18) + 0x20));
-
+    if (*(u16 *)self & 2) {
+        temp_2 = (u8 *)FUN_003234f0(*(u16 *)(self + 0xA), *(u32 *)(self + 4));
+        temp_5 = *(s32 *)(*(u8 **)(*(u8 **)(*(u8 **)(*(u8 **)(self + 0x10) + 0x18) + 0x20)));
+        if (temp_5 != 0) {
+            temp_23 = *(u8 **)(*(u8 **)(*(u8 **)(*(u8 **)(temp_2 + 0x10) + 0x18) + 0x20));
+            FUN_00494d50((u32)temp_23, (u32)temp_5);
+        }
+    } else {
+        temp_2 = (u8 *)FUN_003230f0(*(s16 *)(self + 8), *(s16 *)(self + 0xA),
+                                    *(s32 *)(self + 4));
+        temp_16 = *(s32 *)(temp_2 + 0x14);
+        temp_21 = *(u8 **)(*(u8 **)(self + 0x10) + 0x18);
+        temp_23 = *(u8 **)(*(u8 **)(temp_2 + 0x10) + 0x18);
+        temp_5_2 = *(s32 *)(*(u8 **)(self + 0x14));
+        if (temp_5_2 != 0) {
+            FUN_00494d50((u32)temp_16, (u32)temp_5_2);
+        }
+        FUN_00493370(temp_21, 1);
+        var_20 = *(u8 **)(temp_21 + 0x2C);
+        var_19 = *(u8 **)(temp_23 + 0x2C);
+        var_22 = 0;
+        while (var_22 < *(s16 *)(self + 0xA)) {
+            *(u16 *)(var_19 + 0) = *(u16 *)(var_20 + 0);
+            *(u16 *)(var_19 + 2) = *(u16 *)(var_20 + 2);
+            *(u16 *)(var_19 + 4) = *(u16 *)(var_20 + 4);
+            FUN_00493230(temp_23, var_19, temp_16);
+            var_20 += 8;
+            var_19 += 8;
+            var_22 += 1;
+        }
+        FUN_004933d0(temp_21);
     }
-
-  }
-
-  else {
-
-    uVar4 = FUN_003230f0((short)param_1[4],(short)param_1[5],*(u32 *)(param_1 + 2));
-
-    uVar1 = *(u32 *)((int)uVar4 + 0x14);
-
-    iVar2 = *(int *)(*(int *)(param_1 + 8) + 0x18);
-
-    iVar3 = *(int *)(*(int *)((int)uVar4 + 0x10) + 0x18);
-
-    if (**(int **)(param_1 + 10) != 0) {
-
-      FUN_00494d50(uVar1,**(int **)(param_1 + 10));
-
-    }
-
-    FUN_00493370(iVar2,1);
-
-    puVar6 = *(u16 **)(iVar2 + 0x2c);
-
-    puVar5 = *(u16 **)(iVar3 + 0x2c);
-
-    for (lVar7 = 0; lVar7 < (short)param_1[5]; lVar7 = lVar7 + 1) {
-
-      *puVar5 = *puVar6;
-
-      puVar5[1] = puVar6[1];
-
-      puVar5[2] = puVar6[2];
-
-      FUN_00493230(iVar3,(int)puVar5,uVar1);
-
-      puVar6 = puVar6 + 4;
-
-      puVar5 = puVar5 + 4;
-
-    }
-
-    FUN_004933d0(iVar2);
-
-  }
-
-  return uVar4;
-
+    return (u32)temp_2;
 }
 
 
@@ -7516,187 +7420,159 @@ int FUN_00326240(int param_1,int param_2)
 
 
 
-// FUN_00326280 NONMATCHING
-
-
-void FUN_00326280(int param_1,u32 param_2,u8 (*param_3) [16])
-
-
-
+// FUN_00326280
+u_long128 FUN_00326280(int param_1,u32 param_2,u8 (*param_3) [16])
 {
-  u32 flags;
-  u32 lengthBits;
-  u32 scale[4];
-  u8 transformed[16];
+    u32 values[3];
+    u8 work[0x10];
+    s32 flags;
+    u_long128 value;
+    s32 mask;
 
-  flags = *(u32 *)(param_1 + 0x68);
-  if ((flags & 0x18) == 0) {
-    __asm__ volatile (
-        ".set noreorder                  \n"
-        "lq $v0, 64(%0)                  \n"
-        "sq $v0, 0(%1)                   \n"
-        ".set reorder"
-        : : "r" (param_1), "r" ((u8 *)*param_3) : "v0", "memory"
-    );
-  }
-  else {
-    __asm__ volatile (
-        ".set noreorder                  \n"
-        "lqc2 vf10, 64(%1)              \n"
-        ".set reorder"
-        : : "r" (flags), "r" (param_1) : "vf10", "memory"
-    );
-    if ((flags & 0x10) != 0) {
-      __asm__ volatile (
-          ".set noreorder               \n"
-          "mtc1 $zero, $f0              \n"
-          "nop                          \n"
-          "mfc1 $v0, $f0               \n"
-          "nop                          \n"
-          "qmtc2.ni $v0, vf2           \n"
-          "vaddx.y vf10, vf0, vf2x     \n"
-          ".set reorder"
-          : : : "v0", "f0", "vf2", "vf10"
-      );
-    }
-    __asm__ volatile (
-        ".set noreorder                  \n"
-        "vmul.xyz vf2, vf10, vf10       \n"
-        "vaddy.x vf2, vf2, vf2y         \n"
-        "vaddz.x vf2, vf2, vf2z         \n"
-        "vsqrt Q, vf2x                  \n"
-        "vwaitq                         \n"
-        "cfc2.ni %0, vi22               \n"
-        "mtc1 %0, $f0                   \n"
-        ".set reorder"
-        : "=r" (lengthBits) : : "f0", "vf2"
-    );
-    scale[0] = lengthBits;
-    scale[1] = lengthBits;
-    scale[2] = lengthBits;
+    {
+        flags = *(s32 *)((u8 *)param_1 + 0x68);
+        mask = flags & 0x18;
+        if (mask == 0) {
+            value = *(u_long128 *)((u8 *)param_1 + 0x40);
+            *(u_long128 *)param_3 = value;
+            return value;
+        }
+        __asm__ volatile(
+            "lqc2 $vf10, 64(%0) \n"
+            :
+            : "r"((u8 *)param_1)
+            : "$vf10", "memory");
+        mask = flags & 0x10;
+        if (mask != 0) {
+            u32 zero_value;
 
-    FUN_00329800((u8 (*) [16])param_2, (u8 (*) [16])transformed);
+            __asm__ volatile(
+                "mtc1 $zero, $f0 \n"
+                "nop \n"
+                "mfc1 %0, $f0 \n"
+                "nop \n"
+                "qmtc2 %0, $vf2 \n"
+                "vaddx.y $vf10y, $vf0y, $vf2x \n"
+                : "=r"(zero_value)
+                :
+                : "$f0", "$vf2", "$vf10", "memory");
+        }
+        __asm__ volatile(
+            "vmul.xyz $vf2xyz, $vf10xyz, $vf10xyz \n"
+            "vaddy.x $vf2x, $vf2x, $vf2y \n"
+            "vaddz.x $vf2x, $vf2x, $vf2z \n"
+            ".word 0x4a0203bd \n"
+            "vwaitq \n"
+            "cfc2 $2, $vi22 \n"
+            "mtc1 $2, $f0 \n"
+            "sw $2, 64($sp) \n"
+            "sw $2, 68($sp) \n"
+            "sw $2, 72($sp) \n"
+            :
+            :
+            : "$2", "$f0", "$vf2", "$vf10", "Q", "memory");
+    }
+    FUN_00329800((u8 (*) [16])param_2, (u8 (*) [16])work);
+    {
+        u32 mask;
 
-    __asm__ volatile (
-        ".set noreorder                  \n"
-        "lqc2 vf10, 0(%0)               \n"
-        "vsub.xyz vf10, vf0, vf10       \n"
-        ".set reorder"
-        : : "r" (transformed) : "vf10", "memory"
-    );
-    flags = *(u32 *)(param_1 + 0x68) & 0x10;
-    if (flags != 0) {
-      __asm__ volatile (
-          ".set noreorder               \n"
-          "mtc1 $zero, $f0              \n"
-          "nop                          \n"
-          "mfc1 $v0, $f0               \n"
-          "nop                          \n"
-          "qmtc2.ni $v0, vf2           \n"
-          "vaddx.y vf10, vf0, vf2x     \n"
-          ".set reorder"
-          : : : "v0", "f0", "vf2", "vf10"
-      );
+        __asm__ volatile(
+            "lqc2 $vf10, 0(%0) \n"
+            "vsub.xyz $vf10xyz, $vf0xyz, $vf10xyz \n"
+            :
+            : "r"(work)
+            : "$vf10", "memory");
+        flags = *(u32 *)((u8 *)param_1 + 0x68);
+        mask = flags & 0x10;
+        if (mask != 0) {
+            __asm__ volatile(
+                "mtc1 $zero, $f0 \n"
+                "nop \n"
+                "mfc1 $2, $f0 \n"
+                "nop \n"
+                "qmtc2 $2, $vf2 \n"
+                "vaddx.y $vf10y, $vf0y, $vf2x \n"
+                :
+                :
+                : "$2", "$f0", "$vf2", "$vf10", "memory");
+        }
+        __asm__ volatile(
+            "vmul.xyz $vf2xyz, $vf10xyz, $vf10xyz \n"
+            "vmulax.w $ACCw, $vf0w, $vf2x \n"
+            "vmadday.w $ACCw, $vf0w, $vf2y \n"
+            "vmaddz.w $vf2w, $vf0w, $vf2z \n"
+            "vrsqrt $Q, $vf0w, $vf2w \n"
+            "vwaitq \n"
+            "vmulq.xyz $vf10xyz, $vf10xyz, $Q \n"
+            :
+            :
+            : "$vf10", "$vf2", "ACC", "Q", "memory");
+        __asm__ volatile(
+            "lqc2 $vf11, 0(%0) \n"
+            "vmul.xyzw $vf10xyzw, $vf10xyzw, $vf11xyzw \n"
+            :
+            : "r"(values)
+            : "$vf10", "$vf11", "memory");
+        if (mask != 0) {
+            __asm__ volatile(
+                "lw $2, 68(%0) \n"
+                "nop \n"
+                "qmtc2 $2, $vf2 \n"
+                "vaddx.y $vf10y, $vf0y, $vf2x \n"
+                :
+                : "r"((u8 *)param_1)
+                : "$2", "$vf2", "$vf10", "memory");
+        }
     }
-    __asm__ volatile (
-        ".set noreorder                       \n"
-        "vmul.xyz vf2, vf10, vf10            \n"
-        "vmulax.w ACC, vf0, vf2x             \n"
-        "vmadday.w ACC, vf0, vf2y            \n"
-        "vmaddz.w vf2, vf0, vf2z             \n"
-        "vrsqrt Q, vf0w, vf2w                \n"
-        "vwaitq                              \n"
-        "vmulq.xyz vf10, vf10, Q             \n"
-        "lqc2 vf11, 0(%0)                    \n"
-        "vmul.xyzw vf10, vf10, vf11          \n"
-        ".set reorder"
-        : : "r" (scale) : "vf2", "vf10", "vf11", "ACC", "Q", "memory"
-    );
-    if (flags != 0) {
-      __asm__ volatile (
-          ".set noreorder               \n"
-          "lw $v0, 68(%0)              \n"
-          "nop                         \n"
-          "qmtc2.ni $v0, vf2          \n"
-          "vaddx.y vf10, vf0, vf2x    \n"
-          ".set reorder"
-          : : "r" (param_1) : "v0", "vf2", "vf10", "memory"
-      );
-    }
-    __asm__ volatile ("sqc2 vf10, 0(%0)" : : "r" (param_3) : "vf10", "memory");
-  }
+    __asm__ volatile(
+        "sqc2 $vf10, 0(%0) \n"
+        :
+        : "r"((u8 *)param_3)
+        : "$vf10", "memory");
 }
 
 
 
 
 
-// W421 row classification after branch-layout fix: nd5, object 224/224
-// (rate 0.022321); first remaining +0x1c is lw $v1,0x68($a0) vs
-// lw $v0,0x68($a0), a scalar register-colouring residual.
-// FUN_003263B0 NONMATCHING
-void FUN_003263b0(int param_1,u32 param_2,u8 (*param_3) [16])
-
-
-
-
+// FUN_003263B0
+u_long128 FUN_003263b0(int param_1,u32 param_2,u8 (*param_3) [16])
 {
+    u8 *arg0 = (u8 *)param_1;
+    u8 *arg1 = (u8 *)param_2;
+    u_long128 *arg2 = (u_long128 *)param_3;
+    u32 flags;
+    u_long128 sp40;
+    u_long128 value;
+    f32 var_f20;
 
-
-
-
-  u32 uVar1;
-
-  u32 uVar2;
-
-  u32 uVar3;
-
-  float fVar4;
-
-  float fVar6;
-
-  f32 v[3];
-
-
-
-  
-
-  if ((*(u32 *)(param_1 + 0x68) & 0x60) == 0) {
-    *(u_long128 *)*param_3 = *(u_long128 *)(param_1 + 0x50);
-
-  }
-  else {
-
-    FUN_00329800((u8 (*) [16])(param_2),(u8 (*) [16])(v));
-
-    if ((*(u32 *)(param_1 + 0x68) & 0x40) != 0) {
-      fVar4 = 0.0f;
+    if (((flags = *(s32 *)(arg0 + 0x68)) & 0x60) == 0) {
+        value = *(u_long128 *)(arg0 + 0x50);
+        *arg2 = value;
+        return value;
     }
-    else {
-      fVar4 = FUN_0052e9e8_f32(-v[1]);
-      fVar4 = -fVar4;
+    FUN_00329800((u8 (*) [16])arg1, (u8 (*) [16])&sp40);
+    if (*(s32 *)(arg0 + 0x68) & 0x40) {
+        var_f20 = 0.0f;
+    } else {
+        var_f20 = -FUN_0052e9e8_f32(-*(f32 *)((u8 *)&sp40 + 4));
     }
-
-    fVar6 = FUN_0052ea18_2f(v[0],v[2]);
-
-    FUN_00357ea0(fVar4,fVar6,0.0f);
-
-    if ((*(u32 *)(param_1 + 0x68) & 0x40) != 0) {
-
-      __asm__ volatile ("vmove.xyzw $vf11, $vf10" : : : "memory");
-
-      __asm__ volatile ("lqc2 $vf10, 0x50(%0)" : : "r"(param_1) : "memory");
-
-      FUN_00357dd0();
-
+    FUN_00357ea0(var_f20,
+                  FUN_0052ea18_2f(*(f32 *)((u8 *)&sp40 + 0),
+                                *(f32 *)((u8 *)&sp40 + 8)),
+                  0.0f);
+    if (*(s32 *)(arg0 + 0x68) & 0x40) {
+        __asm__ volatile(
+            ".set noreorder\n"
+            "vmove.xyzw $vf11, $vf10\n"
+            "lqc2 $vf10, 0x50(%0)\n"
+            ".set reorder\n"
+            :
+            : "r"(arg0)
+            : "$vf10", "$vf11", "memory");
+        FUN_00357dd0();
     }
-
-    __asm__ volatile ("sqc2 $vf10, 0(%0)" : : "r"(param_3) : "memory");
-
-  }
-
-  return;
-
+    __asm__ volatile("sqc2 $vf10, 0(%0)" : : "r"(arg2) : "$vf10", "memory");
 }
 
 
@@ -10934,140 +10810,79 @@ u32 FUN_0032a120(char *param_1,u32 *param_2,int param_3,int param_4)
 
 
 
-// FUN_0032A540 NONMATCHING
-
-
-float FUN_0032a540(char *param_1,int param_2,int param_3)
-
-
-
+/* measured: opt_propagation off tested for target subtraction scheduling. */
+#pragma opt_propagation off
+// FUN_0032A540
+float FUN_0032a540(char *param_1, int param_2, int param_3)
 {
+    u8 mode;
+    f32 from;
+    f32 to;
+    f32 t;
+    f32 fArg2;
 
-  char cVar1;
+    if (param_3 == 0) {
+        return *(f32 *)(param_1 + 4);
+    }
 
-  int iVar2;
-
-  float fVar3;
-
-  int iVar4;
-
-  int iVar5;
-
-  float fVar6;
-
-  float fVar7;
-
-  
-
-  iVar2 = (int)param_3;
-
-  if (param_3 == 0) {
-
-    fVar3 = *(float *)(param_1 + 4);
-
-  }
-
-  else {
-
-    fVar3 = (float)iVar2;
-
-    cVar1 = *param_1;
-
-    if (cVar1 == '\x02') {
-
-      iVar4 = (int)(*(float *)(param_1 + 0x18) * fVar3);
-
-      if (param_2 < iVar4) {
-
-        fVar7 = *(float *)(param_1 + 4);
-
-        fVar6 = *(float *)(param_1 + 0x14);
-
-        fVar3 = (float)param_2 / (float)iVar4;
-
-      }
-
-      else {
-
-        iVar5 = (int)(*(float *)(param_1 + 0x20) * fVar3);
-
-        if (param_2 >= iVar5) {
-
-          fVar7 = *(float *)(param_1 + 0x1c);
-
-          fVar6 = *(float *)(param_1 + 8);
-
-          fVar3 = (float)(param_2 - iVar5) / (float)(iVar2 - iVar5);
-
+    fArg2 = (f32)param_3;
+    mode = *(u8 *)param_1;
+    switch (mode) {
+    case 0:
+        from = *(f32 *)(param_1 + 4);
+        to = *(f32 *)(param_1 + 8);
+        t = (f32)param_2 / fArg2;
+        break;
+    case 1: {
+        s32 v1 = (s32)(*(f32 *)(param_1 + 0x18) * fArg2);
+        if (param_2 < v1) {
+            from = *(f32 *)(param_1 + 4);
+            to = *(f32 *)(param_1 + 0x14);
+            t = (f32)param_2 / (f32)v1;
+        } else {
+            f32 denom;
+            from = *(f32 *)(param_1 + 0x14);
+            to = *(f32 *)(param_1 + 8);
+            denom = (f32)(param_3 - v1);
+            t = (f32)(param_2 - v1) / denom;
         }
-
-        else {
-
-          fVar7 = *(float *)(param_1 + 0x14);
-
-          fVar6 = *(float *)(param_1 + 0x1c);
-
-          fVar3 = (float)(param_2 - iVar4) / (float)(iVar5 - iVar4);
-
+        break;
+    }
+    case 2: {
+        s32 t1 = (s32)(*(f32 *)(param_1 + 0x18) * fArg2);
+        if (param_2 < t1) {
+            from = *(f32 *)(param_1 + 4);
+            to = *(f32 *)(param_1 + 0x14);
+            t = (f32)param_2 / (f32)t1;
+        } else {
+            s32 t2 = (s32)(*(f32 *)(param_1 + 0x20) * fArg2);
+            if (param_2 < t2) {
+                from = *(f32 *)(param_1 + 0x14);
+                to = *(f32 *)(param_1 + 0x1c);
+                {
+                    f32 denom = (f32)(t2 - t1);
+                    t = (f32)(param_2 - t1) / denom;
+                }
+            } else {
+                f32 denom;
+                from = *(f32 *)(param_1 + 0x1c);
+                to = *(f32 *)(param_1 + 8);
+                denom = (f32)(param_3 - t2);
+                t = (f32)(param_2 - t2) / denom;
+            }
         }
-
-      }
-
+        break;
+    }
+    default:
+        from = *(f32 *)(param_1 + 4);
+        to = *(f32 *)(param_1 + 8);
+        t = 0.0f;
+        break;
     }
 
-    else if (cVar1 == '\x01') {
-
-      iVar4 = (int)(*(float *)(param_1 + 0x18) * fVar3);
-
-      if (param_2 >= iVar4) {
-
-        fVar7 = *(float *)(param_1 + 0x14);
-
-        fVar6 = *(float *)(param_1 + 8);
-
-        fVar3 = (float)(param_2 - iVar4) / (float)(iVar2 - iVar4);
-
-      }
-
-      else {
-
-        fVar7 = *(float *)(param_1 + 4);
-
-        fVar6 = *(float *)(param_1 + 0x14);
-
-        fVar3 = (float)param_2 / (float)iVar4;
-
-      }
-
-    }
-
-    else if (cVar1 == '\0') {
-
-      fVar7 = *(float *)(param_1 + 4);
-
-      fVar6 = *(float *)(param_1 + 8);
-
-      fVar3 = (float)param_2 / fVar3;
-
-    }
-
-    else {
-
-      fVar7 = *(float *)(param_1 + 4);
-
-      fVar6 = *(float *)(param_1 + 8);
-
-      fVar3 = 0.0f;
-
-    }
-
-    fVar3 = fVar3 * (fVar6 - fVar7) + fVar7 + 0.0f;
-
-  }
-
-  return fVar3;
-
+    return from + t * (to - from);
 }
+#pragma opt_propagation on
 
 
 
@@ -11077,48 +10892,29 @@ static inline u32 mdlEffectCallA120(u32 count, char *base, u32 *scratch, int ind
   return FUN_0032a120(base,scratch,index,(int)count);
 }
 
-// FUN_0032A770 NONMATCHING
-
-
-void FUN_0032a770(u8 (*param_1) [16],int param_2,int param_3,
-
-                 u8 (*param_4) [16])
-
-
-
+// FUN_0032A770
+void FUN_0032a770(u8 (*param_1) [16],int param_2,int param_3,u8 (*param_4) [16])
 {
-
   u32 uVar1;
   float fVar2;
-
-
-
-
+  int size;
 
   f32 vtmp[4];
-  float fStack_10;
 
-  float fStack_c;
-
-  
-
-  uVar1 = mdlEffectCallA120(*(u32 *)(param_2 + 0xb8),(char *)(param_2 + 0x2c),(u32 *)(param_2 + 0x50),(int)(param_3));
+  size = *(int *)(param_2 + 0xb8);
+  uVar1 = mdlEffectCallA120((u32)size,(char *)(param_2 + 0x2c),(u32 *)(param_2 + 0x50),(int)(param_3));
   *(u32 *)(param_1[1] + 4) = uVar1;
 
-  fVar2 = FUN_0032a540((char *)(param_2 + 0x60),param_3,*(u32 *)(param_2 + 0xb8));
-
+  size = *(int *)(param_2 + 0xb8);
+  fVar2 = FUN_0032a540((char *)(param_2 + 0x60),param_3,size);
   *(float *)(param_1[1] + 8) = fVar2;
 
   if (*(u8 *)(param_2 + 0x9c) != 2) {
-
-    fVar2 = FUN_0032a540((char *)(param_2 + 0x8c),param_3,*(u32 *)(param_2 + 0xb8));
-
+    size = *(int *)(param_2 + 0xb8);
+    fVar2 = FUN_0032a540((char *)(param_2 + 0x8c),param_3,size);
     *(float *)(param_1[1] + 0xc) = fVar2;
-
   }
-
   else {
-
     __asm__ volatile ("lqc2 $vf10, 0(%0)" : : "r"(param_1) : "memory");
     FUN_003299b0();
     __asm__ volatile ("vmove.xyzw $vf11, $vf10" : : : "memory");
@@ -11126,22 +10922,16 @@ void FUN_0032a770(u8 (*param_1) [16],int param_2,int param_3,
     FUN_003299b0();
     __asm__ volatile ("vsub.xyzw $vf10, $vf10, $vf11" : : : "memory");
     __asm__ volatile ("sqc2 $vf10, 0(%0)" : : "r"(vtmp) : "memory");
-    fStack_10 = vtmp[0];
-    fStack_c = vtmp[1];
-    if (fStack_10 != 0.0f) goto calculate;
-    if (fStack_c == 0.0f) goto zero;
-calculate:
-    *(float *)(param_1[1] + 0xc) = FUN_0052ea18_f32(fStack_c);
-    goto finish;
-zero:
-    *(u32 *)(param_1[1] + 0xc) = 0;
-finish:
-    ;
-
+    if ((*(f32 *)((u8 *)&vtmp + 0) != 0.0f) ||
+        (*(f32 *)((u8 *)&vtmp + 4) != 0.0f)) {
+      *(float *)(param_1[1] + 0xc) =
+          FUN_0052ea18_2f(*(f32 *)((u8 *)&vtmp + 4),
+                          *(f32 *)((u8 *)&vtmp + 0));
+      return;
+    }
+    *(float *)(param_1[1] + 0xc) = 0.0f;
   }
-
   return;
-
 }
 
 
@@ -21158,12 +20948,13 @@ LAB_003350f0:
 // W408 measurement: splitting the VU asm block around `inv255 = DAT_007cae4c` fixes the load order (nd19 -> nd12; object 612/624 unchanged).
 // Negative probes: direct global input regressed to nd224; volatile-cast load stayed nd19; pointer-cast with the split also stayed nd12.
 // The remaining six rows are the same register-colouring family as FUN_003377f0 (nd43), a confirmed b210 floor; this is a LOAD-ORDER fix, not a register fix.
-// FUN_00335180 NONMATCHING
+// FUN_00335180
 
 void FUN_00335180(int param_1)
 {
   u32 *entryHolder;
   int node;
+  u8 *ctrl;
   u32 *entries;
   int count;
   int alpha;
@@ -21198,7 +20989,8 @@ void FUN_00335180(int param_1)
 
   if ((limit <= nodeValue) || (nodeValue == 0)) {
     count = *(int *)(node + 0x38);
-    alpha = FUN_0032a120((char *)node, (u32 *)(node + 0x24), limit, nodeValue);
+    ctrl = (u8 *)node;
+    alpha = FUN_0032a120((char *)ctrl, (u32 *)(ctrl + 0x24), limit, nodeValue);
     modelAlpha = *(int *)(param_1 + 0x24);
     __asm__ volatile (
         ".set noreorder                      \n"
@@ -22340,12 +22132,14 @@ LAB_003365a0:
 
 
 
-// FUN_00336630 NONMATCHING
+// FUN_00336630
 
 void FUN_00336630(int param_1)
 {
   u32 *entryHolder;
   int node;
+  u8 *ctrl;
+  u8 *self;
   u32 *entries;
   int count;
   int alpha;
@@ -22373,6 +22167,7 @@ void FUN_00336630(int param_1)
 
   entryHolder = *(u32 **)(param_1 + 0x30);
   node = *(int *)(param_1 + 0x34);
+  self = (u8 *)param_1;
   entries = (u32 *)*entryHolder;
   limit = *(volatile int *)(param_1 + 0x28);
 
@@ -22380,7 +22175,8 @@ void FUN_00336630(int param_1)
 
   if ((limit <= nodeValue) || (nodeValue == 0)) {
     count = *(int *)(node + 0x38);
-    alpha = FUN_0032a120((char *)node, (u32 *)(node + 0x24), limit, nodeValue);
+    ctrl = (u8 *)node;
+    alpha = FUN_0032a120((char *)ctrl, (u32 *)(ctrl + 0x24), limit, nodeValue);
     modelAlpha = *(int *)(param_1 + 0x24);
     __asm__ volatile (
         ".set noreorder                      \n"
@@ -22419,7 +22215,7 @@ void FUN_00336630(int param_1)
         ".set reorder"
         : : "r"(alpha), "f"(inv255)
         : "$v0", "vf2", "vf10", "vf11", "memory");
-    FUN_00323920((RwMatrix *)stack.matrix, (void *)param_1, param_1 + 0x10, *(f32 *)(param_1 + 0x20));
+    FUN_00323920_ptr3((RwMatrix *)stack.matrix, (void *)self, self + 0x10, *(f32 *)(param_1 + 0x20));
     for (index = 0; index < count; index++, entries += 12) {
       if (0 < (int)entries[5]) {
         entry = (u16 *)*entries;
@@ -23257,12 +23053,13 @@ LAB_00337768:
 
 
 
-// FUN_003377F0 NONMATCHING
+// FUN_003377F0
 
 void FUN_003377f0(u32 param_1)
 {
   u32 *entryHolder;
   int node;
+  u8 *ctrl;
   u32 *entries;
   int count;
   int alpha;
@@ -23297,7 +23094,8 @@ void FUN_003377f0(u32 param_1)
 
   if ((limit <= nodeValue) || (nodeValue == 0)) {
     count = *(int *)(node + 0x38);
-    alpha = FUN_0032a120((char *)node, (u32 *)(node + 0x24), limit, nodeValue);
+    ctrl = (u8 *)node;
+    alpha = FUN_0032a120((char *)ctrl, (u32 *)(ctrl + 0x24), limit, nodeValue);
     modelAlpha = *(int *)(param_1 + 0x24);
     __asm__ volatile (
         ".set noreorder                      \n"
@@ -24390,180 +24188,99 @@ void FUN_003387c0(int param_1)
 
 
 
-// FUN_00338AC0 NONMATCHING
-
+// FUN_00338AC0
 
 void FUN_00338ac0(u32 param_1)
-
-
-
 {
+  u8 *arg0;
+  u8 *temp_16;
+  u8 *temp_18;
+  u8 *temp_17;
+  u8 colourStack[16];
+  s32 temp_3;
+  u8 *dest;
+  u8 *cs8;
+  f32 scale;
+  u_long128 *dstq;
 
-  int iVar1;
-
-  int iVar2;
-
-  u16 *puVar3;
-
-  u32 *puVar4;
-
-  u32 uVar5;
-
-  u32 uVar6;
-
-  u32 uVar7;
-
-  u8 packed[4];
-  u32 c1s;
-  u32 c2s;
-
-  int iVar8;
-
-
-  u32 *puVar10;
-
-
-
-  u8 uStack_4;
-
-  u8 uStack_3;
-
-  u8 uStack_2;
-
-  u8 cStack_1;
-
-  
-
-  puVar10 = (u32 *)param_1;
-
-  iVar1 = puVar10[0xf];
-
-  iVar2 = puVar10[0x10];
-
-  puVar3 = *(u16 **)(iVar1 + 8);
-
-  if (((u32)puVar10[0xd] <= *(u32 *)(iVar2 + 0x34)) || (*(u32 *)(iVar2 + 0x34) == 0)) {
-
-    iVar8 = FUN_0032a120_2arg((char *)(iVar2),(u32 *)(iVar2 + 0x24));
-
-    c1s = (u32)((int)puVar10[0xc]);
-
-    c2s = (u32)(iVar8);
-
-    *(u32 *)packed = mdlVuModulate(&c1s,&c2s,DAT_007cae4c);
-
-    cStack_1 = packed[3];
-
-    uStack_4 = packed[0];
-
-    uStack_3 = packed[1];
-
-    uStack_2 = packed[2];
-
-    if (cStack_1 == 0xff) {
-
-      iVar8 = *(int *)(puVar3 + 10);
-
-      *(u8 *)(iVar8 + 4) = uStack_4;
-
-      *(u8 *)(iVar8 + 5) = uStack_3;
-
-      *(u8 *)(iVar8 + 6) = uStack_2;
-
-      *(u8 *)(iVar8 + 7) = 0xfe;
-
+  arg0 = (u8 *)param_1;
+  temp_16 = *(u8 **)(arg0 + 0x3c);
+  temp_18 = *(u8 **)(arg0 + 0x40);
+  temp_17 = *(u8 **)(temp_16 + 8);
+  if ((*(u32 *)(temp_18 + 0x34) >= *(u32 *)(arg0 + 0x34)) ||
+      (*(u32 *)(temp_18 + 0x34) == 0)) {
+    temp_3 = FUN_0032a120((char *)temp_18, (u32 *)(temp_18 + 0x24),
+                          *(u32 *)(arg0 + 0x34),
+                          *(u32 *)(temp_18 + 0x34));
+    *(u32 *)&colourStack[8] = *(u32 *)(arg0 + 0x30);
+    cs8 = &colourStack[8];
+    scale = *(f32 *)&DAT_007cae4c;
+    __asm__ volatile (
+        ".set noreorder                      \n"
+        "lw $v0, 0(%0)                      \n"
+        "pextlb $v0, $zero, $v0             \n"
+        "pextlh $v0, $zero, $v0             \n"
+        "qmtc2.ni $v0, vf10                 \n"
+        "vitof0.xyzw vf10, vf10             \n"
+        "mfc1 $v0, %2                       \n"
+        "nop                                \n"
+        "qmtc2.ni $v0, vf2                  \n"
+        "vmulx.xyzw vf10, vf10, vf2x        \n"
+        "vmove.xyzw vf11, vf10              \n"
+        "sw %1, 0x54($sp)                   \n"
+        "addiu $v0, $sp, 0x54               \n"
+        "lw $v0, 0($v0)                     \n"
+        "pextlb $v0, $zero, $v0             \n"
+        "pextlh $v0, $zero, $v0             \n"
+        "qmtc2.ni $v0, vf10                 \n"
+        "vitof0.xyzw vf10, vf10             \n"
+        "mfc1 $v1, %2                       \n"
+        "nop                                \n"
+        "qmtc2.ni $v1, vf2                  \n"
+        "vmulx.xyzw vf10, vf10, vf2x        \n"
+        "vmul.xyzw vf10, vf10, vf11         \n"
+        "lui $v1, 0x437f                    \n"
+        "qmtc2.ni $v1, vf2                  \n"
+        "vmulx.xyzw vf10, vf10, vf2x        \n"
+        "vftoi0.xyzw vf10, vf10             \n"
+        "qmfc2.ni $v1, vf10                 \n"
+        "ppach $v1, $zero, $v1              \n"
+        "ppacb $v1, $zero, $v1              \n"
+        "sw $v1, 0x50($sp)                  \n"
+        ".set reorder"
+        : : "r"(cs8), "r"(temp_3), "f"(scale)
+        : "$v0", "$v1", "vf2", "vf10", "vf11", "memory");
+    *(u32 *)&colourStack[12] = *(u32 *)&colourStack[0];
+    if (colourStack[15] != 0xff) {
+      dest = *(u8 **)(temp_17 + 0x14);
+      *(RwRGBA *)(dest + 4) = *(RwRGBA *)&colourStack[12];
     }
-
     else {
-
-      iVar8 = *(int *)(puVar3 + 10);
-
-      *(u8 *)(iVar8 + 4) = uStack_4;
-
-      *(u8 *)(iVar8 + 5) = uStack_3;
-
-      *(u8 *)(iVar8 + 6) = uStack_2;
-
-      *(char *)(iVar8 + 7) = cStack_1;
-
+      colourStack[15] = 0xfe;
+      dest = *(u8 **)(temp_17 + 0x14);
+      *(RwRGBA *)(dest + 4) = *(RwRGBA *)&colourStack[12];
+      colourStack[15] = 0xff;
     }
-
-    if (*(char *)(*(int *)(puVar3 + 10) + 7) != '\0') {
-
-      *(u32 *)(*(int *)(iVar1 + 4) + 0x30) = puVar10[0xc];
-
-      iVar8 = *(int *)(iVar1 + 4);
-
-      uVar5 = puVar10[9];
-
-      uVar6 = puVar10[10];
-
-      uVar7 = puVar10[0xb];
-
-      *(u32 *)(iVar8 + 0x20) = puVar10[8];
-
-      *(u32 *)(iVar8 + 0x24) = uVar5;
-
-      *(u32 *)(iVar8 + 0x28) = uVar6;
-
-      *(u32 *)(iVar8 + 0x2c) = uVar7;
-
-      puVar4 = *(u32 **)(iVar1 + 4);
-
-      uVar5 = puVar10[1];
-
-      uVar6 = puVar10[2];
-
-      uVar7 = puVar10[3];
-
-      *puVar4 = *puVar10;
-
-      puVar4[1] = uVar5;
-
-      puVar4[2] = uVar6;
-
-      puVar4[3] = uVar7;
-
-      iVar8 = *(int *)(iVar1 + 4);
-
-      uVar5 = puVar10[5];
-
-      uVar6 = puVar10[6];
-
-      uVar7 = puVar10[7];
-
-      *(u32 *)(iVar8 + 0x10) = puVar10[4];
-
-      *(u32 *)(iVar8 + 0x14) = uVar5;
-
-      *(u32 *)(iVar8 + 0x18) = uVar6;
-
-      *(u32 *)(iVar8 + 0x1c) = uVar7;
-
-      FUN_00339680(*(u32 *)(iVar1 + 4));
-
-      FUN_003238d0(param_1);
-
-      if (*(char *)(iVar2 + 0x3c) == '\0') {
-
-        *puVar3 = *puVar3 & 0xfffe;
-
+    if (*(u8 *)(*(u8 **)(temp_17 + 0x14) + 7) != 0) {
+      *(s32 *)(*(u8 **)(temp_16 + 4) + 0x30) = *(s32 *)(arg0 + 0x30);
+      dstq = (u_long128 *)(*(u8 **)(temp_16 + 4) + 0x20);
+      *dstq = *(u_long128 *)(arg0 + 0x20);
+      dstq = (u_long128 *)(*(u8 **)(temp_16 + 4) + 0x0);
+      *dstq = *(u_long128 *)(arg0 + 0x0);
+      dest = *(u8 **)(temp_16 + 4);
+      dstq = (u_long128 *)(dest + 0x10);
+      *dstq = *(u_long128 *)(arg0 + 0x10);
+      FUN_00339680(*(u32 *)(temp_16 + 4));
+      FUN_003238d0_ptr4((u16 *)temp_17, arg0, arg0 + 0x10, arg0 + 0x20);
+      if (*(u8 *)(temp_18 + 0x3c) != 0) {
+        *(u16 *)temp_17 = *(u16 *)temp_17 | 1;
       }
-
       else {
-
-        *puVar3 = *puVar3 | 1;
-
+        *(u16 *)temp_17 = *(u16 *)temp_17 & 0xfffe;
       }
-
-      FUN_00323860();
-
+      FUN_00323860_2arg((int)temp_17, *(u16 *)(temp_18 + 0x28));
     }
-
   }
-
-  return;
-
 }
 /* The volatile qualifier batch below is the same one banked on the MATCHED twin
    FUN_00337E10 (W170): without it b210 CSEs the bGpffffb857 test load and
@@ -32646,59 +32363,33 @@ void FUN_003420c0(u32 param_1)
 
 
 
-// FUN_00342130 NONMATCHING
-
-
+// FUN_00342130
 u32 FUN_00342130(int param_1)
-
-
-
 {
+    u8 *arg0 = (u8 *)param_1;
+    s32 index;
+    s32 stride;
+    u8 *result;
+    s32 temp;
 
-  u32 uVar1;
-
-  u32 uVar3;
-
-  u32 uVar2;
-
-  int iVar4;
-
-  
-
-  iVar4 = (int)param_1;
-
-  uVar1 = *(u32 *)(iVar4 + 0x38);
-
-  if (DAT_0069c850[uVar1].callback3 == (code)0) {
-
-    uVar2 = *(u32 *)(iVar4 + 0x40);
-
-    uVar3 = FUN_00341f10(uVar1 & 0xffff,uVar2);
-
-    iVar4 = (uVar1 & 0xffff) * 0x1c;
-
-    uVar2 = DAT_0069c850[uVar1 & 0xffff].callback1(uVar2,0);
-
-    *(u32 *)((int)uVar3 + 0x3c) = uVar2;
-
-    DAT_0069c850[uVar1 & 0xffff].callback0(uVar3);
-
-  }
-
-  else {
-
-    uVar3 = FUN_00341f10(uVar1 & 0xffff,*(u32 *)(iVar4 + 0x40));
-
-    uVar2 = DAT_0069c850[*(int *)(iVar4 + 0x38)].callback3(param_1);
-
-    *(u32 *)((int)uVar3 + 0x3c) = uVar2;
-
-    DAT_0069c850[*(int *)(iVar4 + 0x38)].callback0(uVar3);
-
-  }
-
-  return uVar3;
-
+    index = *(s32 *)(arg0 + 0x38);
+    if (*(s32 *)(DAT_0069c85c_abs + (index * 0x1C)) == 0) {
+        temp = *(s32 *)(arg0 + 0x40);
+        index = (u16)index;
+        result = (u8 *)FUN_00341f10((u16)index, temp);
+        stride = (u16)index * 0x1C;
+        *(s32 *)(result + 0x3C) =
+            (*(s32 (**)(s32, s32))((u8 *)DAT_0069c854_abs + stride))(temp, 0);
+        (*(void (**)(u8 *))((u8 *)DAT_0069c850_abs + stride))(result);
+    } else {
+        result = (u8 *)FUN_00341f10((u16)index, *(s32 *)(arg0 + 0x40));
+        *(s32 *)(result + 0x3C) =
+            (*(s32 (**)(u8 *))(DAT_0069c85c_abs +
+                               (*(s32 *)(arg0 + 0x38) * 0x1C)))(arg0);
+        (*(void (**)(u8 *))((u8 *)DAT_0069c850_abs +
+                            (*(s32 *)(arg0 + 0x38) * 0x1C)))(result);
+    }
+    return (u32)result;
 }
 
 
@@ -32887,158 +32578,89 @@ void FUN_00342480(int param_1)
   }
 }
 #pragma opt_loop_invariants off
-
-
-
-
-// FUN_00342550 NONMATCHING
-
-
-void FUN_00342550(int param_1,int param_2)
-
-
-
+/* measured: loop-invariant hoisting recovers the shared fade constants and
+   replication strides (ported from P4 FUN_004A1D70). */
+#pragma opt_loop_invariants on
+// FUN_00342550
+void FUN_00342550(int param_1, int param_2)
 {
+    typedef struct { u8 c0; u8 c1; u8 c2; u8 c3; } PolygonWindColor;
+    u8 *arg0 = (u8 *)param_1;
+    u8 *arg1 = (u8 *)param_2;
+    u32 meshCount;
+    u8 *geometry;
+    u8 *colors;
+    u8 *colorsBase;
+    u8 *verticesBase;
+    u8 *vertices;
+    s32 frames;
+    u32 fadeIn;
+    u32 fadeOut;
+    u32 pointCount;
+    u32 i;
+    f32 opacity;
+    f32 step;
+    u32 colorBytes;
+    u32 wordCount;
+    u32 vertexBytes;
+    u32 copies;
+    u16 *model;
 
-  u32 uVar1;
-
-  int iVar2;
-
-  u32 *puVar3;
-
-  float *puVar4;
-
-  u16 *puVar5;
-
-  u32 uVar6;
-
-  float *puVar7;
-
-  u32 *puVar8;
-
-  u32 uVar9;
-
-  int uVar10;
-
-  int uVar11;
-
-  float fVar12;
-
-  float fVar13;
-
-  
-
-  uVar1 = *(u32 *)(param_2 + 0x38);
-
-  if (uVar1 != 0) {
-
-    FUN_00493370(*(u32 *)(*(int *)(*(int *)(param_1 + 4) + 0x10) + 0x18),0xff8);
-
-    iVar2 = *(int *)(*(int *)(*(int *)(param_1 + 4) + 0x10) + 0x18);
-
-    puVar3 = *(u32 **)(iVar2 + 0x30);
-
-    puVar4 = *(float **)(iVar2 + 0x34);
-
-    fVar13 = *(float *)(param_2 + 0x90) / 3.0f;
-
-    iVar2 = *(int *)(param_2 + 0x8c);
-
-    uVar10 = (int)(*(float *)(param_2 + 0x78) * (float)iVar2);
-
-    uVar11 = (int)(*(float *)(param_2 + 0x7c) * (float)iVar2);
-
-    uVar6 = iVar2 + 1;
-
-    puVar7 = puVar4;
-
-    puVar8 = puVar3;
-
-    for (uVar9 = 0; uVar9 < uVar6; uVar9 = uVar9 + 1) {
-
-      if (uVar9 >= uVar10) {
-
-        fVar12 = 1.0f;
-
-        if (uVar11 < uVar9) {
-
-          fVar12 = (float)(iVar2 - uVar9) / (float)(int)(iVar2 - uVar11);
-
+    meshCount = *(u32 *)(arg1 + 0x38);
+    if (meshCount != 0) {
+        geometry = *(u8 **)(*(u8 **)(*(u8 **)(arg0 + 4) + 0x10) + 0x18);
+        FUN_00493370(geometry, 0xFF8);
+        geometry = *(u8 **)(*(u8 **)(*(u8 **)(arg0 + 4) + 0x10) + 0x18);
+        colorsBase = *(u8 **)(geometry + 0x30);
+        colors = colorsBase;
+        verticesBase = *(u8 **)(geometry + 0x34);
+        vertices = verticesBase;
+        step = *(f32 *)(arg1 + 0x90) / 3.0f;
+        frames = *(s32 *)(arg1 + 0x8C);
+        fadeIn = (s32)(*(f32 *)(arg1 + 0x78) * (f32)frames);
+        fadeOut = (s32)(*(f32 *)(arg1 + 0x7C) * (f32)frames);
+        pointCount = frames + 1;
+        wordCount = pointCount * 4;
+        i = 0;
+        while (i < pointCount) {
+            if (i < fadeIn) {
+                opacity = (f32)i / (f32)(s32)fadeIn;
+            } else if (fadeOut < i) {
+                opacity = (f32)(u32)(frames - i) / (f32)(s32)(frames - fadeOut);
+            } else {
+                opacity = 1.0f;
+            }
+            *(u32 *)(colors + 0) = 0xFFFFFF;
+            *(u32 *)(colors + 4) = ((u32)(opacity * 255.0f) << 24) | 0xFFFFFF;
+            *(PolygonWindColor *)(colors + 8) = *(PolygonWindColor *)(colors + 4);
+            *(u32 *)(colors + 12) = 0xFFFFFF;
+            colors += 0x10;
+            *(u32 *)(vertices + 0) = 0;
+            *(f32 *)(vertices + 8) = step;
+            *(f32 *)(vertices + 0x10) = step * 2.0f;
+            *(f32 *)(vertices + 0x18) = step * 3.0f;
+            vertices += 0x20;
+            i += 1;
         }
-
-      }
-
-      else {
-
-        fVar12 = (float)uVar9 / (float)(int)uVar10;
-
-      }
-
-      *puVar8 = 0xffffff;
-
-      fVar12 = fVar12 * 255.0f;
-
-      if (2.1474836e+09f <= fVar12) {
-
-        fVar12 = fVar12 - 2.1474836e+09f;
-
-      }
-
-      puVar8[1] = (u32)fVar12 << 0x18 | 0xffffff;
-
-      *(u8 *)(puVar8 + 2) = *(u8 *)(puVar8 + 1);
-
-      *(u8 *)((int)puVar8 + 9) = *(u8 *)((int)puVar8 + 5);
-
-      *(u8 *)((int)puVar8 + 10) = *(u8 *)((int)puVar8 + 6);
-
-      *(u8 *)((int)puVar8 + 0xb) = *(u8 *)((int)puVar8 + 7);
-
-      puVar8[3] = 0xffffff;
-
-      puVar8 = puVar8 + 4;
-
-      *puVar7 = 0;
-
-      puVar7[2] = fVar13;
-
-      puVar7[4] = fVar13 * 2.0f;
-
-      puVar7[6] = fVar13 * 3.0f;
-
-      puVar7 = puVar7 + 8;
-
+        copies = 1;
+        colorBytes = wordCount * 4;
+        vertexBytes = wordCount * 8;
+        while (copies < meshCount) {
+            FUN_00521250(colors, colorsBase, colorBytes);
+            colors += colorBytes;
+            FUN_00521250(vertices, verticesBase, vertexBytes);
+            vertices += vertexBytes;
+            copies += 1;
+        }
+        model = *(u16 **)(arg0 + 4);
+        geometry = *(u8 **)(*(u8 **)((u8 *)model + 0x10) + 0x18);
+        FUN_004933d0(geometry);
+        if ((*model & 4) != 0) {
+            *(u16 *)(geometry + 0xC) |= 1;
+        }
     }
-
-    for (uVar9 = 1; uVar9 < uVar1; uVar9 = uVar9 + 1) {
-
-      FUN_00521250(puVar8,puVar3,uVar6 * 0x10);
-
-      puVar8 = puVar8 + uVar6 * 4;
-
-      FUN_00521250(puVar7,puVar4,uVar6 * 0x20);
-
-      puVar7 = puVar7 + uVar6 * 8;
-
-    }
-
-    puVar5 = *(u16 **)(param_1 + 4);
-
-    iVar2 = *(int *)(*(int *)(puVar5 + 8) + 0x18);
-
-    FUN_004933d0(iVar2);
-
-    if ((*puVar5 & 4) != 0) {
-
-      *(u16 *)(iVar2 + 0xc) = *(u16 *)(iVar2 + 0xc) | 1;
-
-    }
-
-  }
-
-  return;
-
 }
+#pragma opt_loop_invariants off
 
 
 
@@ -33900,139 +33522,98 @@ void FUN_00343790(int param_1)
 
 
 
-// FUN_00343860 NONMATCHING
-
+#pragma push
+#pragma opt_loop_invariants on
+// FUN_00343860
 
 void FUN_00343860(int param_1,int param_2)
-
-
-
 {
+  u8 *var_19;
+  u8 *temp_18;
+  u8 *temp_3;
+  u8 *var_17;
+  u8 *temp_16;
+  u32 var_9;
+  u32 temp_23;
+  u32 var_10;
+  s32 temp_4;
+  s32 temp_5;
+  s32 temp_6;
+  s32 temp_7;
+  s32 temp_8;
+  s32 temp_10;
+  f32 var_f0_3;
+  f32 var_f0_2;
+  f32 var_f0;
+  f32 temp_f0;
+  f32 temp_f1;
+  f32 temp_f2;
+  f32 temp_f6;
+  f32 temp_f7;
+  f32 temp_f8;
+  u8 *arg0;
 
-  u32 uVar1;
-
-  int iVar2;
-
-  u32 *puVar3;
-
-  float *puVar4;
-
-  u32 uVar5;
-  u32 white;
-
-
-  float *puVar6;
-
-  u32 *puVar7;
-
-  u32 uVar8;
-
-  int uVar9;
-
-  int uVar10;
-
-  float fVar11;
-
-  float fVar12;
-
-  
-
-  uVar1 = *(u32 *)(param_2 + 0x38);
-
-  if (uVar1 != 0) {
-
-    FUN_00493370(*(u32 *)(*(int *)(*(int *)(param_1 + 4) + 0x10) + 0x18),0xff8);
-
-    iVar2 = *(int *)(*(int *)(*(int *)(param_1 + 4) + 0x10) + 0x18);
-
-    puVar3 = *(u32 **)(iVar2 + 0x30);
-
-    puVar4 = *(float **)(iVar2 + 0x34);
-
-    fVar12 = *(float *)(param_2 + 0x90) / 3.0f;
-
-    iVar2 = *(int *)(param_2 + 0x8c);
-
-    uVar9 = (int)(*(float *)(param_2 + 0x78) * (float)iVar2);
-
-    uVar10 = (int)(*(float *)(param_2 + 0x7c) * (float)iVar2);
-
-    uVar5 = iVar2 + 1;
-    white = 0xffffff;
-
-
-    puVar6 = puVar4;
-
-    puVar7 = puVar3;
-
-    for (uVar8 = 0; uVar8 < uVar5; uVar8 = uVar8 + 1) {
-
-      if (uVar8 >= uVar9) {
-
-        fVar11 = 1.0f;
-
-        if (uVar10 < uVar8) {
-
-          fVar11 = (float)(iVar2 - uVar8) / (float)(int)(iVar2 - uVar10);
-
-        }
-
+  arg0 = (u8 *)param_1;
+  temp_23 = *(u32 *)(param_2 + 0x38);
+  if (temp_23 != 0) {
+    FUN_00493370(*(u8 **)(*(u8 **)(*(u8 **)(arg0 + 4) + 0x10) + 0x18), 0xff8);
+    temp_3 = *(u8 **)(*(u8 **)(*(u8 **)(arg0 + 4) + 0x10) + 0x18);
+    temp_18 = *(u8 **)(temp_3 + 0x30);
+    var_19 = temp_18;
+    temp_16 = *(u8 **)(temp_3 + 0x34);
+    var_17 = temp_16;
+    temp_f2 = 3.0f;
+    temp_f8 = *(f32 *)(param_2 + 0x90) / temp_f2;
+    temp_8 = *(s32 *)(param_2 + 0x8c);
+    temp_f1 = (f32)temp_8;
+    temp_7 = (s32)(*(f32 *)(param_2 + 0x78) * temp_f1);
+    temp_6 = (s32)(*(f32 *)(param_2 + 0x7c) * temp_f1);
+    temp_5 = temp_8 + 1;
+    temp_4 = temp_5 * 4;
+    temp_f2 = 255.0f;
+    var_9 = 0;
+    while (var_9 < (u32)temp_5) {
+      if (var_9 < (u32)temp_7) {
+        var_f0 = (f32)(u32)var_9;
+        var_f0_2 = var_f0 / (f32)temp_7;
       }
-
+      else if ((u32)temp_6 < var_9) {
+        temp_10 = temp_8 - var_9;
+        var_f0_3 = (f32)(u32)temp_10;
+        var_f0_2 = var_f0_3 / (f32)(temp_8 - temp_6);
+      }
       else {
-
-        fVar11 = (float)uVar8 / (float)(int)uVar9;
-
+        var_f0_2 = 1.0f;
       }
-
-      *puVar7 = white;
-
-      fVar11 = fVar11 * 255.0f;
-
-
-      puVar7[1] = (u32)fVar11 << 0x18 | white;
-
-      *(u8 *)(puVar7 + 2) = *(u8 *)(puVar7 + 1);
-
-      *(u8 *)((int)puVar7 + 9) = *(u8 *)((int)puVar7 + 5);
-
-      *(u8 *)((int)puVar7 + 10) = *(u8 *)((int)puVar7 + 6);
-
-      *(u8 *)((int)puVar7 + 0xb) = *(u8 *)((int)puVar7 + 7);
-
-      puVar7[3] = white;
-
-      puVar7 = puVar7 + 4;
-
-      *puVar6 = 0;
-
-      puVar6[2] = fVar12;
-
-      puVar6[4] = fVar12 * 2.0f;
-
-      puVar6[6] = fVar12 * 3.0f;
-
-      puVar6 = puVar6 + 8;
-
+      *(s32 *)var_19 = 0xFFFFFF;
+      temp_f0 = temp_f2 * var_f0_2;
+      var_10 = (u32)temp_f0;
+      *(s32 *)(var_19 + 4) = (var_10 << 24) | 0xFFFFFF;
+      *(RwRGBA *)(var_19 + 8) = *(RwRGBA *)(var_19 + 4);
+      *(s32 *)(var_19 + 0xC) = 0xFFFFFF;
+      var_19 += 0x10;
+      *(s32 *)var_17 = 0;
+      temp_f7 = 2.0f * temp_f8;
+      temp_f6 = 3.0f * temp_f8;
+      *(f32 *)(var_17 + 8) = temp_f8;
+      *(f32 *)(var_17 + 0x10) = temp_f7;
+      *(f32 *)(var_17 + 0x18) = temp_f6;
+      var_17 += 0x20;
+      var_9 += 1;
     }
-
-    for (uVar8 = 1; uVar8 < uVar1; uVar8 = uVar8 + 1) {
-
-      FUN_00521250(puVar7,puVar3,uVar5 * 0x10);
-
-      puVar7 = puVar7 + uVar5 * 4;
-
-      FUN_00521250(puVar6,puVar4,uVar5 * 0x20);
-
-      puVar6 = puVar6 + uVar5 * 8;
-
+    param_2 = 1;
+    temp_6 = temp_4 * 4;
+    temp_7 = temp_4 * 8;
+    while ((u32)param_2 < temp_23) {
+      FUN_00521250_mdl(var_19, temp_18, (u32)temp_6);
+      var_19 += temp_6;
+      FUN_00521250_mdl(var_17, temp_16, (u32)temp_7);
+      var_17 += temp_7;
+      param_2 = param_2 + 1;
     }
-
   }
-
-  return;
-
 }
+#pragma pop
 
 
 
@@ -34880,158 +34461,88 @@ void FUN_00344AA0(int param_1)
   }
 }
 #pragma opt_loop_invariants off
-
-
-
-
-// FUN_00344B70 NONMATCHING
-
-
-void FUN_00344b70(int param_1,int param_2)
-
-
-
+/* measured: same body as FUN_00342550 (port of P4 FUN_004A1D70). */
+#pragma opt_loop_invariants on
+// FUN_00344B70
+void FUN_00344b70(int param_1, int param_2)
 {
+    typedef struct { u8 c0; u8 c1; u8 c2; u8 c3; } PolygonWindColor;
+    u8 *arg0 = (u8 *)param_1;
+    u8 *arg1 = (u8 *)param_2;
+    u32 meshCount;
+    u8 *geometry;
+    u8 *colors;
+    u8 *colorsBase;
+    u8 *verticesBase;
+    u8 *vertices;
+    s32 frames;
+    u32 fadeIn;
+    u32 fadeOut;
+    u32 pointCount;
+    u32 i;
+    f32 opacity;
+    f32 step;
+    u32 colorBytes;
+    u32 wordCount;
+    u32 vertexBytes;
+    u32 copies;
+    u16 *model;
 
-  u32 uVar1;
-
-  int iVar2;
-
-  u32 *puVar3;
-
-  float *puVar4;
-
-  u16 *puVar5;
-
-  u32 uVar6;
-
-  float *puVar7;
-
-  u32 *puVar8;
-
-  u32 uVar9;
-
-  int uVar10;
-
-  int uVar11;
-
-  float fVar12;
-
-  float fVar13;
-
-  
-
-  uVar1 = *(u32 *)(param_2 + 0x38);
-
-  if (uVar1 != 0) {
-
-    FUN_00493370(*(u32 *)(*(int *)(*(int *)(param_1 + 4) + 0x10) + 0x18),0xff8);
-
-    iVar2 = *(int *)(*(int *)(*(int *)(param_1 + 4) + 0x10) + 0x18);
-
-    puVar3 = *(u32 **)(iVar2 + 0x30);
-
-    puVar4 = *(float **)(iVar2 + 0x34);
-
-    fVar13 = *(float *)(param_2 + 0x90) / 3.0f;
-
-    iVar2 = *(int *)(param_2 + 0x8c);
-
-    uVar10 = (int)(*(float *)(param_2 + 0x78) * (float)iVar2);
-
-    uVar11 = (int)(*(float *)(param_2 + 0x7c) * (float)iVar2);
-
-    uVar6 = iVar2 + 1;
-
-    puVar7 = puVar4;
-
-    puVar8 = puVar3;
-
-    for (uVar9 = 0; uVar9 < uVar6; uVar9 = uVar9 + 1) {
-
-      if (uVar9 >= uVar10) {
-
-        fVar12 = 1.0f;
-
-        if (uVar11 < uVar9) {
-
-          fVar12 = (float)(iVar2 - uVar9) / (float)(int)(iVar2 - uVar11);
-
+    meshCount = *(u32 *)(arg1 + 0x38);
+    if (meshCount != 0) {
+        geometry = *(u8 **)(*(u8 **)(*(u8 **)(arg0 + 4) + 0x10) + 0x18);
+        FUN_00493370(geometry, 0xFF8);
+        geometry = *(u8 **)(*(u8 **)(*(u8 **)(arg0 + 4) + 0x10) + 0x18);
+        colorsBase = *(u8 **)(geometry + 0x30);
+        colors = colorsBase;
+        verticesBase = *(u8 **)(geometry + 0x34);
+        vertices = verticesBase;
+        step = *(f32 *)(arg1 + 0x90) / 3.0f;
+        frames = *(s32 *)(arg1 + 0x8C);
+        fadeIn = (s32)(*(f32 *)(arg1 + 0x78) * (f32)frames);
+        fadeOut = (s32)(*(f32 *)(arg1 + 0x7C) * (f32)frames);
+        pointCount = frames + 1;
+        wordCount = pointCount * 4;
+        i = 0;
+        while (i < pointCount) {
+            if (i < fadeIn) {
+                opacity = (f32)i / (f32)(s32)fadeIn;
+            } else if (fadeOut < i) {
+                opacity = (f32)(u32)(frames - i) / (f32)(s32)(frames - fadeOut);
+            } else {
+                opacity = 1.0f;
+            }
+            *(u32 *)(colors + 0) = 0xFFFFFF;
+            *(u32 *)(colors + 4) = ((u32)(opacity * 255.0f) << 24) | 0xFFFFFF;
+            *(PolygonWindColor *)(colors + 8) = *(PolygonWindColor *)(colors + 4);
+            *(u32 *)(colors + 12) = 0xFFFFFF;
+            colors += 0x10;
+            *(u32 *)(vertices + 0) = 0;
+            *(f32 *)(vertices + 8) = step;
+            *(f32 *)(vertices + 0x10) = step * 2.0f;
+            *(f32 *)(vertices + 0x18) = step * 3.0f;
+            vertices += 0x20;
+            i += 1;
         }
-
-      }
-
-      else {
-
-        fVar12 = (float)uVar9 / (float)(int)uVar10;
-
-      }
-
-      *puVar8 = 0xffffff;
-
-      fVar12 = fVar12 * 255.0f;
-
-      if (2.1474836e+09f <= fVar12) {
-
-        fVar12 = fVar12 - 2.1474836e+09f;
-
-      }
-
-      puVar8[1] = (u32)fVar12 << 0x18 | 0xffffff;
-
-      *(u8 *)(puVar8 + 2) = *(u8 *)(puVar8 + 1);
-
-      *(u8 *)((int)puVar8 + 9) = *(u8 *)((int)puVar8 + 5);
-
-      *(u8 *)((int)puVar8 + 10) = *(u8 *)((int)puVar8 + 6);
-
-      *(u8 *)((int)puVar8 + 0xb) = *(u8 *)((int)puVar8 + 7);
-
-      puVar8[3] = 0xffffff;
-
-      puVar8 = puVar8 + 4;
-
-      *puVar7 = 0;
-
-      puVar7[2] = fVar13;
-
-      puVar7[4] = fVar13 * 2.0f;
-
-      puVar7[6] = fVar13 * 3.0f;
-
-      puVar7 = puVar7 + 8;
-
+        copies = 1;
+        colorBytes = wordCount * 4;
+        vertexBytes = wordCount * 8;
+        while (copies < meshCount) {
+            FUN_00521250(colors, colorsBase, colorBytes);
+            colors += colorBytes;
+            FUN_00521250(vertices, verticesBase, vertexBytes);
+            vertices += vertexBytes;
+            copies += 1;
+        }
+        model = *(u16 **)(arg0 + 4);
+        geometry = *(u8 **)(*(u8 **)((u8 *)model + 0x10) + 0x18);
+        FUN_004933d0(geometry);
+        if ((*model & 4) != 0) {
+            *(u16 *)(geometry + 0xC) |= 1;
+        }
     }
-
-    for (uVar9 = 1; uVar9 < uVar1; uVar9 = uVar9 + 1) {
-
-      FUN_00521250(puVar8,puVar3,uVar6 * 0x10);
-
-      puVar8 = puVar8 + uVar6 * 4;
-
-      FUN_00521250(puVar7,puVar4,uVar6 * 0x20);
-
-      puVar7 = puVar7 + uVar6 * 8;
-
-    }
-
-    puVar5 = *(u16 **)(param_1 + 4);
-
-    iVar2 = *(int *)(*(int *)(puVar5 + 8) + 0x18);
-
-    FUN_004933d0(iVar2);
-
-    if ((*puVar5 & 4) != 0) {
-
-      *(u16 *)(iVar2 + 0xc) = *(u16 *)(iVar2 + 0xc) | 1;
-
-    }
-
-  }
-
-  return;
-
 }
+#pragma opt_loop_invariants off
 
 
 
@@ -37915,75 +37426,55 @@ void FUN_00348100(int *param_1)
 
 
 
-// FUN_00348110 NONMATCHING
-
-
-
-
-
-
+// FUN_00348110
 void FUN_00348110(int *param_1,u32 param_2)
-
-
-
 {
+    f32 temp_f1;
+    f32 var_f0;
+    f32 var_f0_2;
+    f32 var_f0_3;
+    f32 var_f3;
+    s32 temp_6;
+    s32 temp_7;
+    s32 temp_3_2;
+    u32 temp_4;
+    s32 temp_3;
 
-  int iVar1;
-
-  u32 uVar2;
-
-  
-
-  iVar1 = *param_1;
-
-  if (((int)param_2 <= iVar1) || (iVar1 == 0)) {
-    DAT_007cca48 = 1.0f;
-
-
-    if (0 < iVar1) {
-
-      if (param_2 >= (u32)param_1[2]) {
-
-        uVar2 = param_1[3];
-        DAT_007cca48 = 1.0f;
-
-
-        if (iVar1 - uVar2 < param_2) {
-
-          if (uVar2 == 0) {
-
-            DAT_007cca48 = 0.0f;
-
-          }
-
-          else {
-
-            DAT_007cca48 = (float)(int)(iVar1 - param_2) / (float)uVar2;
-
-          }
-
+    temp_4 = param_2;
+    temp_7 = *(s32 *)((u8 *)param_1 + 0);
+    var_f3 = 1.0f;
+    if (temp_7 < (s32)temp_4) {
+        if (temp_7 != 0) {
+            return;
         }
-
-      }
-
-      else {
-
-        DAT_007cca48 = (float)(int)param_2 / (float)(u32)param_1[2];
-
-      }
-
     }
-
-    DAT_007ce558 = (float)*(u16 *)(param_1 + 1) * 10.0f;
-
-    DAT_007ce554 = (DAT_007ce558 * 4.0f) / 10.0f;
-
+    if (temp_7 > 0) {
+        temp_3 = *(u32 *)((u8 *)param_1 + 8);
+        if ((u32)temp_4 < temp_3) {
+            temp_f1 = (f32)(s32)temp_4;
+            var_f0 = (f32)(u32)temp_3;
+            var_f3 = temp_f1 / var_f0;
+        } else {
+            temp_6 = *(s32 *)((u8 *)param_1 + 0xC);
+            if ((u32)(temp_7 - temp_6) < (u32)temp_4) {
+                if (temp_6 != 0) {
+                    temp_3 = temp_7 - (s32)temp_4;
+                    temp_f1 = (f32)temp_3;
+                    var_f0_2 = (f32)(u32)temp_6;
+                    var_f3 = temp_f1 / var_f0_2;
+                } else {
+                    var_f3 = 0.0f;
+                }
+            }
+        }
+    }
+    temp_3_2 = *(u16 *)((u8 *)param_1 + 4);
+    var_f0_3 = (f32)(u16)temp_3_2;
+    temp_f1 = 10.0f * var_f0_3;
+    DAT_007ce558 = temp_f1;
+    DAT_007ce554 = (f32)((4.0f * temp_f1) / 10.0f);
+    DAT_007cca48 = var_f3;
     DAT_007ce54c = 1;
-
-  }
-
-  return;
-
 }
 
 
@@ -38038,183 +37529,151 @@ void FUN_00348300(MdlAnimationCursor *param_1)
 
 
 
-// FUN_00348340 NONMATCHING
+#pragma opt_loop_invariants on
+// FUN_00348340
+
 u32 FUN_00348340(u8 *param_1,float *param_2)
-
-
 {
+  u8 *arg0;
+  u8 *arg1;
+  f32 temp_f0;
+  f32 temp_f0_2;
+  f32 temp_f1;
+  f32 temp_f26;
+  f32 temp_f25;
+  f32 temp_f24;
+  f32 temp_f23;
+  f32 temp_f22;
+  f32 temp_f21;
+  f32 temp_f20;
+  f32 temp_f2;
+  f32 temp_f3;
+  f32 temp_f4;
+  f32 temp_f6;
+  f32 temp_f5;
+  f32 var_f0;
+  f32 var_f0_2;
+  f32 var_f0_3;
+  f32 var_f0_4;
+  s32 temp_6;
+  s32 temp_5;
+  s32 temp_4;
+  s32 temp_3;
+  u32 var_8;
+  u32 temp_19;
+  u32 temp_18;
+  u32 temp_17;
+  u32 temp_16;
+  u8 *temp_7;
 
-  u8 bVar1;
-
-  u8 bVar2;
-
-  u8 bVar3;
-
-  u8 bVar4;
-  int iVar5;
-
-  u32 uVar6;
-
-  u32 uVar7;
-
-  float fVar8;
-  float alphaF;
-
-  float fVar9;
-
-  float fVar10;
-
-  float fVar11;
-
-  float fVar12;
-
-  float fVar13;
-
-  float fVar14;
-
-  float fVar15;
-  float color0;
-  float color1;
-  float color2;
-  float color3;
-
-  
-
-  if ((((*(float *)(param_1 + 0x18) > 640.0f) ||
-        (*(float *)(param_1 + 0x1c) > 448.0f)) ||
-       (*(float *)(param_1 + 0x20) < 0.0f)) ||
-      (*(float *)(param_1 + 0x24) < 0.0f)) {
-
-    uVar6 = 0;
-
+  arg0 = param_1;
+  arg1 = (u8 *)param_2;
+  if (*(f32 *)(arg0 + 0x18) > 640.0f ||
+      *(f32 *)(arg0 + 0x1C) > 448.0f ||
+      *(f32 *)(arg0 + 0x20) < 0.0f ||
+      *(f32 *)(arg0 + 0x24) < 0.0f) {
+    return 0;
   }
-
+  temp_19 = *(u8 *)(arg0 + 0);
+  temp_18 = *(u8 *)(arg0 + 1);
+  temp_17 = *(u8 *)(arg0 + 2);
+  temp_16 = *(u8 *)(arg0 + 3);
+  temp_f6 = 1.0f / *(f32 *)(FUN_00198590() + 0x80);
+  temp_f5 = *(f32 *)DAT_00960088_abs;
+  var_8 = 0;
+  goto loop_004a7e30_check;
+loop_004a7e30_body:
+  temp_7 = arg1 + (var_8 << 6);
+  *(f32 *)(temp_7 + 0x18) = temp_f6;
+  *(f32 *)(temp_7 + 0x20) = (f32)(u32)temp_19;
+  *(f32 *)(temp_7 + 0x24) = (f32)(u32)temp_18;
+  *(f32 *)(temp_7 + 0x28) = (f32)(u32)temp_17;
+  *(f32 *)(temp_7 + 0x2C) = (f32)(u32)temp_16;
+  *(f32 *)(temp_7 + 8) = temp_f5;
+  var_8 += 1;
+loop_004a7e30_check:
+  if (var_8 < 4U) {
+    goto loop_004a7e30_body;
+  }
+  temp_f26 = *(f32 *)(arg0 + 0x10) / *(f32 *)DAT_00957bac_abs;
+  temp_f25 = *(f32 *)(arg0 + 0x14) / *(f32 *)DAT_00957bb0_abs;
+  temp_f6 = *(f32 *)(arg0 + 0x0C);
+  temp_f5 = *(f32 *)(arg0 + 0x18);
+  temp_f4 = temp_f5 / *(f32 *)DAT_00957bac_abs;
+  temp_f3 = *(f32 *)(arg0 + 0x1C) / *(f32 *)DAT_00957bb0_abs;
+  temp_f2 = *(f32 *)(arg0 + 0x20) / *(f32 *)DAT_00957bac_abs;
+  temp_f1 = *(f32 *)(arg0 + 0x24) / *(f32 *)DAT_00957bb0_abs;
+  temp_f0 = temp_f4 - temp_f26;
+  temp_f24 = temp_f6 * temp_f0;
+  temp_f0 = temp_f3 - temp_f25;
+  temp_f23 = temp_f6 * temp_f0;
+  temp_f0 = temp_f2 - temp_f26;
+  temp_f22 = temp_f6 * temp_f0;
+  temp_f0 = temp_f1 - temp_f25;
+  temp_f21 = temp_f6 * temp_f0;
+  temp_f0 = temp_f24 - temp_f22;
+  temp_f3 = fabsf(temp_f0);
+  temp_f0 = temp_f23 - temp_f21;
+  temp_f2 = fabsf(temp_f0);
+  if (!(temp_f3 > 0.0f &&
+        temp_f2 > 0.0f &&
+        temp_f3 < 7.0f &&
+        temp_f2 < 7.0f)) {
+    return 0;
+  }
+  *(f32 *)(arg1 + 0) = temp_f5;
+  *(f32 *)(arg1 + 4) = *(f32 *)(arg0 + 0x1C);
+  *(f32 *)(arg1 + 0x40) = *(f32 *)(arg0 + 0x18);
+  *(f32 *)(arg1 + 0x44) = *(f32 *)(arg0 + 0x24);
+  *(f32 *)(arg1 + 0x80) = *(f32 *)(arg0 + 0x20);
+  *(f32 *)(arg1 + 0x84) = *(f32 *)(arg0 + 0x24);
+  *(f32 *)(arg1 + 0xC0) = *(f32 *)(arg0 + 0x20);
+  *(f32 *)(arg1 + 0xC4) = *(f32 *)(arg0 + 0x1C);
+  if (*(f32 *)(arg0 + 8) == 0.0f) {
+    temp_f3 = temp_f24 + temp_f26;
+    temp_f2 = temp_f22 + temp_f26;
+    temp_f1 = temp_f23 + temp_f25;
+    temp_f0 = temp_f21 + temp_f25;
+    *(f32 *)(arg1 + 0x10) = temp_f3;
+    *(f32 *)(arg1 + 0x14) = temp_f1;
+    *(f32 *)(arg1 + 0x50) = temp_f3;
+    *(f32 *)(arg1 + 0x54) = temp_f0;
+    *(f32 *)(arg1 + 0x90) = temp_f2;
+    *(f32 *)(arg1 + 0x94) = temp_f0;
+    *(f32 *)(arg1 + 0xD0) = temp_f2;
+    *(f32 *)(arg1 + 0xD4) = temp_f1;
+  }
   else {
-
-    bVar1 = *param_1;
-
-    bVar2 = param_1[1];
-
-    bVar3 = param_1[2];
-
-    bVar4 = param_1[3];
-
-    iVar5 = (int)FUN_00198590();
-
-    fVar11 = *(float *)&DAT_00960088;
-
-    fVar8 = *(float *)(iVar5 + 0x80);
-    color0 = (float)bVar1;
-    color1 = (float)bVar2;
-    color2 = (float)bVar3;
-    color3 = (float)bVar4;
-
-    for (uVar7 = 0; uVar7 < 4; uVar7 = uVar7 + 1) {
-
-      param_2[uVar7 * 0x10 + 6] = 1.0f / fVar8;
-
-      param_2[uVar7 * 0x10 + 8] = color0;
-
-      param_2[uVar7 * 0x10 + 9] = color1;
-
-      param_2[uVar7 * 0x10 + 10] = color2;
-
-      param_2[uVar7 * 0x10 + 0xb] = color3;
-
-      param_2[uVar7 * 0x10 + 2] = fVar11;
-
-    }
-
-    fVar15 = *(float *)(param_1 + 0x10) / *(float *)DAT_00957bac_abs;
-
-    fVar13 = *(float *)(param_1 + 0x14) / *(float *)DAT_00957bb0_abs;
-
-    fVar11 = *(float *)(param_1 + 0xc);
-    fVar14 = fVar11 * (*(float *)(param_1 + 0x18) / *(float *)DAT_00957bac_abs - fVar15);
-    fVar8 = fVar11 * (*(float *)(param_1 + 0x1c) / *(float *)DAT_00957bb0_abs - fVar13);
-
-    fVar12 = fVar11 * (*(float *)(param_1 + 0x20) / *(float *)DAT_00957bac_abs - fVar15);
-
-    fVar11 = fVar11 * (*(float *)(param_1 + 0x24) / *(float *)DAT_00957bb0_abs - fVar13);
-
-
-    if (((fabsf(fVar14 - fVar12) <= 0.0f) || (fabsf(fVar8 - fVar11) <= 0.0f)) ||
-       ((7.0f <= fabsf(fVar14 - fVar12) || (7.0f <= fabsf(fVar8 - fVar11))))) {
-
-      uVar6 = 0;
-
-    }
-
-    else {
-
-      *param_2 = *(float *)(param_1 + 0x18);
-
-      param_2[1] = *(float *)(param_1 + 0x1c);
-
-      param_2[0x10] = *(float *)(param_1 + 0x18);
-
-      param_2[0x11] = *(float *)(param_1 + 0x24);
-
-      param_2[0x20] = *(float *)(param_1 + 0x20);
-
-      param_2[0x21] = *(float *)(param_1 + 0x24);
-
-      param_2[0x30] = *(float *)(param_1 + 0x20);
-
-      param_2[0x31] = *(float *)(param_1 + 0x1c);
-
-      if (*(float *)(param_1 + 8) != 0.0f) {
-
-        fVar9 = FUN_0052e6d8_f32(*(float *)(param_1 + 8));
-        fVar10 = FUN_0052e878_f32(*(float *)(param_1 + 8));
-
-        param_2[4] = fVar15 + (fVar14 * fVar9 - fVar8 * fVar10);
-
-        param_2[5] = fVar13 + fVar14 * fVar10 + fVar8 * fVar9;
-
-        param_2[0x14] = fVar15 + (fVar14 * fVar9 - fVar11 * fVar10);
-
-        param_2[0x15] = fVar13 + fVar14 * fVar10 + fVar11 * fVar9;
-
-        param_2[0x24] = fVar15 + (fVar12 * fVar9 - fVar11 * fVar10);
-
-        param_2[0x25] = fVar13 + fVar12 * fVar10 + fVar11 * fVar9;
-
-        param_2[0x34] = fVar15 + (fVar12 * fVar9 - fVar8 * fVar10);
-
-        param_2[0x35] = fVar13 + fVar12 * fVar10 + fVar8 * fVar9;
-
-      }
-
-      else {
-
-        param_2[4] = fVar14 + fVar15;
-
-        param_2[5] = fVar8 + fVar13;
-
-        param_2[0x14] = fVar14 + fVar15;
-
-        param_2[0x15] = fVar11 + fVar13;
-
-        param_2[0x24] = fVar12 + fVar15;
-
-        param_2[0x25] = fVar11 + fVar13;
-
-        param_2[0x34] = fVar12 + fVar15;
-
-        param_2[0x35] = fVar8 + fVar13;
-
-      }
-
-      uVar6 = 1;
-
-    }
-
+    temp_f20 = FUN_0052e6d8_f32(*(f32 *)(arg0 + 8));
+    temp_f0_2 = FUN_0052e878_f32(*(f32 *)(arg0 + 8));
+    temp_f6 = temp_f23 * temp_f0_2;
+    temp_f3 = temp_f24 * temp_f20;
+    temp_f1 = temp_f3 - temp_f6;
+    *(f32 *)(arg1 + 0x10) = temp_f26 + temp_f1;
+    temp_f5 = temp_f23 * temp_f20;
+    temp_f2 = temp_f24 * temp_f0_2;
+    temp_f1 = temp_f2 + temp_f5;
+    *(f32 *)(arg1 + 0x14) = temp_f25 + temp_f1;
+    temp_f4 = temp_f21 * temp_f0_2;
+    temp_f1 = temp_f3 - temp_f4;
+    *(f32 *)(arg1 + 0x50) = temp_f26 + temp_f1;
+    temp_f3 = temp_f21 * temp_f20;
+    temp_f1 = temp_f2 + temp_f3;
+    *(f32 *)(arg1 + 0x54) = temp_f25 + temp_f1;
+    temp_f2 = temp_f22 * temp_f20;
+    temp_f1 = temp_f2 - temp_f4;
+    *(f32 *)(arg1 + 0x90) = temp_f26 + temp_f1;
+    temp_f1 = temp_f22 * temp_f0_2;
+    temp_f0 = temp_f1 + temp_f3;
+    *(f32 *)(arg1 + 0x94) = temp_f25 + temp_f0;
+    temp_f0 = temp_f2 - temp_f6;
+    *(f32 *)(arg1 + 0xD0) = temp_f26 + temp_f0;
+    temp_f0 = temp_f1 + temp_f5;
+    *(f32 *)(arg1 + 0xD4) = temp_f25 + temp_f0;
   }
-
-  return uVar6;
-
+  return 1;
 }
+#pragma opt_loop_invariants off
 
 
 
@@ -38332,124 +37791,80 @@ void FUN_00348760(u8 *param_1,float *param_2)
 
 
 
-// FUN_00348950 NONMATCHING
+#pragma opt_loop_invariants on
+// FUN_00348950
+
 void FUN_00348950(u8 *param_1,float *param_2)
-
-
-
 {
+  u8 *arg0;
+  u8 *arg1;
+  f32 temp_f0;
+  f32 temp_f1;
+  f32 temp_f21;
+  f32 temp_f20;
+  f32 temp_f22;
+  f32 temp_f2;
+  f32 temp_f4;
+  f32 temp_f6;
+  f32 temp_f5;
+  f32 var_f0;
+  f32 var_f0_2;
+  f32 var_f0_3;
+  f32 var_f0_4;
+  u32 var_9;
+  u32 temp_18;
+  u32 temp_17;
+  u32 temp_16;
+  u32 temp_21;
+  u8 *temp_8;
 
-  u8 bVar1;
-
-  u8 bVar2;
-
-  u8 bVar3;
-
-  u8 bVar4;
-
-  float fVar5;
-
-  int iVar6;
-
-  u32 uVar7;
-  float *pfVar13;
-
-  float fVar8;
-  float alphaF;
-
-  float fVar9;
-
-  float fVar10;
-
-  float fVar11;
-
-  float fVar12;
-
-  
-
-  bVar1 = *param_1;
-
-  bVar2 = param_1[1];
-
-  bVar3 = param_1[2];
-
-  bVar4 = param_1[3];
-
-  fVar12 = fGpffff8174 * *(float *)(param_1 + 8);
-
-  fVar11 = *(float *)(param_1 + 0xc);
-
-  fVar8 = (float)FUN_0052e878_f32(fVar12);
-
-  fVar8 = fVar11 * fVar8;
-
-  fVar12 = (float)FUN_0052e6d8_f32(fVar12);
-
-  fVar11 = fVar11 * fVar12;
-
-  iVar6 = (int)FUN_00198590();
-
-  fVar12 = 1.0f / *(float *)(iVar6 + 0x80);
-
-  fVar5 = *(float *)DAT_00960088_abs;
-
-
-  uVar7 = 0;
-
-  do {
-
-    pfVar13 = param_2 + uVar7 * 0x10;
-
-    pfVar13[6] = fVar12;
-
-    pfVar13[8] = (float)bVar1;
-
-    pfVar13[9] = (float)bVar2;
-
-    pfVar13[10] = (float)bVar3;
-
-    pfVar13[0xb] = (float)bVar4;
-    pfVar13[2] = fVar5;
-
-    uVar7 = uVar7 + 1;
-
-  } while (uVar7 < 4);
-
-  param_2[0] = *(float *)(param_1 + 0x18);
-  param_2[1] = *(float *)(param_1 + 0x1c);
-  param_2[0x10] = *(float *)(param_1 + 0x18);
-  param_2[0x11] = *(float *)(param_1 + 0x24);
-  param_2[0x20] = *(float *)(param_1 + 0x20);
-  param_2[0x21] = *(float *)(param_1 + 0x24);
-  param_2[0x30] = *(float *)(param_1 + 0x20);
-  param_2[0x31] = *(float *)(param_1 + 0x1c);
-
-  fVar10 = (*(float *)(param_1 + 0x18) + fVar8) / *(float *)DAT_00957bac_abs;
-
-  fVar9 = (*(float *)(param_1 + 0x1c) + fVar11) / *(float *)DAT_00957bb0_abs;
-
-  fVar8 = (*(float *)(param_1 + 0x20) + fVar8) / *(float *)DAT_00957bac_abs;
-
-  fVar12 = (*(float *)(param_1 + 0x24) + fVar11) / *(float *)DAT_00957bb0_abs;
-
-  ((float *)param_2)[4] = fVar10;
-
-  ((float *)param_2)[5] = fVar9;
-
-  ((float *)param_2)[0x14] = fVar10;
-
-  ((float *)param_2)[0x15] = fVar12;
-
-  ((float *)param_2)[0x24] = fVar8;
-
-  ((float *)param_2)[0x25] = fVar12;
-
-  ((float *)param_2)[0x34] = fVar8;
-
-  ((float *)param_2)[0x35] = fVar9;
-
-  return;
-
+  arg0 = param_1;
+  arg1 = (u8 *)param_2;
+  temp_18 = *(u8 *)(arg0 + 0);
+  temp_17 = *(u8 *)(arg0 + 1);
+  temp_16 = *(u8 *)(arg0 + 2);
+  temp_21 = *(u8 *)(arg0 + 3);
+  temp_f22 = fGpffff8174 * *(f32 *)(arg0 + 8);
+  temp_f20 = *(f32 *)(arg0 + 0xC);
+  temp_f21 = temp_f20 * FUN_0052e878_f32(temp_f22);
+  temp_f20 = temp_f20 * FUN_0052e6d8_f32(temp_f22);
+  temp_f6 = 1.0f / *(f32 *)(FUN_00198590() + 0x80);
+  temp_f5 = *(f32 *)DAT_00960088_abs;
+  var_9 = 0;
+  goto loop_004a8440_check;
+loop_004a8440_body:
+  temp_8 = arg1 + (var_9 << 6);
+  *(f32 *)(temp_8 + 0x18) = temp_f6;
+  *(f32 *)(temp_8 + 0x20) = (f32)(u32)temp_18;
+  *(f32 *)(temp_8 + 0x24) = (f32)(u32)temp_17;
+  *(f32 *)(temp_8 + 0x28) = (f32)(u32)temp_16;
+  *(f32 *)(temp_8 + 0x2C) = (f32)(u32)temp_21;
+  *(f32 *)(temp_8 + 8) = temp_f5;
+  var_9 += 1;
+loop_004a8440_check:
+  if (var_9 < 4U) {
+    goto loop_004a8440_body;
+  }
+  *(f32 *)(arg1 + 0) = *(f32 *)(arg0 + 0x18);
+  *(f32 *)(arg1 + 4) = *(f32 *)(arg0 + 0x1C);
+  *(f32 *)(arg1 + 0x40) = *(f32 *)(arg0 + 0x18);
+  *(f32 *)(arg1 + 0x44) = *(f32 *)(arg0 + 0x24);
+  *(f32 *)(arg1 + 0x80) = *(f32 *)(arg0 + 0x20);
+  *(f32 *)(arg1 + 0x84) = *(f32 *)(arg0 + 0x24);
+  *(f32 *)(arg1 + 0xC0) = *(f32 *)(arg0 + 0x20);
+  *(f32 *)(arg1 + 0xC4) = *(f32 *)(arg0 + 0x1C);
+  temp_f4 = (*(f32 *)(arg0 + 0x18) + temp_f21) / *(f32 *)DAT_00957bac_abs;
+  temp_f2 = (*(f32 *)(arg0 + 0x1C) + temp_f20) / *(f32 *)DAT_00957bb0_abs;
+  temp_f1 = (*(f32 *)(arg0 + 0x20) + temp_f21) / *(f32 *)DAT_00957bac_abs;
+  temp_f0 = (*(f32 *)(arg0 + 0x24) + temp_f20) / *(f32 *)DAT_00957bb0_abs;
+  *(f32 *)(arg1 + 0x10) = temp_f4;
+  *(f32 *)(arg1 + 0x14) = temp_f2;
+  *(f32 *)(arg1 + 0x50) = temp_f4;
+  *(f32 *)(arg1 + 0x54) = temp_f0;
+  *(f32 *)(arg1 + 0x90) = temp_f1;
+  *(f32 *)(arg1 + 0x94) = temp_f0;
+  *(f32 *)(arg1 + 0xD0) = temp_f1;
+  *(f32 *)(arg1 + 0xD4) = temp_f2;
 }
 
 
@@ -38496,6 +37911,7 @@ void FUN_00348bd0(u8 *param_1,float *param_2)
 
   
 
+#pragma opt_loop_invariants reset
   bVar1 = *param_1;
 
   bVar2 = param_1[1];
@@ -38542,7 +37958,6 @@ void FUN_00348bd0(u8 *param_1,float *param_2)
   return;
 
 }
-#pragma opt_loop_invariants reset
 
 
 
@@ -38778,7 +38193,7 @@ void FUN_00349090(int *param_1,float *param_2)
 
 
 
-// FUN_00349260 NONMATCHING
+// FUN_00349260
 
 
 void FUN_00349260(int param_1,float *param_2)
@@ -38825,18 +38240,16 @@ void FUN_00349260(int param_1,float *param_2)
 
   fVar3 = *(float *)(param_1 + 0x30);
 
-  fVar2 = (float)FUN_00358030(0);
-
-  fVar3 = (((810.0f - fVar4) - fVar3) * fVar2 + fVar3 + 0.0f) * 0.5f;
+  fVar3 = fVar3 + ((810.0f - fVar4) - fVar3) * (float)FUN_00358030(0);
+  fVar3 = (f32)(0.5f * fVar3);
 
   fVar5 = *(float *)(param_1 + 0x2c);
 
-  fVar2 = (float)FUN_00358030(0);
-
-  fVar5 = (((650.0f - fVar4) - fVar5) * fVar2 + fVar5 + 0.0f) * 0.5f;
-  fVar5 = fGpffff80a4 * fVar4 + fVar5;
-
+  fVar5 = fVar5 + ((650.0f - fVar4) - fVar5) * (float)FUN_00358030(0);
+  fVar5 = (f32)(0.5f * fVar5);
   fVar3 = fVar3 + fGpffff80a4 * fVar4;
+
+  fVar5 = fVar5 + fGpffff80a4 * fVar4;
 
   fVar2 = (float)FUN_0052e6d8_f32(fVar6);
 
@@ -41627,7 +41040,7 @@ void FUN_0034cb60(int param_1)
 
 }
 
-// FUN_0034CC00 NONMATCHING
+// FUN_0034CC00
 
 
 void FUN_0034cc00(u32 *param_1)
@@ -41670,6 +41083,10 @@ void FUN_0034cc00(u32 *param_1)
   u32 color;
 
   int iStack_4;
+
+  u32 colorSlot;
+
+  u32 resultSlot;
 
   int iStack_8;
 
@@ -41715,9 +41132,45 @@ void FUN_0034cc00(u32 *param_1)
 
       iStack_8 = FUN_0032a120((char *)(param_1 + 0xc),(u32 *)(param_1 + 0x15),iVar1,iVar2);
       iStack_4 = param_1[9];
-
       stackPtr = (u32 *)&iStack_4;
-      color = mdlVuModulateStackedV0(stackPtr,(u32)iStack_8,DAT_007cae4c);
+      __asm__ volatile(
+          "lw          $2, 0(%0)          \n"
+          "pextlb      $2, $zero, $2      \n"
+          "pextlh      $2, $zero, $2      \n"
+          "qmtc2       $2, $vf10          \n"
+          "vitof0.xyzw $vf10, $vf10       \n"
+          "mfc1        $2, %1             \n"
+          "nop                            \n"
+          "qmtc2       $2, $vf2           \n"
+          "vmulx.xyzw  $vf10, $vf10, $vf2x \n"
+          "vmove.xyzw  $vf11, $vf10       \n"
+          :
+          : "r"(stackPtr), "f"(DAT_007cae4c)
+          : "$2", "$vf2", "$vf10", "$vf11", "memory");
+      colorSlot = iStack_8;
+      __asm__ volatile(
+          "lw          $2, 0(%0)          \n"
+          "pextlb      $2, $zero, $2      \n"
+          "pextlh      $2, $zero, $2      \n"
+          "qmtc2       $2, $vf10          \n"
+          "vitof0.xyzw $vf10, $vf10       \n"
+          "mfc1        $2, %1             \n"
+          "nop                            \n"
+          "qmtc2       $2, $vf2           \n"
+          "vmulx.xyzw  $vf10, $vf10, $vf2x \n"
+          "vmul.xyzw   $vf10, $vf10, $vf11 \n"
+          "lui         $2, 0x437F         \n"
+          "qmtc2       $2, $vf2           \n"
+          "vmulx.xyzw  $vf10, $vf10, $vf2x \n"
+          "vftoi0.xyzw $vf10, $vf10       \n"
+          "qmfc2       $2, $vf10          \n"
+          "ppach       $2, $zero, $2      \n"
+          "ppacb       $2, $zero, $2      \n"
+          "sw          $2, 0x134($sp)     \n"
+          :
+          : "r"(&colorSlot), "f"(DAT_007cae4c)
+          : "$2", "$vf2", "$vf10", "$vf11", "memory");
+      color = *(u32 *)&resultSlot;
       fVar8 = (float)FUN_0032a540((char *)(param_1 + 0x19),iVar1,iVar2);
 
       fVar8 = (fVar8 / 10.0f) * *(float *)(param_1 + 8);
@@ -42053,46 +41506,104 @@ void FUN_0034d150(u32 param_1,f32 *param_2)
 
 
 
-// FUN_0034D3A0 NONMATCHING
-
-
-u64 FUN_0034d3a0(int param_1,int param_2,int param_3)
+static inline u32 mdlEffectAddU32(u32 left, u32 right)
 {
-  int count;
-  int index;
-  int weight;
-  int invWeight;
-  u32 current;
-  u32 next;
-  u32 result;
-  u32 r;
-  u32 g;
-  u32 b;
-  u32 a;
-  float fraction;
+    return left + right;
+}
+// FUN_0034D3A0
+void FUN_0034d3a0(int param_1,int param_2,int param_3)
+{
+    s32 spC;
+    s32 sp8;
+    s32 sp4;
+    s32 temp_hi;
+    s32 temp_lo;
+    s32 quotient;
+    s32 remainder;
+    f32 temp_f1;
 
-  count = *(int *)(param_1 + 0x38) / 6;
-  if (count < 1) {
-    index = (int)*(s8 *)(param_2 + 0x14);
-    return *(u32 *)(param_1 + 0x3c + index * 4);
-  }
-
-  fraction = (float)(param_3 % count) / (float)count;
-  index = ((int)*(s8 *)(param_2 + 0x14) + param_3 / count) % 6;
-  next = *(u32 *)(param_1 + 0x3c + ((index + 1) % 6) * 4);
-  current = *(u32 *)(param_1 + 0x3c + index * 4);
-  weight = (int)(fraction * 256.0f);
-  invWeight = 256 - weight;
-  r = ((next & 0xff) * weight + (current & 0xff) * invWeight) >> 8;
-  g = (((next >> 8) & 0xff) * weight +
-       ((current >> 8) & 0xff) * invWeight) >> 8;
-  b = (((next >> 16) & 0xff) * weight +
-       ((current >> 16) & 0xff) * invWeight) >> 8;
-  a = (((next >> 24) & 0xff) * weight +
-       ((current >> 24) & 0xff) * invWeight) >> 8;
-  result = (r & 0xff) | ((g & 0xff) << 8) |
-           ((b & 0xff) << 16) | ((a & 0xff) << 24);
-  return ((u64)result << 32) | current;
+    temp_lo = *(s32 *)((u8 *)param_1 + 0x38) / 6;
+    if (temp_lo > 0) {
+        __asm__ volatile(
+            ".set noreorder\n"
+            "vmove.xyzw $vf12, $vf10\n"
+            ".set reorder\n"
+            :
+            :
+            : "$vf12", "memory");
+        quotient = param_3 / temp_lo;
+        remainder = param_3 % temp_lo;
+        temp_f1 = (f32)remainder / (f32)temp_lo;
+        temp_hi = (*(s8 *)((u8 *)param_2 + 0x14) + quotient) % 6;
+        spC = ((s32 *)mdlEffectAddU32(((temp_hi + 1) % 6) * 4, (u32)param_1))[0xF];
+        __asm__ volatile(
+            ".set noreorder\n"
+            "lwc1 $f0, -0x7de8($gp)\n"
+            "lw $2, 0(%0)\n"
+            "pextlb $2, $0, $2\n"
+            "pextlh $2, $0, $2\n"
+            "qmtc2.ni $2, $vf11\n"
+            "vitof0.xyzw $vf11, $vf11\n"
+            "mfc1 $2, $f0\n"
+            "nop\n"
+            "qmtc2.ni $2, $vf2\n"
+            "vmulx.xyzw $vf11, $vf11, $vf2x\n"
+            ".set reorder\n"
+            :
+            : "r"(&spC)
+            : "$2", "$vf2", "$vf11", "memory");
+        sp8 = ((s32 *)mdlEffectAddU32(temp_hi * 4, (u32)param_1))[0xF];
+        __asm__ volatile(
+            ".set noreorder\n"
+            "lw $2, 0(%0)\n"
+            "pextlb $2, $0, $2\n"
+            "pextlh $2, $0, $2\n"
+            "qmtc2.ni $2, $vf10\n"
+            "vitof0.xyzw $vf10, $vf10\n"
+            "mfc1 $3, $f0\n"
+            "nop\n"
+            "qmtc2.ni $3, $vf2\n"
+            "vmulx.xyzw $vf10, $vf10, $vf2x\n"
+            ".set reorder\n"
+            :
+            : "r"(&sp8)
+            : "$2", "$3", "$vf2", "$vf10", "memory");
+        __asm__ volatile(
+            ".set noreorder\n"
+            "mfc1 $3, %0\n"
+            "nop\n"
+            "qmtc2.ni $3, $vf2\n"
+            "vmulx.xyzw $vf10, $vf10, $vf2x\n"
+            "mfc1 $3, %1\n"
+            "nop\n"
+            "qmtc2.ni $3, $vf2\n"
+            "vmulx.xyzw $vf11, $vf11, $vf2x\n"
+            "vadd.xyzw $vf10, $vf10, $vf11\n"
+            "vmove.xyzw $vf11, $vf12\n"
+            "vmul.xyzw $vf10, $vf10, $vf11\n"
+            ".set reorder\n"
+            :
+            : "f"(1.0f - temp_f1), "f"(temp_f1)
+            : "$3", "$vf2", "$vf10", "$vf11", "$vf12", "memory");
+    } else {
+        sp4 = ((s32 *)mdlEffectAddU32(*(s8 *)((u8 *)param_2 + 0x14) * 4, (u32)param_1))[0xF];
+        __asm__ volatile(
+            ".set noreorder\n"
+            "lw $3, -0x7de8($gp)\n"
+            "lw $2, 0(%0)\n"
+            "pextlb $2, $0, $2\n"
+            "pextlh $2, $0, $2\n"
+            "qmtc2.ni $2, $vf11\n"
+            "vitof0.xyzw $vf11, $vf11\n"
+            "nop\n"
+            "qmtc2.ni $3, $vf2\n"
+            "vmulx.xyzw $vf11, $vf11, $vf2x\n"
+            "vmul.xyzw $vf10, $vf10, $vf11\n"
+            ".set reorder\n"
+            :
+            : "r"(&sp4)
+            : "$2", "$3", "$vf2", "$vf10", "$vf11", "memory");
+    }
 }
 
 
@@ -46580,68 +46091,92 @@ void FUN_00352c50(u32 param_1,u32 param_2,u32 param_3)
 
 
 
-// FUN_00352C70 NONMATCHING
-
-
+#pragma opt_loop_invariants on
+/* Removing this loses FUN_00352c70 (MATCH nd0, 416B -> MISMATCH nd106, 376B) - measured W161. */
+#pragma opt_rebuildconditionals off
+// FUN_00352C70
 s8 FUN_00352c70(int param_1,u8 *param_2)
-
-
-
 {
+    u8 *table;
+    s32 temp_8;
+    s32 var_10;
+    s32 one;
+    s64 var_2;
+    s64 t;
+    s64 var_2_2;
+    u32 temp_6;
+    u8 temp_3;
+    u8 temp_3_2;
 
-  u16 uVar2;
-  u32 uVar3;
-  u32 *table;
-
-  
-
-  if (param_2[3] != '\0') {
-
-    return true;
-
-  }
-  uVar2 = 0;
-  table = DAT_00957bd0_abs;
-
-  for (; (u32)uVar2 < 3; uVar2++) {
-    uVar3 = table[uVar2 + 2];
-    if (uVar3 == 0) {
-      break;
+    if (*(u8 *)(param_2 + 3) != 0) {
+        return 1;
     }
-    if ((((u32)param_2[2] & 1 << (uVar2 & 0x1f)) != 0) && (uVar3 == param_1)) {
-      return true;
+    var_10 = 0;
+    table = (u8 *)DAT_00957bd0_abs;
+    one = 1;
+    goto loop_test;
+loop_body:
+    temp_8 = *(s32 *)(table + ((u16)var_10 * 4) + 8);
+    if (temp_8 != 0) {
+        if ((*(u8 *)(param_2 + 2) & (one << temp_6)) &&
+            ((u8 *)temp_8 == (u8 *)param_1)) {
+            return 1;
+        }
+        var_10 = (var_10 + 1) & 0xFFFF;
+        goto loop_test;
     }
-  }
-
-  if ((DAT_00957bd0_abs[0] != 0) && (*(u8 *)(param_1 + 0xa2) == *(u8 *)(DAT_00957bd0_abs[0] + 0xa2))) {
-
-    switch (*param_2) {
-    case 0:
-      return false;
-    case 1:
-      return DAT_00957bd0_abs[0] == param_1;
-    case 2:
-      return true;
+    goto block_9;
+loop_test:
+    temp_6 = var_10 & 0xFFFF;
+    if (temp_6 < 3U) {
+        goto loop_body;
     }
-
-  }
-
-  if ((DAT_00957bd4_abs[0] != 0) && (*(u8 *)(param_1 + 0xa2) == *(u8 *)(DAT_00957bd4_abs[0] + 0xa2))) {
-
-    switch (param_2[1]) {
-    case 0:
-      return false;
-    case 1:
-      return DAT_00957bd4_abs[0] == param_1;
-    case 2:
-      return true;
+block_9:
+    if ((DAT_00957bd0_abs[0] != 0) &&
+        (*(u8 *)((u8 *)param_1 + 0xA2) ==
+         *(u8 *)(DAT_00957bd0_abs[0] + 0xA2))) {
+        temp_3 = *(u8 *)(param_2 + 0);
+        switch (temp_3) {
+        case 0:
+            return 0;
+        case 1:
+            var_2_2 = 1;
+            if (DAT_00957bd0_abs[0] == (u32)param_1) {
+                t = var_2_2;
+            } else {
+                var_2_2 = 0;
+                t = var_2_2;
+            }
+            return t;
+        case 2:
+            return 1;
+        }
     }
-
-  }
-
-  return false;
-
+    if ((DAT_00957bd4_abs[0] != 0) &&
+        (*(u8 *)((u8 *)param_1 + 0xA2) ==
+         *(u8 *)(DAT_00957bd4_abs[0] + 0xA2))) {
+        temp_3_2 = *(u8 *)(param_2 + 1);
+        switch (temp_3_2) {
+        case 0:
+            return 0;
+        case 1:
+            var_2 = 1;
+            if (DAT_00957bd4_abs[0] == (u32)param_1) {
+                t = var_2;
+            } else {
+                var_2 = 0;
+                t = var_2;
+            }
+            return t;
+        case 2:
+            return 1;
+        }
+    }
+    return 0;
 }
+/* Re-enables the default rebuildconditionals state after the measured FUN_00352c70 bracket. */
+#pragma opt_rebuildconditionals on
+#pragma opt_loop_invariants reset
 
 
 

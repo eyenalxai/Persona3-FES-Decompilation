@@ -348,37 +348,40 @@ void primCircleLine3D(const RwV3d* center, f32 radius, const RwRGBA* color, cons
     }
 }
 
-// FUN_00359b40 NONMATCHING
+// FUN_00359b40
+
 void primSphereLine3D(const RwV3d* center, f32 radius, const RwRGBA* color, u32 saveAndRestoreRenderState)
 {
-    const RwRGBA* color_p = color;
-    f32 radius_p = radius;
-    u32 i;
-    const PrimRenderState* currRenderState;
+    RwV3d spE __attribute__((aligned(16)));
+    RwV3d spF0;
     RwMatrix mat;
-    u32 savedRenderStates[PRIM_RENDERSTATE_COUNT];
-    u32* currSavedRenderState;
-    RwV3d finalCenter;
-    RwSphere rwSphere;
-    RwV3d rotAxis;
-    u32 j;
-    f32 yOffset;
-    f32 circleRadius;
-    f32 angle;
+    u32 sp80[PRIM_RENDERSTATE_COUNT];
+    RwSphere sp70;
+    f32 temp_f12;
+    f32 temp_f12_2;
+    f32 temp_f22;
+    f32 var_f21;
+    u32 var_16;
+    u32 var_16_2;
+    u32 var_16_3;
+    u32 var_17;
 
-    rotAxis = sSphereRotAxis;
-    rwSphere.radius = radius_p;
-    rwSphere.center.x = center->x;
-    rwSphere.center.y = center->y;
-    rwSphere.center.z = center->z;
-    if (RwCameraFrustumTestSphere(RwCameraGetCurrentCamera(), &rwSphere) != rwSPHEREOUTSIDE)
+    spE = sSphereRotAxis;
+    sp70.radius = radius;
+    sp70.center.x = center->x;
+    sp70.center.y = center->y;
+    sp70.center.z = center->z;
+    if (RwCameraFrustumTestSphere(RwCameraGetCurrentCamera(), &sp70) != rwSPHEREOUTSIDE)
     {
-        if (saveAndRestoreRenderState)
+        if (saveAndRestoreRenderState != 0)
         {
-            for (i = 0; i < PRIM_RENDERSTATE_COUNT; i++)
+            for (var_17 = 0; var_17 < PRIM_RENDERSTATE_COUNT; var_17++)
             {
-                currRenderState = &sRenderStates[i];
-                RwRenderStateGet((currSavedRenderState = &savedRenderStates[i], currRenderState->renderState), currSavedRenderState);
+                const PrimRenderState* currRenderState;
+                u32* currSavedRenderState;
+
+                currRenderState = &sRenderStates[var_17];
+                RwRenderStateGet((currSavedRenderState = &sp80[var_17], currRenderState->renderState), currSavedRenderState);
                 RwRenderStateSet(currRenderState->renderState, currRenderState->val);
             }
 
@@ -389,46 +392,46 @@ void primSphereLine3D(const RwV3d* center, f32 radius, const RwRGBA* color, u32 
         }
 
         mat.right.x = mat.up.y = mat.at.z = 1.0f;
-        angle = 0.0f;
+        var_f21 = 0.0f;
         mat.right.y = mat.right.z = mat.up.x = 0.0f;
         mat.up.z = mat.at.x = mat.at.y = 0.0f;
         mat.pos.x = mat.pos.y = mat.pos.z = 0.0f;
         mat.flags |= (rwMATRIXINTERNALIDENTITY | rwMATRIXTYPEORTHONORMAL);
 
-        for (j = 0; j < 9; j++)
+        for (var_16 = 0; var_16 < 9U; var_16++)
         {
-            angle += g18deg;
-            yOffset = radius_p * cosf(angle);
-            circleRadius = radius_p * sinf(angle);
+            var_f21 += g18deg;
+            temp_f22 = radius * cosf(var_f21);
+            temp_f12 = radius * sinf(var_f21);
 
-            finalCenter.x = center->x;
-            finalCenter.y = center->y + yOffset;
-            finalCenter.z = center->z;
+            spF0.x = center->x;
+            spF0.y = center->y + temp_f22;
+            spF0.z = center->z;
 
-            primCircleLine3D(&finalCenter, circleRadius, color_p, &mat, false);
+            primCircleLine3D(&spF0, temp_f12, color, &mat, false);
         }
 
-        RwMatrixRotate(&mat, &rotAxis, 90.0f, rwCOMBINEPOSTCONCAT);
+        RwMatrixRotate(&mat, &spE, 90.0f, rwCOMBINEPOSTCONCAT);
 
-        angle = 0.0f;
-        for (j = 0; j < 9; j++)
+        temp_f22 = 0.0f;
+        for (var_16_2 = 0; var_16_2 < 9U; var_16_2++)
         {
-            angle += g18deg;
-            yOffset = radius_p * cosf(angle);
-            circleRadius = radius * sinf(angle);
+            temp_f22 += g18deg;
+            var_f21 = radius * cosf(temp_f22);
+            temp_f12_2 = radius * sinf(temp_f22);
 
-            finalCenter.x = center->x;
-            finalCenter.y = center->y;
-            finalCenter.z = center->z + yOffset;
+            spF0.x = center->x;
+            spF0.y = center->y;
+            spF0.z = center->z + var_f21;
 
-            primCircleLine3D(&finalCenter, circleRadius, color, &mat, false);
+            primCircleLine3D(&spF0, temp_f12_2, color, &mat, false);
         }
 
-        if (saveAndRestoreRenderState)
+        if (saveAndRestoreRenderState != 0)
         {
-            for (j = 0; j < PRIM_RENDERSTATE_COUNT; j++)
+            for (var_16_3 = 0; var_16_3 < PRIM_RENDERSTATE_COUNT; var_16_3++)
             {
-                RwRenderStateSet((0, sRenderStates[j]).renderState, savedRenderStates[j]);
+                RwRenderStateSet(sRenderStates[var_16_3].renderState, sp80[var_16_3]);
             }
         }
     }
@@ -544,14 +547,16 @@ void primCylinderLine3D(const RwV3d* center, f32 radius, f32 height, const RwRGB
 /* ---- Recovered range 0x35A290-0x35AD50 (Ghidra reference, pending match) ---- */
 typedef struct
 {
+    f32 x;
+    f32 y;
+    f32 z;
+    f32 w;
+} PrimQuaternion;
+
+typedef struct
+{
     u8 pad0[8];
-    struct
-    {
-        f32 x;
-        f32 y;
-        f32 z;
-        f32 w;
-    } quat;
+    PrimQuaternion quat;
     f32 values[6];
     f32 value30;
 } PrimInterpData;
@@ -826,71 +831,53 @@ u32 LAB_0035a850(void* param_1)
 
 // The retail callback table places a second callback at 0x0035AA10; its
 // marker below narrows this function's true window to 0x1A0 bytes.
-// Remaining differences are MWCCPS2 FPU register allocation/scheduling.
-// FUN_0035A870 NONMATCHING
-
-
+// Ported from P4 FUN_00480F20 (MATCH, 408B code + 8B retail zero tail).
+// FUN_0035A870
 void FUN_0035a870(void* param_1, void* param_2)
 {
     PrimInterpData* out = (PrimInterpData*)param_1;
     const PrimInterpData* in = (const PrimInterpData*)param_2;
-    volatile /* Removing this qualifier worsens FUN_0035a870 (NONMATCHING nd237 -> NONMATCHING nd295, size 404 -> 364) - measured W170. */ f32 saved[4];
-    f32 inY;
-    f32 inX;
-    f32 inZ;
-    f32 inW;
+    PrimQuaternion inverse;
+    f32 inputY;
+    f32 inputX;
+    f32 inputZ;
+    f32 inputW;
     f32 norm;
-    f32 inverse;
-    f32 ax;
-    f32 ay;
-    f32 az;
-    f32 aw;
+    f32 reciprocal;
+    PrimQuaternion saved;
 
-    ax = out->quat.x;
-    ay = out->quat.y;
-    az = out->quat.z;
-    aw = out->quat.w;
-    saved[0] = ax;
-    saved[1] = ay;
-    saved[2] = az;
-    saved[3] = aw;
-
-    inY = in->quat.y;
-    inX = in->quat.x;
-    inZ = in->quat.z;
-    inW = in->quat.w;
-    norm = inY * inY + inX * inX + inZ * inZ + inW * inW;
-    if (norm > 0.0f)
-    {
-        inverse = 1.0f / norm;
-        inW = inW * inverse;
-        inverse = -inverse;
-        inX = inX * inverse;
-        inY = inY * inverse;
-        inZ = inZ * inverse;
+    saved = out->quat;
+    inputY = in->quat.y;
+    inputX = in->quat.x;
+    inputZ = in->quat.z;
+    inputW = in->quat.w;
+    norm = inputX * inputX + inputY * inputY + inputZ * inputZ + inputW * inputW;
+    // Retail leaves the inverse undefined for zero norm; no fallback is invented.
+    if (!(norm <= 0.0f)) {
+        reciprocal = 1.0f / norm;
+        inverse.w = inputW * reciprocal;
+        reciprocal = -reciprocal;
+        inverse.x = inputX * reciprocal;
+        inverse.y = inputY * reciprocal;
+        inverse.z = inputZ * reciprocal;
     }
-    ay = saved[1];
-    az = saved[2];
-    aw = saved[3];
-    ax = saved[0];
-
-    out->quat.w = inW * aw - (inY * ay + inX * ax + inZ * az);
-    out->quat.x = inZ * ay - inY * az;
-    out->quat.y = inX * az - inZ * ax;
-    out->quat.z = inY * ax - inX * ay;
-    out->quat.x = out->quat.x + ax * inW;
-    out->quat.y = out->quat.y + ay * inW;
-    out->quat.z = out->quat.z + az * inW;
-    out->quat.x = out->quat.x + inX * aw;
-    out->quat.y = out->quat.y + inY * aw;
-    out->quat.z = out->quat.z + inZ * aw;
-
-    out->values[0] = out->values[0] - in->values[0];
-    out->values[1] = out->values[1] - in->values[1];
-    out->values[2] = out->values[2] - in->values[2];
-    out->values[3] = out->values[3] - in->values[3];
-    out->values[4] = out->values[4] - in->values[4];
-    out->values[5] = out->values[5] - in->values[5];
+    out->quat.w = inverse.w * saved.w -
+                  (inverse.x * saved.x + inverse.y * saved.y + inverse.z * saved.z);
+    out->quat.x = inverse.y * saved.z - inverse.z * saved.y;
+    out->quat.y = inverse.z * saved.x - inverse.x * saved.z;
+    out->quat.z = inverse.x * saved.y - inverse.y * saved.x;
+    out->quat.x = out->quat.x + saved.x * inverse.w;
+    out->quat.y = out->quat.y + saved.y * inverse.w;
+    out->quat.z = out->quat.z + saved.z * inverse.w;
+    out->quat.x = out->quat.x + inverse.x * saved.w;
+    out->quat.y = out->quat.y + inverse.y * saved.w;
+    out->quat.z = out->quat.z + inverse.z * saved.w;
+    out->values[0] -= in->values[0];
+    out->values[1] -= in->values[1];
+    out->values[2] -= in->values[2];
+    out->values[3] -= in->values[3];
+    out->values[4] -= in->values[4];
+    out->values[5] -= in->values[5];
 }
 // FUN_0035AA10
 void FUN_0035aa10(int param_1, int param_2, int param_3)

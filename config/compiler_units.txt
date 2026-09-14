@@ -14,4 +14,9 @@
 # b210.  The block's units are also listed in config/speed_units.txt because
 # retail built them at `-O4,p`.
 #
-# (No units are listed yet; the first entries land with the ported bodies.)
+src/rw/rpworld_cw119.c cw3.0.1b119
+src/rw/rwcore_cw119.c cw3.0.1b119
+src/rw/rwplcore_cw119.c cw3.0.1b119
+src/rw/rtanim_cw119.c cw3.0.1b119
+src/rw/rt2d_cw119.c cw3.0.1b119
+src/rw/rprandom_cw119.c cw3.0.1b119

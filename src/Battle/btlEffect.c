@@ -7462,66 +7462,56 @@ void func_002c6a00(int param_1,int param_2,u16 param_3)
   }
 }
 
-// FUN_002c6ba0 NONMATCHING
+#pragma alias DAT_006971b0_ptr DAT_006971b0
+extern void *DAT_006971b0_ptr[];
+// FUN_002c6ba0
+u16 func_002c6ba0(int param_1) {
+    u8 *p = (u8 *)(u32)param_1;
+    u8 *base;
+    u8 *row;
+    s32 k;
+    s32 j;
+    u32 w;
+    u32 e;
+    u32 a2;
+    s32 x;
+    u32 arr[3];
 
-/* W322 probe: func_002c6ba0 with opt_loop_invariants on improved normalized_diff 394 -> 358 (object 632/656). */
-#pragma opt_loop_invariants on
-u16 func_002c6ba0(int param_1)
-
-{
-  u16 uVar1 = 0;
-  u32 uVar2 = 0;
-  int iVar3 = 0;
-  int iVar4 = 0;
-  u32 uVar5 = 0;
-  u32 uVar7 = 0;
-  u32 uVar8 = 0;
-  int aiStack_10 [4];
-  
-  uVar1 = *(u16 *)(*(int *)((int)param_1 + 0x30) + 0xa4);
-  uVar8 = 0;
-  while( true ) {
-    if (1 < uVar8) {
-      return '\0';
+    base = DAT_007ce41c + (*(u16 *)(*(u32 *)(p + 0x30) + 0xA4)) * 164;
+    k = 0;
+    while ((u16)k < 2) {
+        row = base + (k & 0xFFFF) * 20 + 4;
+        j = 0;
+        while ((u16)j < 3) {
+            w = *(s32 *)(row + (j & 0xFFFF) * 4);
+            e = (w & 0xFF000000) >> 24;
+            a2 = w & 0xFFFFFF;
+            if (e == 0)
+                x = 0;
+            else
+                x = ((s32 (*)(u8 *, u32))DAT_006971b0_ptr[e * 3])(p, a2);
+            arr[j & 0xFFFF] = x;
+            j = (j + 1) & 0xFFFF;
+        }
+        if (arr[0] && arr[1] && arr[2] && *(u8 *)(row + 0xC) != 8)
+            return *(u8 *)(row + 0xC);
+        if (arr[0] && arr[1] && *(u8 *)(row + 0xD) != 8)
+            return *(u8 *)(row + 0xD);
+        if (arr[0] && arr[2] && *(u8 *)(row + 0xE) != 8)
+            return *(u8 *)(row + 0xE);
+        if (arr[1] && arr[2] && *(u8 *)(row + 0xF) != 8)
+            return *(u8 *)(row + 0xF);
+        if (arr[0] && *(u8 *)(row + 0x10) != 8)
+            return *(u8 *)(row + 0x10);
+        if (arr[1] && *(u8 *)(row + 0x11) != 8)
+            return *(u8 *)(row + 0x11);
+        if (arr[2] && *(u8 *)(row + 0x12) != 8)
+            return *(u8 *)(row + 0x12);
+        if (*(u8 *)(row + 0x13) != 8)
+            return *(u8 *)(row + 0x13);
+        k = (k + 1) & 0xFFFF;
     }
-    iVar3 = (int)(DAT_007ce41c + ((u32)uVar1 * 0x29) * 4) + uVar8 * 0x14;
-    for (uVar7 = 0; uVar7 < 3; uVar7 = uVar7 + 1 & 0xffff) {
-      uVar2 = *(u32 *)(iVar3 + 4 + uVar7 * 4);
-      uVar5 = uVar2 >> 0x18;
-      if (uVar5 != 0) {
-        iVar4 = (**(code **)(&DAT_006971b0 + uVar5 * 0xc))(param_1,uVar2 & 0xffffff);
-      }
-      else {
-        iVar4 = 0;
-      }
-      aiStack_10[uVar7] = iVar4;
-    }
-    if ((((aiStack_10[0] != 0) && (aiStack_10[1] != 0)) && (aiStack_10[2] != 0)) &&
-       (*(char *)(iVar3 + 0x10) != '\b')) {
-      return *(char *)(iVar3 + 0x10);
-    }
-    if (((aiStack_10[0] != 0) && (aiStack_10[1] != 0)) && (*(char *)(iVar3 + 0x11) != '\b')) {
-      return *(char *)(iVar3 + 0x11);
-    }
-    if (((aiStack_10[0] != 0) && (aiStack_10[2] != 0)) && (*(char *)(iVar3 + 0x12) != '\b')) break;
-    if (((aiStack_10[1] != 0) && (aiStack_10[2] != 0)) && (*(char *)(iVar3 + 0x13) != '\b')) {
-      return *(char *)(iVar3 + 0x13);
-    }
-    if ((aiStack_10[0] != 0) && (*(char *)(iVar3 + 0x14) != '\b')) {
-      return *(char *)(iVar3 + 0x14);
-    }
-    if ((aiStack_10[1] != 0) && (*(char *)(iVar3 + 0x15) != '\b')) {
-      return *(char *)(iVar3 + 0x15);
-    }
-    if ((aiStack_10[2] != 0) && (*(char *)(iVar3 + 0x16) != '\b')) {
-      return *(char *)(iVar3 + 0x16);
-    }
-    if (*(char *)(iVar3 + 0x17) != '\b') {
-      return *(char *)(iVar3 + 0x17);
-    }
-    uVar8 = uVar8 + 1 & 0xffff;
-  }
-  return *(char *)(iVar3 + 0x12);
+    return 0;
 }
 #pragma opt_loop_invariants off
 
@@ -7532,44 +7522,42 @@ static inline u8* btlEffectAddFirst(u8* base, u32 offset)
 {
   return base + offset;
 }
-// FUN_002c6e30 NONMATCHING
-
+// FUN_002c6e30
 undefined* func_002c6e30(int unit, u32 group)
 {
-  extern u32 func_002ffbc0(u32);
-  u16 unitId;
-  u16 i1;
-  u32 idx;
-  u16 random;
-  u16 cumulative;
-  u16 total;
-  u16 i2;
-  s32 weight;
-  u8* weights;
+    u8 *p = (u8 *)(u32)unit;
+    u32 index = group;
+    u8 *node;
+    u8 *entry;
+    u32 i;
+    u32 sum;
+    u32 total;
+    u32 j;
+    s32 random;
+    s32 weight;
 
-  unitId = *(u16*)(*(int*)(unit + 0x30) + 0xa4);
-  weights = DAT_007ce41c + (unitId * 0x29) * 4;
-  total = 0;
-  i1 = 0;
-  weights += (group & 0xffff) * 0x28;
-  for (; i1 < 5; i1 = (i1 + 1) & 0xffff) {
-    idx = i1;
-    total += btlEffectAddFirst(weights, idx * 8)[0x2c];
-  }
-  if (total == 0) {
-    return &DAT_007cc740;
-  }
-
-  random = func_002ffbc0(total);
-  cumulative = 0;
-  for (i2 = 0; i2 < 5; i2 = (i2 + 1) & 0xffff) {
-    weight = btlEffectAddFirst(weights, i2 * 8)[0x2c];
-    cumulative += weight;
-    if (random <= cumulative && weight > 0) {
-      return weights + i2 * 8 + 0x2c;
+    node = DAT_007ce41c + *(u16 *)(*(u32 *)(p + 0x30) + 0xA4) * 164;
+    sum = 0;
+    i = 0;
+    node += (index & 0xffff) * 40;
+    while ((u16)i < 5) {
+        sum = (sum + *(u8 *)(node + (i & 0xffff) * 8 + 0x2c)) & 0xffff;
+        i = (i + 1) & 0xffff;
     }
-  }
-  return NULL;
+    if ((sum & 0xffff) == 0)
+        return &DAT_007cc740;
+    random = func_002ffbc0_u32(sum & 0xffff) & 0xffff;
+    total = 0;
+    j = 0;
+    while ((u16)j < 5) {
+        entry = node + (j & 0xffff) * 8;
+        weight = entry[0x2c];
+        total = (total + weight) & 0xffff;
+        if (random <= (s32)total && weight > 0)
+            return entry + 0x2c;
+        j = (j + 1) & 0xffff;
+    }
+    return 0;
 }
 
 // FUN_002c6f50 NONMATCHING

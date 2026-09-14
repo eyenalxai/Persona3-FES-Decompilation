@@ -1538,111 +1538,100 @@ void func_001aaac0(KwlnTask* task, u32 value)
  * nd627/872 (both over the 832-byte window); explicit join-goto nd1/832;
  * semantically-wrong mirrored outer condition nd2/832; symmetric nested-if
  * nd22/832. */
-// FUN_001aaad0 NONMATCHING
+// FUN_001aaad0
+
 u32 K_FldFrame_IsPointInTriangle(const RwV3d* point, const RwV3d** tri, const RwV3d* normal)
 {
-    s32 i0;
-    s32 i1;
-    s32 i2;
+    f32 abs_x;
+    f32 abs_y;
+    f32 abs_z;
     s32 axis;
-    s32 previous;
-    u32 inside;
-    f32 primary0;
-    f32 primary1;
-    f32 primary2;
-    f32 absX;
-    f32 absY;
-    f32 absZ;
+    s32 prev;
+    u32 result;
 
-    inside = false;
-    absX = fabsf(normal->x);
-    absY = fabsf(normal->y);
-    absZ = fabsf(normal->z);
-    if (!(absZ <= absY))
-    {
-        if (!(absZ <= absX))
-        {
-            axis = 2;
-        }
-        else
-        {
+    result = 0;
+    abs_x = fabsf(normal->x);
+    abs_y = fabsf(normal->y);
+    abs_z = fabsf(normal->z);
+    axis = 0x7FFFFFFF;
+    if (abs_z > abs_y) {
+        axis = (abs_z > abs_x) ? 2 : 0;
+    } else {
+        if (abs_y > abs_x) {
+            axis = 1;
+        } else {
             axis = 0;
         }
     }
-    else if (!(absY <= absX))
-    {
-        axis = 1;
-    }
-    else
-    {
-        axis = 0;
-    }
-
-    if (axis != 0x7fffffff)
-    {
-        previous = 2;
-        switch (axis)
-        {
-        case 0:
-            i0 = 0;
-            primary0 = point->y;
-            for (; i0 < 3; i0++)
-            {
-                if (((tri[i0]->y <= primary0) && (primary0 < tri[previous]->y)) ||
-                    ((tri[previous]->y <= primary0) && (primary0 < tri[i0]->y)))
-                {
-                    if (point->z < tri[i0]->z +
-                        ((primary0 - tri[i0]->y) * (tri[previous]->z - tri[i0]->z)) /
-                        (tri[previous]->y - tri[i0]->y))
-                    {
-                        inside = !inside;
+    if (axis != 0x7FFFFFFF) {
+        prev = 2;
+        switch (axis) {
+        case 0: {
+            f32 coord;
+            s32 i;
+            i = 0;
+            coord = point->y;
+            while (i < 3) {
+                if ((tri[i]->y <= coord && coord < tri[prev]->y) ||
+                    (tri[prev]->y <= coord && coord < tri[i]->y)) {
+                    if (point->z <
+                        tri[i]->z +
+                            ((coord - tri[i]->y) *
+                             (tri[prev]->z - tri[i]->z)) /
+                                (tri[prev]->y - tri[i]->y)) {
+                        result = !result;
                     }
                 }
-                previous = i0;
+                prev = i;
+                i += 1;
             }
-            break;
-        case 1:
-            i1 = 0;
-            primary1 = point->z;
-            for (; i1 < 3; i1++)
-            {
-                if (((tri[i1]->z <= primary1) && (primary1 < tri[previous]->z)) ||
-                    ((tri[previous]->z <= primary1) && (primary1 < tri[i1]->z)))
-                {
-                    if (point->x < tri[i1]->x +
-                        ((primary1 - tri[i1]->z) * (tri[previous]->x - tri[i1]->x)) /
-                        (tri[previous]->z - tri[i1]->z))
-                    {
-                        inside = !inside;
-                    }
-                }
-                previous = i1;
-            }
-            break;
-        case 2:
-            i2 = 0;
-            primary2 = point->y;
-            for (; i2 < 3; i2++)
-            {
-                if (((tri[i2]->y <= primary2) && (primary2 < tri[previous]->y)) ||
-                    ((tri[previous]->y <= primary2) && (primary2 < tri[i2]->y)))
-                {
-                    if (point->x < tri[i2]->x +
-                        ((primary2 - tri[i2]->y) * (tri[previous]->x - tri[i2]->x)) /
-                        (tri[previous]->y - tri[i2]->y))
-                    {
-                        inside = !inside;
-                    }
-                }
-                previous = i2;
-            }
-            break;
-        default:
             break;
         }
+        case 1: {
+            f32 coord;
+            s32 i;
+            i = 0;
+            coord = point->z;
+            while (i < 3) {
+                if ((tri[i]->z <= coord && coord < tri[prev]->z) ||
+                    (tri[prev]->z <= coord && coord < tri[i]->z)) {
+                    if (point->x <
+                        tri[i]->x +
+                            ((coord - tri[i]->z) *
+                             (tri[prev]->x - tri[i]->x)) /
+                                (tri[prev]->z - tri[i]->z)) {
+                        result = !result;
+                    }
+                }
+                prev = i;
+                i += 1;
+            }
+            break;
+        }
+        case 2: {
+            f32 coord;
+            s32 i;
+            i = 0;
+            coord = point->y;
+            while (i < 3) {
+                if ((tri[i]->y <= coord && coord < tri[prev]->y) ||
+                    (tri[prev]->y <= coord && coord < tri[i]->y)) {
+                    if (point->x <
+                        tri[i]->x +
+                            ((coord - tri[i]->y) *
+                             (tri[prev]->x - tri[i]->x)) /
+                                (tri[prev]->y - tri[i]->y)) {
+                        result = !result;
+                    }
+                }
+                prev = i;
+                i += 1;
+            }
+            break;
+        }
+        }
     }
-
-    return inside;
+    return result;
 }
 
 // FUN_001aae10
@@ -2427,49 +2416,60 @@ done:
 /* W423 raycast FPU-role probes: unused f32 local, scalar segment locals,
  * and declaration-order relocation each stayed nd59/object240/window240
  * (0.245833), reverted. */
-// FUN_001ac950 NONMATCHING
+/* Ported from P4 func_0016b260 (MATCH, nd0); same retail instruction stream
+ * and register roles. */
+#pragma opt_propagation off
+// FUN_001ac950
 void* func_001ac950(const RwV3d* line, void* unused,
                     const void* triangle, FldFrameRaycast* raycast)
 {
     typedef struct FldFrameLine
     {
-        RwV3d point[2];
+        RwV3d start;
+        RwV3d end;
     } FldFrameLine;
-    const FldFrameCollisionTriangle* candidate;
+    RwV3d delta;
     FldFrameLine lineCopy;
-    RwV3d segment;
-    f32 normalY;
+    const RwV3d* normal;
+    const RwV3d* point;
+    f32 startX;
+    f32 deltaX;
+    f32 startY;
+    f32 deltaY;
+    f32 startZ;
+    f32 deltaZ;
     f32 normalX;
+    f32 normalY;
     f32 normalZ;
+    f32 numerator;
     f32 denominator;
-    f32 vertexDot;
-    f32 lineDot;
     f32 fraction;
 
     lineCopy = *(const FldFrameLine*)line;
-    candidate = (const FldFrameCollisionTriangle*)triangle;
-    segment.x = lineCopy.point[0].x - lineCopy.point[1].x;
-    segment.y = lineCopy.point[0].y - lineCopy.point[1].y;
-    segment.z = lineCopy.point[0].z - lineCopy.point[1].z;
-    normalY = candidate->normal.y;
-    normalX = candidate->normal.x;
-    normalZ = candidate->normal.z;
-    denominator = normalY * segment.y;
-    denominator += normalX * segment.x;
-    denominator += normalZ * segment.z;
-    vertexDot = normalZ * candidate->vertices[0]->z;
-    vertexDot += normalX * candidate->vertices[0]->x;
-    vertexDot += normalY * candidate->vertices[0]->y;
-    lineDot = normalZ * lineCopy.point[0].z;
-    lineDot += normalX * lineCopy.point[0].x;
-    lineDot += normalY * lineCopy.point[0].y;
-    fraction = -(-vertexDot + lineDot) / denominator;
-    raycast->hitPointDst->x = lineCopy.point[0].x + segment.x * fraction;
-    raycast->hitPointDst->y = lineCopy.point[0].y + segment.y * fraction;
-    raycast->hitPointDst->z = lineCopy.point[0].z + segment.z * fraction;
-    raycast->didHit = true;
-    return NULL;
+    startX = lineCopy.start.x;
+    deltaX = startX - lineCopy.end.x;
+    startY = lineCopy.start.y;
+    deltaY = startY - lineCopy.end.y;
+    startZ = lineCopy.start.z;
+    deltaZ = startZ - lineCopy.end.z;
+    normal = (const RwV3d*)triangle;
+    normalY = normal->y;
+    normalX = normal->x;
+    normalZ = normal->z;
+    denominator = normalX * deltaX + normalY * deltaY + normalZ * deltaZ;
+    point = *(const RwV3d**)((const u8*)triangle + 0x1c);
+    numerator = -(-(normalX * point->x + normalY * point->y +
+                    normalZ * point->z) +
+                   (normalX * startX + normalY * startY +
+                    normalZ * startZ));
+    fraction = numerator / denominator;
+    raycast->hitPointDst->x = fraction * deltaX + startX;
+    raycast->hitPointDst->y = fraction * deltaY + startY;
+    raycast->hitPointDst->z = fraction * deltaZ + startZ;
+    raycast->didHit = 1;
+    return 0;
 }
+#pragma opt_propagation on
 
 // FUN_001aca40
 void* func_001aca40(f32 fraction, const RwV3d* line,

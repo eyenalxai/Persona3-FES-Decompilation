@@ -3366,27 +3366,24 @@ void FUN_0048efc0(int param_1,int param_2,f32 param_3)
 }
 #pragma optimization_level 2
 
-// FUN_0048EFE0 NONMATCHING
+// FUN_0048EFE0
+#pragma push
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma tailcall off
+#pragma opt_common_subs on
+#pragma opt_rebuildconditionals on
 RwInt32 FUN_0048efe0(RpUserDataFormat format)
 {
-  RwInt32 size;
-
-  if (format == rpSTRINGUSERDATA)
-    goto case_string;
-  if (format == rpREALUSERDATA)
-    goto case_real;
-  if (format == rpINTUSERDATA)
-    goto case_int;
-  size = 0;
-  goto done;
-case_int:
-  size = 4;
-  goto done;
-case_real:
-  size = 4;
-  goto done;
-case_string:
-  size = 4;
-done:
-  return size;
+  switch (format) {
+  case rpINTUSERDATA:
+    return 4;
+  case rpREALUSERDATA:
+    return 4;
+  case rpSTRINGUSERDATA:
+    return 4;
+  default:
+    return 0;
+  }
 }
+#pragma pop

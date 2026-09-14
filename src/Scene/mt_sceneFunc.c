@@ -3239,70 +3239,79 @@ void FUN_003bb400(u32 param_1)
  * 12-byte mixed-width copy. Direct scalar, memcpy, and pointer variants
  * measured nd=10/302/10 (the latter at 472B); none matched and all were
  * reverted. */
-// FUN_003BB450 NONMATCHING
-
+#pragma push
+#pragma opt_propagation off
+// FUN_003BB450
 
 void FUN_003bb450(float *input, float scale, float angle_y, float angle_x,
-                 float angle_z, float *result)
+                  float angle_z, float *result)
 {
-  typedef union SceneVector {
-    RwV3d value;
-    struct {
-      u64 xy;
-      f32 z;
-      u32 pad;
-    } raw;
-  } SceneVector;
-  SceneVector axis0;
-  SceneVector transformed;
-  SceneVector source;
-  SceneVector output;
-  SceneVector axis1;
-  SceneVector axis2;
-  SceneVector axis3;
-  RwMatrix matrix;
-  u64 xy;
-  f32 z;
+    typedef union SceneVectorLocal {
+        RwV3d value;
+        struct {
+            u64 xy;
+            f32 z;
+            u32 pad;
+        } raw;
+    } SceneVectorLocal;
+    SceneVectorLocal axis0;
+    SceneVectorLocal transformed;
+    SceneVectorLocal source;
+    SceneVectorLocal output;
+    SceneVectorLocal axis1;
+    SceneVectorLocal axis2;
+    SceneVectorLocal axis3;
+    RwMatrix matrix;
+    SceneVectorLocal *axis2p;
+    u64 xy;
+    u64 axis2_xy;
+    f32 axis2_z;
+    f32 z;
 
-  xy = *(u64 *)DAT_006a2ed8_abs;
-  z = *(f32 *)DAT_006a2ee0_abs;
-  axis0.raw.xy = xy;
-  axis0.raw.z = z;
-  xy = *(u64 *)DAT_006a2ee8_abs;
-  z = *(f32 *)DAT_006a2ef0_abs;
-  axis1.raw.xy = xy;
-  axis1.raw.z = z;
-  *(SceneVecBits *)&axis2.raw.xy = *(SceneVecBits *)DAT_006a2ef8_abs;
-  xy = *(volatile u64 *)DAT_006a2f08_abs;
-  z = *(volatile f32 *)DAT_006a2f10_abs;
-  axis3.raw.xy = xy;
-  axis3.raw.z = z;
+    xy = *(u64 *)DAT_006a2ed8_abs;
+    z = *(f32 *)DAT_006a2ee0_abs;
+    axis0.raw.xy = xy;
+    axis0.raw.z = z;
+    xy = *(u64 *)DAT_006a2ee8_abs;
+    z = *(f32 *)DAT_006a2ef0_abs;
+    axis1.raw.xy = xy;
+    axis1.raw.z = z;
+    axis2p = &axis2;
+    axis2_xy = *(u64 *)DAT_006a2ef8_abs;
+    axis2_z = *(f32 *)DAT_006a2f00_abs;
+    axis2.raw.xy = axis2_xy;
+    axis2.raw.z = axis2_z;
+    xy = *(u64 *)DAT_006a2f08_abs;
+    z = *(f32 *)DAT_006a2f10_abs;
+    axis3.raw.xy = xy;
+    axis3.raw.z = z;
 
-  matrix.at.z = 1.0f;
-  matrix.up.y = 1.0f;
-  matrix.right.x = 1.0f;
-  matrix.up.x = 0.0f;
-  matrix.right.z = 0.0f;
-  matrix.right.y = 0.0f;
-  matrix.at.y = 0.0f;
-  matrix.at.x = 0.0f;
-  matrix.up.z = 0.0f;
-  matrix.pos.z = 0.0f;
-  matrix.pos.y = 0.0f;
-  matrix.pos.x = 0.0f;
-  matrix.flags |= 0x20003;
+    matrix.at.z = 1.0f;
+    matrix.up.y = 1.0f;
+    matrix.right.x = 1.0f;
+    matrix.up.x = 0.0f;
+    matrix.right.z = 0.0f;
+    matrix.right.y = 0.0f;
+    matrix.at.y = 0.0f;
+    matrix.at.x = 0.0f;
+    matrix.up.z = 0.0f;
+    matrix.pos.z = 0.0f;
+    matrix.pos.y = 0.0f;
+    matrix.pos.x = 0.0f;
+    matrix.flags |= 0x20003;
 
-  FUN_004c31b0_sceneFunc(&matrix, &axis2.value, angle_x, 1);
-  FUN_004c31b0_sceneFunc(&matrix, &axis1.value, angle_y, 1);
-  FUN_004c31b0_sceneFunc(&matrix, &axis3.value, angle_z, 1);
-  FUN_004c6c60(&transformed.value, &axis0.value, &matrix);
+    FUN_004c31b0_sceneFunc(&matrix, (const RwV3d *)axis2p, angle_x, 1);
+    FUN_004c31b0_sceneFunc(&matrix, &axis1.value, angle_y, 1);
+    FUN_004c31b0_sceneFunc(&matrix, &axis3.value, angle_z, 1);
+    FUN_004c6c60(&transformed.value, &axis0.value, &matrix);
 
-  source.value = *(RwV3d *)input;
-  output.value.x = source.value.x - transformed.value.x * scale;
-  output.value.y = source.value.y - transformed.value.y * scale;
-  output.value.z = source.value.z - transformed.value.z * scale;
-  *(RwV3d *)result = output.value;
+    source.value = *(RwV3d *)input;
+    output.value.x = source.value.x - transformed.value.x * scale;
+    output.value.y = source.value.y - transformed.value.y * scale;
+    output.value.z = source.value.z - transformed.value.z * scale;
+    *(RwV3d *)result = output.value;
 }
+#pragma pop
 #define FUN_003bb450(...) ((void (*)(...))FUN_003bb450)(__VA_ARGS__)
 #undef FUN_003bb450
 #undef FUN_003bb620

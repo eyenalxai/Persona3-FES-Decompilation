@@ -84,6 +84,27 @@ that version's flags. Units listed in `config/speed_units.txt` are built with
 the `-O<n>,p` speed variant. A unit that names a version with no configured
 compiler fails verification instead of silently scoring against b210.
 
+### RenderWare b119 companions
+
+Some RenderWare functions cannot be reproduced by a b210 unit at any pragma
+setting: their bytes came out of the b119 build's register colouring. Such a
+function is ported into a companion unit named after its parent,
+`src/rw/<parent>_cw119.c`, registered both in `config/compiler_units.txt`
+(`cw3.0.1b119`) and in `config/speed_units.txt` (`-O4,p`). The companion holds
+the function's single marker and definition; the `NONMATCHING` draft is then
+removed from the parent so the address has exactly one definition. Bodies are
+ported from the Persona 4 twin of the same RenderWare build
+(`Persona4-Decompilation/src/renderware/**` and `src/promoted/*_cw119.c`),
+keeping Persona 3 symbol names and raw struct offsets. At these build settings
+the unit default is `-O4` with scheduling on, so only the pragmas the Persona 4
+source spells out are emitted, plus the measured per-function overrides the
+port needed (`schedule`, `optimization_level`, `dont_inline`,
+`no_branch_likely`, `opt_propagation`).
+
+A function that needs the speed variant but the project-default compiler gets a
+companion without a `compiler_units.txt` entry, registered in
+`config/speed_units.txt` only (for example `src/rw/rtanim_o2p.c`, `-O2,p`).
+
 Extract the loadable image and generate assembly/data with:
 
 ```sh

@@ -2203,112 +2203,99 @@ void FUN_0029ee20(u32 param_1)
 
 }
 
-// FUN_0029F150 NONMATCHING
-
-
+#pragma push
+#pragma opt_propagation off
+// FUN_0029F150
 u32 FUN_0029f150(float *param_1)
-
-
-
 {
+    typedef struct { f32 x; f32 y; f32 z; f32 w; } FadeV4;
+    typedef struct {
+        FadeV4 colorA;
+        FadeV4 colorB;
+        FadeV4 prodA;
+        FadeV4 prodB;
+        FadeV4 snapA;
+        FadeV4 snapB;
+        u32 totalFrames;
+        u32 currentFrame;
+    } FadeWork;
+    FadeWork *work;
+    u32 flags;
+    u32 totalFrames;
+    u32 currentFrame;
+    f32 currentFloat;
+    f32 totalFloat;
+    f32 ratio;
+    f32 inverse;
+    f32 firstX;
+    f32 firstY;
+    f32 firstZ;
+    f32 firstW;
+    f32 secondX;
+    f32 secondY;
+    f32 secondZ;
+    f32 secondW;
+    FadeV4 result;
+    FadeV4 *tmp;
 
-  u32 uVar1;
-
-  float *pfVar2;
-
-
-  float fVar11;
-
-  float fVar12;
-
-  
-
-  if ((*(u32 *)(DAT_007ce3ec + 0xc) & 2) == 0) {
-
-    uVar1 = 1;
-
-  }
-
-  else if ((*(u32 *)(DAT_007ce3ec + 0xc) & 0x2000000) == 0) {
-
-    uVar1 = 1;
-
-  }
-
-  else {
-  u32 duration;
-  RwRGBAReal color;
-
-  if (*(u32 *)(param_1 + 0x19) == 0) {
-
-      pfVar2 = (float *)FUN_0019fd40();
-      *(RwRGBAReal *)(param_1 + 0x10) = *(RwRGBAReal *)pfVar2;
-
-      pfVar2 = (float *)FUN_0019fd70();
-      *(RwRGBAReal *)(param_1 + 0x14) = *(RwRGBAReal *)pfVar2;
-
-      param_1[8] = param_1[0x10] * *param_1;
-
-      param_1[9] = param_1[0x11] * param_1[1];
-
-      param_1[10] = param_1[0x12] * param_1[2];
-
-      param_1[0xb] = param_1[0x13] * param_1[3];
-
-      param_1[0xc] = param_1[0x14] * param_1[4];
-
-      param_1[0xd] = param_1[0x15] * param_1[5];
-
-      param_1[0xe] = param_1[0x16] * param_1[6];
-
-      param_1[0xf] = param_1[0x17] * param_1[7];
-
+    work = (FadeWork *)param_1;
+    flags = *(u32 *)(DAT_007ce3ec + 0xC);
+    if ((flags & 2) == 0) {
+        return 1;
     }
-    duration = *(u32 *)(param_1 + 0x18);
-
-    if (*(u32 *)(param_1 + 0x19) < duration) {
-      fVar11 = (float)*(u32 *)(param_1 + 0x19) / (float)duration;
-
-      fVar12 = 1.0f - fVar11;
-
-      color.r = param_1[0x10] * fVar12 + param_1[8] * fVar11;
-      color.g = param_1[0x11] * fVar12 + param_1[9] * fVar11;
-      color.b = param_1[0x12] * fVar12 + param_1[10] * fVar11;
-      color.a = param_1[0x13] * fVar12 + param_1[0xb] * fVar11;
-
-      pfVar2 = (float *)FUN_0019fd40();
-      *(RwRGBAReal *)pfVar2 = color;
-
-      color.r = param_1[0x14] * fVar12 + param_1[0xc] * fVar11;
-      color.g = param_1[0x15] * fVar12 + param_1[0xd] * fVar11;
-      color.b = param_1[0x16] * fVar12 + param_1[0xe] * fVar11;
-      color.a = param_1[0x17] * fVar12 + param_1[0xf] * fVar11;
-
-      pfVar2 = (float *)FUN_0019fd70();
-      *(RwRGBAReal *)pfVar2 = color;
-
-      *(u32 *)(param_1 + 0x19) = *(u32 *)(param_1 + 0x19) + 1;
-      uVar1 = 0;
-
+    if ((flags & 0x2000000) == 0) {
+        return 1;
     }
-
-    else {
-
-      pfVar2 = (float *)FUN_0019fd40();
-      *(RwRGBAReal *)pfVar2 = *(RwRGBAReal *)(param_1 + 8);
-
-      pfVar2 = (float *)FUN_0019fd70();
-      *(RwRGBAReal *)pfVar2 = *(RwRGBAReal *)(param_1 + 0xc);
-
-      uVar1 = 1;
-
+    if (work->currentFrame == 0) {
+        tmp = (FadeV4 *)FUN_0019fd40();
+        work->snapA = *tmp;
+        tmp = (FadeV4 *)FUN_0019fd70();
+        work->snapB = *tmp;
+        work->prodA.x = work->snapA.x * work->colorA.x;
+        work->prodA.y = work->snapA.y * work->colorA.y;
+        work->prodA.z = work->snapA.z * work->colorA.z;
+        work->prodA.w = work->snapA.w * work->colorA.w;
+        work->prodB.x = work->snapB.x * work->colorB.x;
+        work->prodB.y = work->snapB.y * work->colorB.y;
+        work->prodB.z = work->snapB.z * work->colorB.z;
+        work->prodB.w = work->snapB.w * work->colorB.w;
     }
-
-  }
-
-  return uVar1;
-
+    totalFrames = work->totalFrames;
+    currentFrame = work->currentFrame;
+    if (currentFrame < totalFrames) {
+        currentFloat = (f32)currentFrame;
+        totalFloat = (f32)totalFrames;
+        ratio = currentFloat / totalFloat;
+        inverse = 1.0f - ratio;
+        firstX = work->snapA.x * inverse;
+        firstY = work->snapA.y * inverse;
+        firstZ = work->snapA.z * inverse;
+        firstW = work->snapA.w * inverse;
+        secondX = work->prodA.x * ratio;
+        secondY = work->prodA.y * ratio;
+        secondZ = work->prodA.z * ratio;
+        secondW = work->prodA.w * ratio;
+        result.x = firstX + secondX;
+        result.y = firstY + secondY;
+        result.z = firstZ + secondZ;
+        result.w = firstW + secondW;
+        *(FadeV4 *)FUN_0019fd40() = result;
+        result.x = work->snapB.x * inverse + work->prodB.x * ratio;
+        result.y = work->snapB.y * inverse + work->prodB.y * ratio;
+        result.z = work->snapB.z * inverse + work->prodB.z * ratio;
+        result.w = work->snapB.w * inverse + work->prodB.w * ratio;
+        *(FadeV4 *)FUN_0019fd70() = result;
+    } else {
+        tmp = (FadeV4 *)FUN_0019fd40();
+        *tmp = work->prodA;
+        tmp = (FadeV4 *)FUN_0019fd70();
+        *tmp = work->prodB;
+        return 1;
+    }
+    work->currentFrame = work->currentFrame + 1;
+    return 0;
 }
+#pragma pop
 
 // FUN_0029F4B0
 BtlPacket* FUN_0029f4b0(u32 param_1,u32 param_2,u32 param_3)
@@ -3989,245 +3976,193 @@ void FUN_002a2290(u16 *param_1, f32 *param_2, f32 *param_3, u16 param_4)
     }
 }
 
-// FUN_002A2660 NONMATCHING
-
-
+// FUN_002A2660
 void FUN_002a2660(u16 *param_1,u32 param_2,u32 param_3,u32 param_4,u32 param_5,u16 param_6)
-
-
-
 {
+    u16 *state = (u16 *)param_1;
+    u16 index;
+    u32 address;
+    f32 *entry;
+    f32 *source;
+    f32 value1;
+    f32 value2;
+    f32 value3;
+    f32 value4;
 
-  u16 uVar1;
-
-  u32 *puVar2;
-
-  u32 uVar3;
-
-  u32 uVar4;
-
-  u32 uVar5;
-
-  
-
-  *param_1 = param_6;
-
-  param_1[0x3a] = 0;
-
-  param_1[0x3b] = 0;
-
-  param_1[0x3c] = 0;
-
-  param_1[0x40] = 0;
-
-  param_1[0x41] = 0;
-
-  param_1[0x3e] = 0;
-
-  param_1[0x3f] = 0;
-
-  if (param_1[0x3b] < 4) {
-
-    uVar1 = param_1[0x3c];
-
-    puVar2 = (u32 *)param_2;
-
-    if (param_2 != 0) {
-
-      uVar3 = puVar2[1];
-
-      uVar4 = puVar2[2];
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 2) = *puVar2;
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 4) = uVar3;
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 6) = uVar4;
-
-      if ((*param_1 & 1) == 0) {
-
-        FUN_0048d370(*(u32 *)(param_1 + 0x4c),uVar1,param_2);
-
-      }
-
+    state[0] = param_6;
+    state[0x3A] = 0;
+    state[0x3B] = 0;
+    state[0x3C] = 0;
+    *(u32 *)((u8 *)param_1 + 0x80) = 0;
+    *(u32 *)((u8 *)param_1 + 0x7C) = 0;
+    if (state[0x3B] < 4)
+    {
+        index = state[0x3C];
+        if (param_2 != 0)
+        {
+            address = (u32)index * 0x1C;
+            address = address + (u32)state;
+            entry = (f32 *)(address + 4);
+            value2 = ((f32 *)param_2)[0];
+            value3 = ((f32 *)param_2)[1];
+            value1 = ((f32 *)param_2)[2];
+            entry[0] = value2;
+            entry[1] = value3;
+            entry[2] = value1;
+            if ((*state & 1) == 0)
+            {
+                FUN_0048d370(*(u8 **)((u8 *)state + 0x98), index, param_2);
+            }
+        }
+        source = (f32 *)((u8 *)param_2 + 0xC);
+        if (source != 0)
+        {
+            address = (u32)index * 0x1C;
+            address = address + (u32)state;
+            entry = (f32 *)(address + 0x10);
+            value2 = source[0];
+            value3 = source[1];
+            value4 = source[2];
+            value1 = source[3];
+            entry[0] = value2;
+            entry[1] = value3;
+            entry[2] = value4;
+            entry[3] = value1;
+        }
+        index++;
+        if (index >= 4)
+        {
+            index = 0;
+        }
+        state[0x3C] = index;
+        state[0x3B]++;
     }
-
-
-      uVar5 = puVar2[4];
-      uVar3 = puVar2[5];
-      uVar4 = puVar2[6];
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 8) = puVar2[3];
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 10) = uVar5;
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 0xc) = uVar3;
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 0xe) = uVar4;
-
-
-    uVar1 = uVar1 + 1;
-
-    if (3 < uVar1) {
-
-      uVar1 = 0;
-
+    if (state[0x3B] < 4)
+    {
+        index = state[0x3C];
+        if (param_3 != 0)
+        {
+            address = (u32)index * 0x1C;
+            address = address + (u32)state;
+            entry = (f32 *)(address + 4);
+            value2 = ((f32 *)param_3)[0];
+            value3 = ((f32 *)param_3)[1];
+            value1 = ((f32 *)param_3)[2];
+            entry[0] = value2;
+            entry[1] = value3;
+            entry[2] = value1;
+            if ((*state & 1) == 0)
+            {
+                FUN_0048d370(*(u8 **)((u8 *)state + 0x98), index, param_3);
+            }
+        }
+        source = (f32 *)((u8 *)param_3 + 0xC);
+        if (source != 0)
+        {
+            address = (u32)index * 0x1C;
+            address = address + (u32)state;
+            entry = (f32 *)(address + 0x10);
+            value2 = source[0];
+            value3 = source[1];
+            value4 = source[2];
+            value1 = source[3];
+            entry[0] = value2;
+            entry[1] = value3;
+            entry[2] = value4;
+            entry[3] = value1;
+        }
+        index++;
+        if (index >= 4)
+        {
+            index = 0;
+        }
+        state[0x3C] = index;
+        state[0x3B]++;
     }
-
-    param_1[0x3c] = uVar1;
-
-    param_1[0x3b] = param_1[0x3b] + 1;
-
-  }
-
-  if (param_1[0x3b] < 4) {
-
-    uVar1 = param_1[0x3c];
-
-    puVar2 = (u32 *)param_3;
-
-    if (param_3 != 0) {
-
-      uVar3 = puVar2[1];
-
-      uVar4 = puVar2[2];
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 2) = *puVar2;
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 4) = uVar3;
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 6) = uVar4;
-
-      if ((*param_1 & 1) == 0) {
-
-        FUN_0048d370(*(u32 *)(param_1 + 0x4c),uVar1,param_3);
-
-      }
-
+    if (state[0x3B] < 4)
+    {
+        index = state[0x3C];
+        if (param_4 != 0)
+        {
+            address = (u32)index * 0x1C;
+            address = address + (u32)state;
+            entry = (f32 *)(address + 4);
+            value2 = ((f32 *)param_4)[0];
+            value3 = ((f32 *)param_4)[1];
+            value1 = ((f32 *)param_4)[2];
+            entry[0] = value2;
+            entry[1] = value3;
+            entry[2] = value1;
+            if ((*state & 1) == 0)
+            {
+                FUN_0048d370(*(u8 **)((u8 *)state + 0x98), index, param_4);
+            }
+        }
+        source = (f32 *)((u8 *)param_4 + 0xC);
+        if (source != 0)
+        {
+            address = (u32)index * 0x1C;
+            address = address + (u32)state;
+            entry = (f32 *)(address + 0x10);
+            value2 = source[0];
+            value3 = source[1];
+            value4 = source[2];
+            value1 = source[3];
+            entry[0] = value2;
+            entry[1] = value3;
+            entry[2] = value4;
+            entry[3] = value1;
+        }
+        index++;
+        if (index >= 4)
+        {
+            index = 0;
+        }
+        state[0x3C] = index;
+        state[0x3B]++;
     }
-
-
-      uVar5 = puVar2[4];
-      uVar3 = puVar2[5];
-      uVar4 = puVar2[6];
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 8) = puVar2[3];
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 10) = uVar5;
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 0xc) = uVar3;
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 0xe) = uVar4;
-
-
-    uVar1 = uVar1 + 1;
-
-    if (3 < uVar1) {
-
-      uVar1 = 0;
-
+    if (state[0x3B] < 4)
+    {
+        index = state[0x3C];
+        if (param_5 != 0)
+        {
+            address = (u32)index * 0x1C;
+            address = address + (u32)state;
+            entry = (f32 *)(address + 4);
+            value2 = ((f32 *)param_5)[0];
+            value3 = ((f32 *)param_5)[1];
+            value1 = ((f32 *)param_5)[2];
+            entry[0] = value2;
+            entry[1] = value3;
+            entry[2] = value1;
+            if ((*state & 1) == 0)
+            {
+                FUN_0048d370(*(u8 **)((u8 *)state + 0x98), index, param_5);
+            }
+        }
+        source = (f32 *)((u8 *)param_5 + 0xC);
+        if (source != 0)
+        {
+            address = (u32)index * 0x1C;
+            address = address + (u32)state;
+            entry = (f32 *)(address + 0x10);
+            value2 = source[0];
+            value3 = source[1];
+            value4 = source[2];
+            value1 = source[3];
+            entry[0] = value2;
+            entry[1] = value3;
+            entry[2] = value4;
+            entry[3] = value1;
+        }
+        index++;
+        if (index >= 4)
+        {
+            index = 0;
+        }
+        state[0x3C] = index;
+        state[0x3B]++;
     }
-
-    param_1[0x3c] = uVar1;
-
-    param_1[0x3b] = param_1[0x3b] + 1;
-
-  }
-
-  if (param_1[0x3b] < 4) {
-
-    uVar1 = param_1[0x3c];
-
-    puVar2 = (u32 *)param_4;
-
-    if (param_4 != 0) {
-
-      uVar3 = puVar2[1];
-
-      uVar4 = puVar2[2];
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 2) = *puVar2;
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 4) = uVar3;
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 6) = uVar4;
-
-      if ((*param_1 & 1) == 0) {
-
-        FUN_0048d370(*(u32 *)(param_1 + 0x4c),uVar1,param_4);
-
-      }
-
-    }
-
-
-      uVar5 = puVar2[4];
-      uVar3 = puVar2[5];
-      uVar4 = puVar2[6];
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 8) = puVar2[3];
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 10) = uVar5;
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 0xc) = uVar3;
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 0xe) = uVar4;
-
-
-    uVar1 = uVar1 + 1;
-
-    if (3 < uVar1) {
-
-      uVar1 = 0;
-
-    }
-
-    param_1[0x3c] = uVar1;
-
-    param_1[0x3b] = param_1[0x3b] + 1;
-
-  }
-
-  if (param_1[0x3b] < 4) {
-
-    uVar1 = param_1[0x3c];
-
-    puVar2 = (u32 *)param_5;
-
-    if (param_5 != 0) {
-
-      uVar3 = puVar2[1];
-
-      uVar4 = puVar2[2];
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 2) = *puVar2;
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 4) = uVar3;
-
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 6) = uVar4;
-
-      if ((*param_1 & 1) == 0) {
-
-        FUN_0048d370(*(u32 *)(param_1 + 0x4c),uVar1,param_5);
-
-      }
-
-    }
-
-
-      uVar5 = puVar2[4];
-      uVar3 = puVar2[5];
-      uVar4 = puVar2[6];
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 8) = puVar2[3];
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 10) = uVar5;
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 0xc) = uVar3;
-      *(u32 *)(param_1 + (u32)uVar1 * 0xe + 0xe) = uVar4;
-
-
-    uVar1 = uVar1 + 1;
-
-    if (3 < uVar1) {
-
-      uVar1 = 0;
-
-    }
-
-    param_1[0x3c] = uVar1;
-
-    param_1[0x3b] = param_1[0x3b] + 1;
-
-  }
-
-  return;
-
 }
 
 static inline u8* btlMainAddFirst(u8* base, u32 offset)
@@ -4235,53 +4170,54 @@ static inline u8* btlMainAddFirst(u8* base, u32 offset)
     return base + offset;
 }
 
-// FUN_002A2A20 NONMATCHING
-
-
-/* BtlCore2 W419 negative: 2a2a20 _abs address spellings held nd63 at 296B; scalar direct spelling worsened nd63->151 and shrank to 284B. W442 natural u16 increments reduce nd63->59 at 296B. */
-void FUN_002a2a20(u8* param_2,f32* param_3,f32 param_1)
+#pragma push
+#pragma opt_loop_invariants on
+#pragma opt_propagation off
+// FUN_002A2A20
+void FUN_002a2a20(u8* param_2, f32* param_3, f32 param_1)
 {
-  u32 currentAddress;
-  u16 uVar3;
-  u16 uVar2;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  float afStack_10 [4];
-  fVar6 = 1.0f - param_1;
-  fVar7 = fVar6 * fVar6;
-  afStack_10[0] = fVar6 * fVar7;
-  afStack_10[1] = param_1 * fVar7 * 3.0f;
-  fVar8 = param_1 * param_1;
-  afStack_10[2] = fVar6 * fVar8 * 3.0f;
-  afStack_10[3] = param_1 * fVar8;
-  uVar2 = *(u16 *)(param_2 + 0x74);
-  fVar4 = *(f32 *)DAT_00957180_abs;
-  fVar5 = *(f32 *)DAT_00957184_abs;
-  fVar9 = *(f32 *)DAT_00957188_abs;
-  *param_3 = fVar4;
-  param_3[1] = fVar5;
-  param_3[2] = fVar9;
-  for (uVar3 = 0; uVar3 < 4; uVar3++) {
-    fVar6 = *(float *)((u8 *)afStack_10 + (u32)uVar3 * 4 + 0);
-    currentAddress = (u32)uVar2 * 0x1c;
-    currentAddress = (u32)btlMainAddFirst(param_2, currentAddress);
-    fVar4 = *(float *)(currentAddress + 8) * fVar6;
-    fVar5 = *(float *)(currentAddress + 0xc) * fVar6;
-    fVar7 = *(float *)(currentAddress + 4);
-    *param_3 = *param_3 + fVar7 * fVar6 + 0.0f;
-    param_3[1] = param_3[1] + fVar4;
-    param_3[2] = param_3[2] + fVar5;
-    uVar2++;
-    if (uVar2 >= 4) {
-      uVar2 = 0;
+    f32 weights[4];
+    f32 f0;
+    f32 f1;
+    f32 f2;
+    f32 f3;
+    f32 f4;
+    f32 temp_f5;
+    u16 i;
+    s32 index;
+    u8 *p;
+    f32 *weight;
+
+    f3 = 1.0f - param_1;
+    f1 = f3 * f3;
+    weights[0] = f3 * f1;
+    f0 = param_1 * f1;
+    f2 = 3.0f;
+    weights[1] = f2 * f0;
+    f1 = param_1 * param_1;
+    f0 = f3 * f1;
+    weights[2] = f2 * f0;
+    weights[3] = param_1 * f1;
+    index = *(u16 *)(param_2 + 0x74);
+    *(RwV3d *)param_3 = *(RwV3d *)DAT_00957180_abs;
+    i = 0;
+    while (i < 4) {
+        weight = &weights[i];
+        temp_f5 = *weight;
+        p = param_2 + (u16)index * 0x1C;
+        f4 = *(f32 *)(p + 8) * temp_f5;
+        f3 = *(f32 *)(p + 0xC) * temp_f5;
+        param_3[0] = (param_3[0] + 0.0f) + *(f32 *)(p + 4) * temp_f5;
+        param_3[1] += f4;
+        param_3[2] += f3;
+        index = (u16)(index + 1);
+        if (index >= 4) {
+            index = 0;
+        }
+        i++;
     }
-  }
-  return;
 }
+#pragma pop
 
 /* Recovered battle-misc harvest: 0x0029F4B0-0x002A16C0 */
 
@@ -4358,68 +4294,97 @@ void FUN_002a2b50(u8* param_2, f32* param_3, f32 param_1)
     param_3[2] = currentZ + nextZ;
 }
 
-// FUN_002A2C40 NONMATCHING
-
-
-void FUN_002a2c40(u8* param_2,f32* param_3,f32 param_1)
+// FUN_002A2C40
+void FUN_002a2c40(u8* param_2, f32* param_3, f32 param_1)
 {
-  u8* iVar1;
-  u16 uVar2;
-  u16 uVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  struct {
-    float values[9];
-    int mode;
-  } interpolation;
-  uVar3 = *(u16 *)(param_2 + 0x74);
-  fVar6 = fGpffff82c8;
-  for (; !(param_1 < fVar6); param_1 = param_1 - fVar6) {
-    uVar3++;
-  }
-  param_1 = param_1 / fVar6;
-  if (uVar3 >= 4) {
-    uVar3 = uVar3 & 3;
-  }
-  uVar2 = uVar3 + 1 & 0xffff;
-  if (uVar2 >= 4) {
-    uVar2 = uVar3 + 1 & 3;
-  }
-  iVar1 = param_2 + uVar2 * 0x1c + 0x10;
-  param_2 = param_2 + uVar3 * 0x1c + 0x10;
-  FUN_004be310((float *)param_2,(float *)iVar1,interpolation.values);
-  if (param_1 <= 0.0f) {
-    *(RwV4d*)param_3 = *(RwV4d*)param_2;
-  }
-  else if (1.0f <= param_1) {
-    *(RwV4d*)param_3 = *(RwV4d*)iVar1;
-  }
-  else {
-    fVar4 = 1.0f - param_1;
-    if (interpolation.mode == 0) {
-      fVar4 = fVar4 * interpolation.values[8];
-      fVar5 = fVar4 * fVar4;
-      fVar4 = fVar5 * fVar4 *
-              (fVar5 * (fVar5 * (fVar5 * (fVar5 * (fGpffff83d4 * fVar5 + fGpffff8048 + 0.0f) +
-                                         fGpffff8118 + 0.0f) + fGpffff8050 + 0.0f) + fGpffff8054 + 0.0f
-                       ) + fGpffff83d8 + 0.0f) + fVar4 + 0.0f;
-      param_1 = param_1 * interpolation.values[8];
-      fVar5 = param_1 * param_1;
-      param_1 = fVar5 * param_1 *
-                (fVar5 * (fVar5 * (fVar5 * (fVar5 * (fGpffff83d4 * fVar5 + fGpffff8048 + 0.0f) +
-                                           fGpffff8118 + 0.0f) + fGpffff8050 + 0.0f) +
-                         fGpffff8054 + 0.0f) + fGpffff83d8 + 0.0f) + param_1 + 0.0f;
+    typedef struct BtlMainSlerpResult
+    {
+        f32 current0;
+        f32 current1;
+        f32 current2;
+        f32 current3;
+        f32 next0;
+        f32 next1;
+        f32 next2;
+        f32 next3;
+        f32 angle;
+        s32 mode;
+    } BtlMainSlerpResult;
+    u16 index;
+    u16 nextIndex;
+    u8* currentAddress;
+    u8* nextAddress;
+    f32 period;
+    f32 blend;
+    f32 inverse;
+    f32 f0;
+    f32 f1;
+    f32 f3;
+    f32 f4;
+    BtlMainSlerpResult result;
+
+    blend = param_1;
+    index = *(u16*)(param_2 + 0x74);
+    period = fGpffff82c8;
+    while (blend >= period)
+    {
+        index++;
+        blend -= period;
     }
-    *param_3 = interpolation.values[0] * fVar4;
-    param_3[1] = interpolation.values[1] * fVar4;
-    param_3[2] = interpolation.values[2] * fVar4;
-    *param_3 = interpolation.values[4] * param_1 + *param_3 + 0.0f;
-    param_3[1] = interpolation.values[5] * param_1 + param_3[1] + 0.0f;
-    param_3[2] = interpolation.values[6] * param_1 + param_3[2] + 0.0f;
-    param_3[3] = interpolation.values[3] * fVar4 + interpolation.values[7] * param_1;
-  }
-  return;
+    blend = blend / period;
+
+    if (index >= 4)
+        index &= 3;
+    nextIndex = (u16)((index + 1) & 0xffff);
+    if (nextIndex >= 4)
+        nextIndex &= 3;
+
+    nextAddress = param_2 + ((u32)nextIndex * 0x1c) + 0x10;
+    currentAddress = param_2 + ((u32)index * 0x1c) + 0x10;
+    FUN_004be310((f32*)currentAddress, (f32*)nextAddress, (f32*)&result);
+
+    if (blend <= 0.0f)
+    {
+        *(RwV4d*)param_3 = *(RwV4d*)currentAddress;
+        return;
+    }
+    if (1.0f <= blend)
+    {
+        *(RwV4d*)param_3 = *(RwV4d*)nextAddress;
+        return;
+    }
+
+    inverse = 1.0f - blend;
+    if (result.mode == 0)
+    {
+        f4 = inverse * result.angle;
+        f3 = f4 * f4;
+        f0 = fGpffff83d4 * f3 + fGpffff8048;
+        f0 = f3 * f0 + fGpffff8118;
+        f0 = f3 * f0 + fGpffff8050;
+        f0 = f3 * f0 + fGpffff8054;
+        f1 = f3 * f0 + fGpffff83d8;
+        f0 = f3 * f4;
+        inverse = f0 * f1 + f4;
+
+        f4 = blend * result.angle;
+        f3 = f4 * f4;
+        f1 = fGpffff83d4 * f3 + fGpffff8048;
+        f1 = f3 * f1 + fGpffff8118;
+        f1 = f3 * f1 + fGpffff8050;
+        f1 = f3 * f1 + fGpffff8054;
+        f0 = f3 * f1 + fGpffff83d8;
+        f1 = f3 * f4;
+        blend = f1 * f0 + f4;
+    }
+
+    param_3[0] = result.current0 * inverse;
+    param_3[1] = result.current1 * inverse;
+    param_3[2] = result.current2 * inverse;
+    param_3[0] = result.next0 * blend + param_3[0];
+    param_3[1] = result.next1 * blend + param_3[1];
+    param_3[2] = result.next2 * blend + param_3[2];
+    param_3[3] = result.current3 * inverse + result.next3 * blend;
 }
 
 

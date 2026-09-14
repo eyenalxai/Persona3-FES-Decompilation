@@ -181,7 +181,7 @@ void FUN_0031f6d0(u32 *param_1,u16 param_2,u16 param_3,u16 param_4);
 static u32 FUN_0031f740(int *param_2,float param_1);
 u8 * FUN_0031f7a0(float param_1,int *param_2);
 u8 * FUN_0031f870(float param_1,int *param_2,float param_3,int *param_4,float param_5);
-void FUN_0031f9d0(float param_1,int *param_2,float param_3,int *param_4);
+void *FUN_0031f9d0(float param_1,int *param_2,float param_3,int *param_4);
 void FUN_0031faf0(f32 *param_1,u32 param_2);
 static u32 * FUN_0031fbd0(int *param_2,float param_1);
 u8 * FUN_0031fd00(float firstTime, int *track1, float secondTime, int *track2, float blend);
@@ -193,7 +193,7 @@ void FUN_00320380(float param_1,int *param_2);
 void FUN_003204a0(int *param_4,float param_1,float param_2,float param_3);
 void FUN_00320640(f32 param_1,f32 param_2,int *param_3);
 void FUN_00320770(int *param_1);
-s32 FUN_00320810(int *param_1);
+f32 FUN_00320810(u8 **param_1);
 u32 FUN_00320880(u64 param_1,int *param_2,int param_3,u64 param_4);
 u32 FUN_00320ba0(u32 param_1,u32 *param_2);
 u32 FUN_00320cf0(u32 param_1,u32 param_2);
@@ -5405,46 +5405,61 @@ u8 * FUN_0031f870(float param_1,int *param_2,float param_3,int *param_4,float pa
 
 
 // SibMdl negatives: fraction-first interpolation nd112 -> nd114; removing address local nd112 -> nd113; alpha-only after global-base nd89 -> nd89; pointer-style/base-load nd40 -> nd41; volatile global-address cast stayed nd40. Global-base plus ordered load reached nd89 (276/288), then ordered volatile output load reached nd40.
-// FUN_0031F9D0 NONMATCHING
-
-
-
-
-
-
-void FUN_0031f9d0(float param_1,int *param_2,float param_3,int *param_4)
+static inline s32 mdlFileAddReverse(s32 base, s32 offset) { return offset + base; }
+static inline f32 mdlFileFMul(f32 left, f32 right) { return left * right; }
+static inline f32 mdlFileFMadd(f32 left, f32 right, f32 addend)
 {
-  u32 uVar1;
-  float *key;
-  float fraction;
-  float start;
-  float output;
-  float difference;
-  u32 address;
-  int data;
-  float alpha;
+  return 0.0f + addend + left * right;
+}
+// FUN_0031F9D0
 
-  data = param_2[3];
-  uVar1 = FUN_0031f740(param_2,param_1);
-  if (uVar1 >= *param_2 - 1U) {
-    address = uVar1 * 8;
-    address += (u32)data;
-    *(float *)&DAT_007ce534 = *(float *)(address + 4);
+void *FUN_0031f9d0(float param_1,int *param_2,float param_3,int *param_4)
+{
+  u8 *arg0;
+  f32 fparg0;
+  u8 *arg1;
+  f32 fparg1;
+  s32 index;
+  u8 *base;
+  s32 out;
+  f32 difference;
+  f32 addend;
+
+  arg0 = (u8 *)param_2;
+  fparg0 = param_1;
+  arg1 = (u8 *)param_4;
+  fparg1 = param_3;
+  base = *(u8 **)(arg0 + 0xC);
+  index = FUN_0031f740(param_2, fparg0);
+  if ((u32)index >= (u32)(*(s32 *)arg0 - 1)) {
+    index *= 8;
+    *(float *)&DAT_007ce534 = *(f32 *)(mdlFileAddReverse((s32)base, index) + 4);
   }
   else {
-    key = (float *)((u32)(uVar1 * 8) + (u32)data);
-    start = key[0];
-    output = key[1];
-    fraction = param_1 - start;
-    fraction /= key[2] - start;
-    difference = key[3] - output;
-    *(float *)&DAT_007ce534 = difference * fraction + output + 0.0f;
+    u8 *point;
+    f32 x0;
+    f32 y0;
+    f32 x1;
+    f32 y1;
+    f32 ratio;
+
+    index *= 8;
+    point = base + index;
+    x0 = *(f32 *)(point + 0);
+    y0 = *(f32 *)(point + 4);
+    ratio = fparg0 - x0;
+    x1 = *(f32 *)(point + 8);
+    ratio = ratio / (x1 - x0);
+    y1 = *(f32 *)(point + 0xC);
+    *(float *)&DAT_007ce534 = 0.0f + y0 + mdlFileFMul(y1 - y0, ratio);
   }
-  *(float *)&DAT_007ce530 = param_1;
-  alpha = 1.0f - (float)*(u8 *)((u8 *)param_4 + 3) / 255.0f;
-  output = *(volatile float *)&DAT_007ce534;
-  *(float *)&DAT_007ce534 =
-      (alpha - output) * param_3 + output + 0.0f;
+  *(float *)&DAT_007ce530 = fparg0;
+  out = (s32)&DAT_007ce530;
+  difference = (1.0f - ((f32)(u32)*(u8 *)(arg1 + 3)) / 255.0f);
+  addend = *(f32 *)(out + 4);
+  difference -= addend;
+  *(f32 *)(out + 4) = mdlFileFMadd(difference, fparg1, addend);
+  return (void *)out;
 }
 static inline u8 mdlFileToU8(f32 value)
 {
@@ -5779,47 +5794,39 @@ void FUN_00320290(int param_1)
 
 
 /* Removing this worsens FUN_00320810 (nd8 -> nd19) - measured W161. */
-// FUN_00320380 NONMATCHING
-
+// FUN_00320380
 
 void FUN_00320380(float param_1,int *param_2)
-
-
-
 {
+  u8 **arg0;
+  u8 *node;
+  u8 *tbl;
+  u8 *entry;
+  u32 i;
+  u32 j;
+  u8 *work;
+  u32 count;
+  u8 *(*init)(u8 *, f32);
+  void (*apply)(u8 *, u32);
 
-
-  u32 uVar1;
-
-  int iVar6;
-
-  u32 uVar4;
-
-  u32 uVar5;
-
-  u32 uVar6;
-
-  u32 uVar3;
-
-
-  for (iVar6 = *param_2; iVar6 != 0; iVar6 = *(int *)(iVar6 + 0x54)) {
-    u32 *piVar2 = *(u32 **)(iVar6 + 0x50);
-    uVar1 = *(u16 *)(piVar2 + 1);
-    for (uVar4 = 0; uVar4 < 4; uVar4 = uVar4 + 1) {
-      int *puVar6 = (int *)(PTR_LAB_0069bb10_abs + uVar4 * 0x10);
-      if ((puVar6[3] != 0) &&
-         (*(int *)(iVar6 + uVar4 * 0x10 + 0xc) != 0)) {
-        uVar3 = ((u32 (*)(float))puVar6[0])(param_1);
-        for (uVar5 = 0; uVar5 < uVar1; uVar5 = uVar5 + 1) {
-          uVar6 = uVar5 << 2;
-          ((code)puVar6[3])(uVar3,*(u32 *)(*piVar2 + uVar6));
-        }
+  arg0 = (u8 **)param_2;
+  node = *arg0;
+  while (node != NULL) {
+    tbl = *(u8 **)(node + 0x50);
+    count = *(u16 *)(tbl + 4);
+    for (i = 0; i < 4; i++) {
+      if (*(u32 *)((u8 *)PTR_LAB_0069bb10_abs + i * 0x10 + 0xC) == 0) continue;
+      if (*(u32 *)(node + i * 0x10 + 0xC) == 0) continue;
+      init = (u8 *(*)(u8 *, f32))*(u32 *)((u8 *)PTR_LAB_0069bb10_abs + i * 0x10);
+      work = init(node + i * 0x10, param_1);
+      entry = (u8 *)PTR_LAB_0069bb10_abs + i * 0x10;
+      for (j = 0; j < count; j++) {
+        apply = (void (*)(u8 *, u32))*(u32 *)(entry + 0xC);
+        apply(work, *(u32 *)(*(u8 **)tbl + j * 4));
       }
     }
+    node = *(u8 **)(node + 0x54);
   }
-
-  return;
-
 }
 // FUN_003204A0 NONMATCHING
 
@@ -5901,62 +5908,39 @@ void FUN_003204a0(int *param_4,float param_1,float param_2,float param_3)
 
 
 
-// FUN_00320640 NONMATCHING
-
+// FUN_00320640
 
 void FUN_00320640(f32 param_1,f32 param_2,int *param_3)
-
-
-
 {
+  u8 **arg0;
+  u8 *node;
+  u8 *tbl;
+  u8 *entry;
+  u32 i;
+  u32 j;
+  u8 *work;
+  u32 count;
+  u8 *(*init)(u8 *, f32, u8 *, f32);
+  void (*apply)(u8 *, u32);
 
-  int iVar7;
-
-  int *piVar2;
-
-  u32 uVar6;
-
-  int iVar4;
-
-  u32 uVar5;
-
-  u32 uVar3;
-
-  u16 uVar1;
-
-  
-
-  for (iVar7 = *param_3; iVar7 != 0; iVar7 = *(int *)(iVar7 + 0x54)) {
-
-    piVar2 = *(int **)(iVar7 + 0x50);
-
-    uVar1 = *(u16 *)(piVar2 + 1);
-
-    for (uVar6 = 0; uVar6 < 4; uVar6 = uVar6 + 1) {
-      MdlFrameDispatch *dispatch =
-          ((MdlFrameDispatch *)PTR_LAB_0069bb10_abs) + uVar6;
-
-      if ((dispatch->apply != (code)0) &&
-
-         (iVar4 = iVar7 + uVar6 * 0x10, *(int *)(iVar4 + 0xc) != 0)) {
-
-        uVar3 = dispatch->create
-                    (param_1, param_2, (int *)iVar4, (int *)(iVar7 + 0x40));
-
-        for (uVar5 = 0; uVar5 < uVar1; uVar5 = uVar5 + 1) {
-
-          dispatch->apply(uVar3,*(u32 *)(*piVar2 + uVar5 * 4));
-
-        }
-
+  arg0 = (u8 **)param_3;
+  node = *arg0;
+  while (node != NULL) {
+    tbl = *(u8 **)(node + 0x50);
+    count = *(u16 *)(tbl + 4);
+    for (i = 0; i < 4; i++) {
+      if (*(u32 *)((u8 *)PTR_LAB_0069bb10_abs + i * 0x10 + 0xC) == 0) continue;
+      if (*(u32 *)(node + i * 0x10 + 0xC) == 0) continue;
+      init = (u8 *(*)(u8 *, f32, u8 *, f32))*(u32 *)((u8 *)PTR_LAB_0069bb10_abs + i * 0x10 + 8);
+      work = init(node + i * 0x10, param_1, node + 0x40, param_2);
+      entry = (u8 *)PTR_LAB_0069bb10_abs + i * 0x10;
+      for (j = 0; j < count; j++) {
+        apply = (void (*)(u8 *, u32))*(u32 *)(entry + 0xC);
+        apply(work, *(u32 *)(*(u8 **)tbl + j * 4));
       }
-
     }
-
+    node = *(u8 **)(node + 0x54);
   }
-
-  return;
-
 }
 
 
@@ -6032,39 +6016,31 @@ void FUN_00320770(int *param_1)
 
 
 
-// FUN_00320810 NONMATCHING
-#pragma optimization_level 1
-
-
-s32 FUN_00320810(int *param_1)
+// FUN_00320810
+f32 FUN_00320810(u8 **param_1)
 {
-  u32 *iVar1;
-  int iVar3;
-  u32 uVar2;
-  s32 value;
-  float fVar4;
-  float fVar5;
+  f32 var_f0;
+  f32 temp_f1;
+  u8 *var_5;
+  u32 var_4;
 
-  fVar5 = 0.0f;
-  for (iVar3 = *param_1; iVar3 != 0; iVar3 = *(int *)(iVar3 + 0x54)) {
-    for (uVar2 = 0; uVar2 < 4; uVar2 = uVar2 + 1) {
-      iVar1 = (u32 *)(iVar3 + uVar2 * 0x10);
-      value = *(s32 *)((u8 *)iVar1 + 0xc);
-      if (value != 0) {
-        fVar4 = *(float *)((u8 *)iVar1 + 4);
-        if (fVar4 > fVar5) {
-          fVar5 = fVar4;
+  var_f0 = 0.0f;
+  var_5 = (u8 *)(*param_1);
+  while (var_5 != NULL) {
+    var_4 = 0;
+    while (var_4 < 4U) {
+      if (*(s32 *)(var_5 + var_4 * 0x10 + 0xC) != 0) {
+        temp_f1 = *(f32 *)(var_5 + var_4 * 0x10 + 4);
+        if (temp_f1 > var_f0) {
+          var_f0 = temp_f1;
         }
       }
+      var_4 += 1;
     }
+    var_5 = (u8 *)(*(u8 **)(var_5 + 0x54));
   }
-  return value;
+  return var_f0;
 }
-
-
-
-
-#pragma optimization_level 2
 
 
 
@@ -6401,49 +6377,46 @@ u64 FUN_00320da0(u64 param_1,u64 param_2)
 
 
 /* W414 probes: declaration/type and geometry-alias variants left FUN_00320de0 at nd17/396/400; reverted. */
-// FUN_00320DE0 NONMATCHING
-
+// FUN_00320DE0
 
 u32 FUN_00320de0(u32 param_1,u32 *param_2)
 {
-  s32 dataIndex;
-  s32 materialIndex;
-  char *data;
-  char *name;
-  u32 material;
-  s32 materialCount;
-  s32 arrayCount;
-  u32 geometry;
-  s32 arrayIndex;
-  void *userData;
-  s32 dataCount;
-  geometry = *(u32 *)((u32)param_1 + 0x18);
-  materialCount = *(s32 *)(geometry + 0x24);
-  materialIndex = 0;
-  while (materialIndex < materialCount) {
-    material = *(u32 *)(*(u32 *)(geometry + 0x20) + materialIndex * 4);
-    arrayCount = RpMaterialGetUserDataArrayCount(material);
-    arrayIndex = 0;
-    while (arrayIndex < arrayCount) {
-      userData = (u32 *)RpMaterialGetUserDataArray(material,arrayIndex);
-      name = (char *)RpUserDataArrayGetName((u32)userData);
-      if (strcmp(name,(char *)&gp0xffff9d30) == 0) {
-        dataCount = FUN_0048ef30((u32)userData);
-        dataIndex = 0;
-        while (dataIndex < dataCount) {
-          if (RpUserDataArrayGetFormat((u32)userData) == 3) {
-            data = (char *)FUN_0048ef80((u32)userData,dataIndex);
-            if (strcmp((char *)*param_2,data) == 0) {
-              *(u16 *)(param_2 + 1) = *(u16 *)(param_2 + 1) + 1;
-              break;
-            }
+  s32 spB0;
+  s32 spA0;
+  void *temp_21;
+  void *temp_2;
+  s32 temp_30;
+  s32 i;
+  s32 j;
+  s32 k;
+  u8 *list;
+
+  list = *(u8 **)((u8 *)param_1 + 0x18);
+  temp_30 = *(s32 *)(list + 0x24);
+  i = 0;
+  while (i < temp_30) {
+    temp_21 = (void *)*(u32 *)(*(u8 **)(list + 0x20) + i * 4);
+    spB0 = RpMaterialGetUserDataArrayCount(temp_21);
+    j = 0;
+    while (j < spB0) {
+      temp_2 = (void *)RpMaterialGetUserDataArray(temp_21, j);
+      if (strcmp((char *)RpUserDataArrayGetName(temp_2), (char *)&gp0xffff9d30) == 0) {
+        spA0 = FUN_0048ef30((u32)temp_2);
+        k = 0;
+        while (k < spA0) {
+          if (RpUserDataArrayGetFormat(temp_2) == 3 &&
+              strcmp((char *)*(u32 *)param_2,
+                     (char *)FUN_0048ef80((u32)temp_2, k)) == 0) {
+            *(u16 *)((u8 *)param_2 + 4) = *(u16 *)((u8 *)param_2 + 4) + 1;
+            break;
+          } else {
+            k++;
           }
-          dataIndex++;
         }
       }
-      arrayIndex++;
+      j++;
     }
-    materialIndex++;
+    i++;
   }
   return param_1;
 }

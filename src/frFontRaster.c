@@ -131,65 +131,66 @@ void FUN_003b3740(void)
 }
 #define FUN_003b3740(...) ((void (*)(...))FUN_003b3740)(__VA_ARGS__)
 #undef FUN_003b3770
-// FUN_003B3770 NONMATCHING
-
+// FUN_003B3770
 
 void FUN_003b3770(void)
 {
-  int *previous;
+    u32 *puVar1;
+    u32 *puVar2;
+    u32 *puVar3;
 
-  int *current;
-  previous = (int *)0x0;
-  current = *(int **)(iGpffffb954 + 8);
-  while (current != (int *)0x0) {
-    if (((current[0] & 1) == 0) || (current[4] == 0)) {
-      *(short *)((char *)current + 10) = *(short *)((char *)current + 10) - 1;
+    puVar2 = (u32 *)0x0;
+    puVar1 = *(u32 **)(iGpffffb954 + 8);
+    while (puVar3 = puVar1, puVar3 != (u32 *)0x0) {
+        if (((*puVar3 & 1) == 0) || (puVar3[4] == 0)) {
+            *(short *)((int)puVar3 + 10) =
+                *(short *)((int)puVar3 + 10) + -1;
+        }
+        if (*(short *)((int)puVar3 + 10) < 0) {
+            if (puVar2 == (u32 *)0x0) {
+                *(u32 *)(iGpffffb954 + 8) = puVar3[6];
+                if (*(int *)(iGpffffb954 + 8) == 0) {
+                    *(int *)(iGpffffb954 + 0xc) = 0;
+                }
+                if (*(int *)(iGpffffb954 + 0x14) != 0) {
+                    *(u32 **)(*(int *)(iGpffffb954 + 0x14) + 0x18) = puVar3;
+                    *(u32 **)(iGpffffb954 + 0x14) = puVar3;
+                } else {
+                    *(u32 **)(iGpffffb954 + 0x14) = puVar3;
+                    *(u32 **)(iGpffffb954 + 0x10) = puVar3;
+                }
+                puVar3[6] = 0;
+                puVar2 = (u32 *)0x0;
+                puVar1 = *(u32 **)(iGpffffb954 + 8);
+            } else if (puVar3[6] == 0) {
+                *(u32 **)(iGpffffb954 + 0xc) = puVar2;
+                puVar2[6] = 0;
+                if (*(int *)(iGpffffb954 + 0x14) != 0) {
+                    *(u32 **)(*(int *)(iGpffffb954 + 0x14) + 0x18) = puVar3;
+                    *(u32 **)(iGpffffb954 + 0x14) = puVar3;
+                } else {
+                    *(u32 **)(iGpffffb954 + 0x14) = puVar3;
+                    *(u32 **)(iGpffffb954 + 0x10) = puVar3;
+                }
+                puVar3[6] = 0;
+                puVar1 = (u32 *)0x0;
+            } else {
+                puVar2[6] = puVar3[6];
+                if (*(int *)(iGpffffb954 + 0x14) != 0) {
+                    *(u32 **)(*(int *)(iGpffffb954 + 0x14) + 0x18) = puVar3;
+                    *(u32 **)(iGpffffb954 + 0x14) = puVar3;
+                } else {
+                    *(u32 **)(iGpffffb954 + 0x14) = puVar3;
+                    *(u32 **)(iGpffffb954 + 0x10) = puVar3;
+                }
+                puVar3[6] = 0;
+                puVar1 = (u32 *)puVar2[6];
+            }
+        } else {
+            puVar2 = puVar3;
+            puVar1 = (u32 *)puVar3[6];
+        }
     }
-    if (*(short *)((char *)current + 10) < 0) {
-      if (previous == (int *)0x0) {
-        *(int *)(iGpffffb954 + 8) = current[6];
-        if (*(int *)(iGpffffb954 + 8) == 0) {
-          *(int *)(iGpffffb954 + 0xc) = 0;
-        }
-        if (*(int *)(iGpffffb954 + 0x14) != 0) {
-          *(int **)(*(int *)(iGpffffb954 + 0x14) + 0x18) = current;
-          *(int **)(iGpffffb954 + 0x14) = current;
-        } else {
-          *(int **)(iGpffffb954 + 0x14) = current;
-          *(int **)(iGpffffb954 + 0x10) = current;
-        }
-        current[6] = 0;
-        current = *(int **)(iGpffffb954 + 8);
-        previous = (int *)0x0;
-      } else if (current[6] == 0) {
-        *(int **)(iGpffffb954 + 0xc) = previous;
-        previous[6] = 0;
-        if (*(int *)(iGpffffb954 + 0x14) != 0) {
-          *(int **)(*(int *)(iGpffffb954 + 0x14) + 0x18) = current;
-          *(int **)(iGpffffb954 + 0x14) = current;
-        } else {
-          *(int **)(iGpffffb954 + 0x14) = current;
-          *(int **)(iGpffffb954 + 0x10) = current;
-        }
-        current[6] = 0;
-        current = (int *)0x0;
-      } else {
-        previous[6] = current[6];
-        if (*(int *)(iGpffffb954 + 0x14) != 0) {
-          *(int **)(*(int *)(iGpffffb954 + 0x14) + 0x18) = current;
-          *(int **)(iGpffffb954 + 0x14) = current;
-        } else {
-          *(int **)(iGpffffb954 + 0x14) = current;
-          *(int **)(iGpffffb954 + 0x10) = current;
-        }
-        current[6] = 0;
-        current = (int *)previous[6];
-      }
-    } else {
-      previous = current;
-      current = (int *)current[6];
-    }
-  }
 }
 #define FUN_003b3770(...) ((void (*)(...))FUN_003b3770)(__VA_ARGS__)
 #undef FUN_003b38f0

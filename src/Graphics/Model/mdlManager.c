@@ -2796,63 +2796,56 @@ void* func_003140c0(void* param_1,u16 *param_2)
 
 }
 
-// FUN_00314170 NONMATCHING
-
+#pragma opt_propagation off
+// FUN_00314170
 
 void* func_00314170(void* param_1, void* param_2)
-
-
-
 {
+    struct Mdl74ba0Ctx {
+        u16 flags;
+        u8 pad2[2];
+        s16 rawIndex;
+        u8 pad[0x12];
+        int* list;
+    };
+    s16 rawIndex;
+    u16 count;
+    s64 lVar2;
+    int* piVar1;
 
-  int *piVar1;
-
-  long lVar2;
-
-  u16 *puVar3;
-
-  int *piVar4;
-
-  
-
-  piVar4 = (int *)param_1;
-  func_004b6ec0(param_1,*piVar4);
-  piVar4[0x10] = (int)&LAB_00314020;
-  piVar4[0x11] = (int)&LAB_00314060;
-
-
-  if (param_2 != 0) {
-
-    puVar3 = (u16 *)param_2;
-
-    piVar1 = *(int **)(puVar3 + 0xc);
-
-    if ((((piVar1 == (int *)0x0) || ((long)(u32)*(u16 *)(piVar1 + 3) <= (long)(short)puVar3[2])
-
-         ) || (*(int *)(*piVar1 + (short)puVar3[2] * 8) == 0)) || ((*puVar3 & 1) == 0)) {
-
-      piVar1 = *(int **)(puVar3 + 0xc);
-      if (piVar1 != (int *)0x0) {
-
-        lVar2 = (long)(short)puVar3[2];
-        if ((((lVar2 < (long)(u32)*(u16 *)(piVar1 + 3)) &&
-              (*(int *)(*piVar1 + (short)puVar3[2] * 8) != 0)) &&
-             ((*puVar3 & 1) == 0)) &&
-            ((0 <= (short)puVar3[2]))) {
-
-          func_004b74c0_typed(*(f32 *)(*piVar4 + 0xc),param_1);
-          *(u8 *)(puVar3 + 1) = 1;
-        }
-      }
-      return param_1;
-
+    if (param_2 == (void*)0 ||
+        ((rawIndex = ((struct Mdl74ba0Ctx*)param_2)->rawIndex,
+          piVar1 = ((struct Mdl74ba0Ctx*)param_2)->list,
+          piVar1 != (int*)0) &&
+         (lVar2 = (s64)rawIndex,
+          count = *(u16*)((u8*)piVar1 + 0xC),
+          lVar2 < (s64)(u32)count) &&
+         (*(int*)(*piVar1 + rawIndex * 8) != 0) &&
+         ((*(u16*)param_2 & 1) != 0))) {
+        func_004b6ec0(param_1, *(void**)param_1);
+        *(void**)((u8*)param_1 + 0x40) = (void*)LAB_00314020_abs;
+        *(void**)((u8*)param_1 + 0x44) = (void*)LAB_00314060_abs;
+        return param_1;
     }
 
-  }
+    rawIndex = *(s16*)((u8*)param_2 + 4);
+    piVar1 = *(int**)((u8*)param_2 + 0x18);
+    if (piVar1 != (int*)0) {
+        lVar2 = (s64)rawIndex;
+        count = *(u16*)((u8*)piVar1 + 0xC);
+        if ((lVar2 < (s64)(u32)count) &&
+            (*(int*)(*piVar1 + rawIndex * 8) != 0) &&
+            ((*(u16*)param_2 & 1) == 0) &&
+            (lVar2 < (s64)(u32)count) &&
+            (rawIndex >= 0)) {
+            func_004b74c0_ptrfirst((u32)param_1, *(f32*)(*(int*)param_1 + 0xC));
+            *(u8*)((u8*)param_2 + 2) = 1;
+        }
+    }
 
-  return param_1;
-
+    return param_1;
 }
+#pragma opt_propagation on
 
 // FUN_003142B0
 u32 func_003142b0(void* param_1)
@@ -3506,71 +3499,57 @@ void* func_00315010(void* object, void* data)
 #pragma push
 #pragma opt_loop_invariants on
 /* W323 callback symbol literal nd188 -> nd185. */
-// FUN_00315090 NONMATCHING
+typedef struct MdlFrameSearch {
+    void* frame;
+    s32 id;
+} MdlFrameSearch;
 
-
-u32 func_00315090(RwMatrix* param_1,u16 *param_2,u16 param_3,int param_4)
-
-
-
+static inline u8* mdlFindFrame(u8* frame, s32 id)
 {
+    MdlFrameSearch data;
+    if (id == func_00466720(frame))
+        return frame;
+    data.id = id;
+    data.frame = NULL;
+    func_004cb6e0(frame, func_00315010, &data);
+    return data.frame;
+}
 
-  int iVar1;
+// FUN_00315090
 
-  int iVar2;
+u32 func_00315090(RwMatrix* param_1, u16* param_2, u16 param_3, int param_4)
+{
+    s32 count;
+    u16 i;
+    u32 masked_idx;
+    void* entry;
+    u8* clump;
+    s32 field44;
 
-  u32 uVar3;
-
-  u32 uVar4;
-
-  u32 uVar5;
-  u32 index_for_address;
-  u16 count;
-  int iVar6;
-
-  int iVar7;
-
-  struct {
-    int result;
-    int expected;
-  } callbackData;
-
-  
-
-  count = *param_2;
-  uVar5 = 0;
-  while ((u16)uVar5 < count) {
-    index_for_address = uVar5 & 0xffff;
-    if ((param_3 & 0xffff) == *(u32 *)(*(int *)(param_2 + 2) + index_for_address * 0x50 + 0x40)) {
-      break;
+    count = (s32)*(u16*)param_2;
+    i = 0;
+    masked_idx = param_3 & 0xFFFF;
+    while ((s32)(u16)i < count) {
+        entry = (void*)((u8*)*(void**)((u8*)param_2 + 4) + (u32)(u16)i * 0x50);
+        if (masked_idx == *(s32*)((u8*)entry + 0x40)) {
+            break;
+        }
+        i++;
     }
-    uVar5 = uVar5 + 1 & 0xffff;
-  }
+    if ((s32)(u16)i == count) {
+        return 0;
+    }
 
-  if (uVar5 == *param_2) {
-    return 0;
-  }
+    entry = (void*)((u8*)*(void**)((u8*)param_2 + 4) + (u32)(u16)i * 0x50);
+    field44 = *(s32*)((u8*)entry + 0x44);
+    clump = *(u8**)((u8*)param_4 + 4);
+    clump = mdlFindFrame(clump, field44);
+    if (clump == 0) {
+        return 0;
+    }
 
-  iVar7 = *(int *)(param_2 + 2) + uVar5 * 0x50;
-  iVar1 = *(int *)(iVar7 + 0x44);
-  iVar6 = *(int *)(param_4 + 4);
-  iVar2 = func_00466720(iVar6);
-
-  if (iVar1 != iVar2) {
-    callbackData.result = 0;
-    callbackData.expected = iVar1;
-    func_004cb6e0(iVar6,(void *)func_00315010,&callbackData);
-    iVar6 = callbackData.result;
-  }
-
-  if (iVar6 == 0) {
-    return 0;
-  }
-
-  uVar4 = func_004cb2f0(iVar6);
-  FUN_004c2f30(param_1,(const RwMatrix*)iVar7,(const RwMatrix*)uVar4);
-  return 1;
-
+    FUN_004c2f30(param_1, (const RwMatrix*)entry, (const RwMatrix*)func_004cb2f0(clump));
+    return 1;
 }
 #pragma pop
 
@@ -4241,91 +4220,86 @@ Model* func_00315ed0(Model* param_1)
 
 #pragma push
 #pragma opt_dead_assignments off
-// FUN_00315F50 NONMATCHING
-u32 func_00315f50(void* param_1,u32 *param_2)
+typedef struct MdlMaterialColorReal { f32 red, green, blue, alpha; } MdlMaterialColorReal;
+typedef struct MdlMaterialColor { u32 unknown00; RwRGBA color; } MdlMaterialColor;
+typedef struct MdlMaterialColorGeometry {
+    u8 unknown00[8];
+    u32 flags;
+    u8 unknown0c[20];
+    MdlMaterialColor** materials;
+    u32 count;
+} MdlMaterialColorGeometry;
+extern u8 D_0069ABA0[];
 
+/* Qualified normalization reads preserve retail loads without duplicating
+ * the quantizer accumulator seed. */
+#pragma push
+#pragma always_inline on
+#pragma opt_common_subs on
+#pragma opt_propagation off
 
-
+static inline void mdlColorToReal(MdlMaterialColorReal* out, const RwRGBA* color)
 {
-
-  int iVar1;
-
-  u32 uVar2;
-
-  u8 *pbVar3;
-
-  int iVar4;
-
-  u32 uVar5;
-
-  u32 uVar6;
-
-  float fVar7;
-
-  float fVar8;
-
-  float fVar9;
-
-  float fVar10;
-
-  float fVar11;
-
-  float fVar12;
-
-  float fVar13;
-  RwRGBA color;
-
-  
-
-  iVar1 = *(int *)((int)param_1 + 0x18);
-
-  *(u32 *)(iVar1 + 8) = *(u32 *)(iVar1 + 8) | 0x40;
-
-  uVar2 = *(u32 *)(iVar1 + 0x24);
-
-  pbVar3 = (u8 *)*param_2;
-
-  fVar12 = DAT_007caf08 * (float)*pbVar3;
-
-  fVar13 = DAT_007caf08 * (float)pbVar3[1];
-
-  fVar10 = DAT_007caf08 * (float)pbVar3[2];
-
-  fVar11 = DAT_007caf08 * (float)pbVar3[3];
-
-  for (uVar6 = 0; uVar6 < uVar2; uVar6 = uVar6 + 1) {
-
-    iVar4 = *(int *)(*(int *)(iVar1 + 0x20) + uVar6 * 4);
-
-    uVar5 = K_Clump_MatUsrDataGetInt(iVar4,0x69aba0);
-    color = *(RwRGBA *)&uVar5;
-
-    fVar9 = DAT_007caf08 * (float)color.g;
-    fVar7 = DAT_007caf08 * (float)color.b;
-
-    fVar8 = fVar11;
-
-    if ((*(u16 *)(param_2 + 1) & 1) == 0) {
-
-      fVar8 = DAT_007caf08 * (float)color.a * fVar11;
-
-    }
-
-    *(char *)(iVar4 + 4) =
-
-         (char)(int)(DAT_007caf08 * (float)color.r * fVar12 * 255.0f + 0.5f);
-
-    *(char *)(iVar4 + 5) = (char)(int)(fVar9 * fVar13 * 255.0f + 0.5f);
-
-    *(char *)(iVar4 + 6) = (char)(int)(fVar7 * fVar10 * 255.0f + 0.5f);
-
-    *(char *)(iVar4 + 7) = (char)(int)(fVar8 * 255.0f + 0.5f);
-
-  }
-
-  return (u32)param_1;
-
+    f32 channel;
+    channel = (f32)(u32)color->r;
+    out->red = *(volatile /* Removing this loses FUN_00315F50 (MATCH nd0 -> MISMATCH nd544) - measured W170. */ f32*)&DAT_007caf08 * channel;
+    channel = (f32)(u32)color->g;
+    out->green = *(volatile /* Removing this loses FUN_00315F50 (MATCH nd0 -> MISMATCH nd544) - measured W170. */ f32*)&DAT_007caf08 * channel;
+    channel = (f32)(u32)color->b;
+    out->blue = *(volatile /* Removing this loses FUN_00315F50 (MATCH nd0 -> MISMATCH nd544) - measured W170. */ f32*)&DAT_007caf08 * channel;
+    channel = (f32)(u32)color->a;
+    out->alpha = *(volatile /* Removing this loses FUN_00315F50 (MATCH nd0 -> MISMATCH nd544) - measured W170. */ f32*)&DAT_007caf08 * channel;
 }
+
+static inline void mdlColorUnpack(RwRGBA* out, u32 packed)
+{
+    out->b = packed;
+    out->g = packed >> 8;
+    out->r = packed >> 16;
+    out->a = packed >> 24;
+}
+
+static inline void mdlColorQuantize(RwRGBA* out, const MdlMaterialColorReal* color)
+{
+    f32 maximum = 255.0f;
+    f32 bias = 0.5f;
+    out->r = (s32)(bias + maximum * color->red);
+    out->g = (s32)(bias + maximum * color->green);
+    out->b = (s32)(bias + maximum * color->blue);
+    out->a = (s32)(bias + maximum * color->alpha);
+}
+
+// FUN_00315F50
+
+u32 func_00315f50(void* param_1, u32* param_2)
+{
+    MdlMaterialColorGeometry* geometry;
+    u32 count;
+    MdlMaterialColorReal scale;
+    u32 index;
+    geometry = *(MdlMaterialColorGeometry**)((u8*)param_1 + 0x18);
+    geometry->flags |= 0x40;
+    count = geometry->count;
+    mdlColorToReal(&scale, *(const RwRGBA**)param_2);
+    for (index = 0; index < count; ++index) {
+        MdlMaterialColor* material = geometry->materials[index];
+        RwRGBA color;
+        MdlMaterialColorReal real;
+        mdlColorUnpack(&color, (u32)K_Clump_MatUsrDataGetInt((void*)material, (const char*)D_0069ABA0));
+        mdlColorToReal(&real, &color);
+        real.red *= scale.red;
+        real.green *= scale.green;
+        real.blue *= scale.blue;
+        if ((*(u16*)((u8*)param_2 + 4) & 1) == 0)
+            real.alpha *= scale.alpha;
+        else
+            real.alpha = scale.alpha;
+        mdlColorQuantize(&color, &real);
+        material->color = color;
+    }
+    return (u32)param_1;
+}
+#pragma pop
 #pragma opt_dead_assignments reset
 #pragma pop
 

@@ -284,7 +284,7 @@ static void hmallocInitTilePacket(u32 texture, u32 packet, u32 source, s32 a3,
 static void hmallocInitTilePacket32(u32 texture, void* packet, u32 source,
                                     s32 a3, s32 a4, s32 a5, s32 a6, s32 a7,
                                     s32 a8, s32 a9);
-static void hmallocEmitCommands(u32 texture, u32 packet, u32 source, s32 a3,
+static void hmallocEmitCommands(u32 texture, u8* packet, u32 source, s32 a3,
                                  s32 a4, s32 a5, s32 a6, s32 a7, s32 a8,
                                  s32 a9, s32 a10);
 static void hmallocPackHeader(u64* out, u32 a1, s32 a2, u32 a3, u32 a4,
@@ -329,7 +329,7 @@ static void hmallocInitTilePacket(u32 texture, u32 packet, u32 source, s32 a3,
                                    s32 a4, s32 a5, s32 a6, s32 a7, s32 a8,
                                    s32 a9, s32 a10)
 {
-    hmallocEmitCommands(texture, packet, source, 0x400, a3, a4, a5, a6,
+    hmallocEmitCommands(texture, (u8*)(uintptr_t)packet, source, 0x400, a3, a4, a5, a6,
                          a7, a8, a9);
 }
 
@@ -341,68 +341,54 @@ static void hmallocInitTilePacket32(u32 texture, void* packet, u32 source,
                           a3, a4, a5, a6, a7, a8, a9, 0);
 }
 
-// FUN_00191EC0 NONMATCHING
-static void hmallocEmitCommands(u32 texture, u32 packet, u32 source, s32 a3,
+// FUN_00191EC0
+
+static void hmallocEmitCommands(u32 texture, u8* packet, u32 source, s32 a3,
                                  s32 a4, s32 a5, s32 a6, s32 a7, s32 a8,
                                  s32 a9, s32 a10)
 {
+    s32 columns = a6 >> 4;
+    s32 rows = a7 >> 4;
+    s32 width;
     u8* command;
-    u32* output;
-    s32 rowCount;
     s32 i;
-    s32 stride;
+    s32 count;
     u32 imageOffset;
-    s32 blockCount;
-    s32 tileCount;
-    s32 loopCount;
-    s32 offsetA;
-    s32 offsetB;
-    s32 offsetC;
+    s32 savedY;
+    s32 last;
+    s32 stride;
+    s32 gapStride;
 
-    loopCount = a6 >> 4;
-    tileCount = a7 >> 4;
-    hmallocPackHeader((u64*)(uintptr_t)packet, 0, 0, 0, 1, 0, 3);
-    hmallocPackDescriptor((u32*)(uintptr_t)(packet + 0x10), 0xe, 1, 0,
-                          0, 0, 0, 2);
-
-    rowCount = ((a6 + 0x3f) / 0x40) * 0x40;
-    /* Removing this barrier worsens hmallocEmitCommands (nd319 -> nd340) - measured W164. */
-    asm ("" : "+m"(rowCount));
-    output = (u32*)(uintptr_t)(packet + 0x20);
-    hmallocWriteImage(output, texture, (u32)(rowCount / 0x40), 0);
-    output = (u32*)(uintptr_t)(packet + 0x30);
-    hmallocWriteScale(output, 0x10, (u32)(tileCount << 4));
-    command = (u8*)(uintptr_t)(packet + 0x40);
-    offsetA = a8 >> 4;
-    offsetB = a9 >> 4;
-    imageOffset = source +
-                  (u32)a3 * ((u32)tileCount + (u32)offsetA) *
-                      (u32)offsetB;
-    offsetC = a10 >> 4;
-    imageOffset += (u32)offsetC;
-    blockCount = tileCount * 0x400;
-    if (blockCount < 0)
-    {
-        blockCount += 0xf;
-    }
-    stride = blockCount >> 4;
-    for (i = 0; i < loopCount; i++)
-    {
+    savedY = a5;
+    hmallocPackHeader((u64*)packet, 0, 0, 0, 1, 0, 3);
+    hmallocPackDescriptor((u32*)(packet + 0x10), 0xe, 1, 0, 0, 0, 0, 2);
+    width = ((a6 + 0x3f) / 0x40) * 0x40;
+    hmallocWriteImage((u32*)(packet + 0x20), texture, width / 0x40, 0);
+    hmallocWriteScale((u32*)(packet + 0x30), 16, rows * 16);
+    command = packet + 0x40;
+    imageOffset = source + (a8 >> 4) * (a3 * (rows + (a10 >> 4)));
+    imageOffset += a3 * (a9 >> 4);
+    i = 0;
+    count = (rows * 1024) / 16;
+    stride = a3 * rows;
+    gapStride = a3 * (a10 >> 4);
+    while (i < columns) {
+        last = (i == columns - 1) ? 1 : 0;
         hmallocPackHeader((u64*)command, 0, 0, 0, 1, 0, 4);
-        hmallocPackDescriptor((u32*)(command + 0x10), 0xe, 1, 0, 0, 0,
-                              0, 2);
-        hmallocWriteTile((u32*)(command + 0x20), 0,
-                         (u32)(a4 + i * 0x10), (u32)a5);
+        hmallocPackDescriptor((u32*)(command + 0x10), 0xe, 1, 0, 0, 0, 0, 2);
+        hmallocWriteTile((u32*)(command + 0x20), 0, (u32)(a4 + i * 16),
+                         (u32)savedY);
         hmallocWriteSolid((u32*)(command + 0x30), 0);
         hmallocPackDescriptor((u32*)(command + 0x40), 0, 0, 2, 0, 0,
-                              i == (loopCount - 1), (u32)stride);
-        hmallocPackHeader((u64*)(command + 0x50), 0,
-                          imageOffset & 0x0fffffff, 0, 3, 0,
-                          (u32)stride);
+                              (u32)last, (u32)count);
+        hmallocPackHeader((u64*)(command + 0x50), 0, imageOffset & 0x0fffffff,
+                          0, 3, 0, (u32)count);
         command += 0x60;
-        imageOffset += (u32)a3 * ((u32)tileCount + 1);
+        imageOffset += (u32)stride;
+        imageOffset += (u32)gapStride;
+        i++;
     }
-    hmallocPackHeader((u64*)command, 0, 0, 0, 0, 7, 0);
+    hmallocPackHeader((u64*)command, 0, 0, 0, 7, 0, 0);
 }
 
 // FUN_00192160

@@ -7,4 +7,10 @@
 # The RenderWare Graphics 3.7 block needs it (`-O4,p`); measured 2026-09-14
 # against Persona 3 retail with the Persona 4 RenderWare sources.
 #
-# (No units are listed yet; the first entries land with the ported bodies.)
+src/rw/rpworld_cw119.c
+src/rw/rwcore_cw119.c
+src/rw/rwplcore_cw119.c
+src/rw/rtanim_cw119.c
+src/rw/rt2d_cw119.c
+src/rw/rprandom_cw119.c
+src/rw/rtanim_o2p.c

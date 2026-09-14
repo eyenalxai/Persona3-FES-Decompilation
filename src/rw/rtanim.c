@@ -1,5 +1,248 @@
 #include "temporary.h"
 
+/* rtanim port aliases */
+/* Typed aliases for symbols the auto-extern block declares as
+   `extern code` pointer variables or with guessed prototypes.
+   Declarations mirror what the P4 matched bodies compiled
+   against (function-local externs preferred). */
+#pragma alias DAT_007ce730_s32 DAT_007ce730
+extern s32 DAT_007ce730_s32;
+#pragma alias DAT_007ce734_s32 DAT_007ce734
+extern s32 DAT_007ce734_s32;
+#pragma alias DAT_007ce738_s32 DAT_007ce738
+extern s32 DAT_007ce738_s32;
+#pragma alias DAT_007ce770_s32 DAT_007ce770
+extern s32 DAT_007ce770_s32;
+#pragma alias DAT_007ce774_s32 DAT_007ce774
+extern s32 DAT_007ce774_s32;
+#pragma alias DAT_0095c3fc_s32_arr DAT_0095c3fc
+extern s32 DAT_0095c3fc_s32_arr[];
+#pragma alias DAT_0095c400_s32_arr DAT_0095c400
+extern s32 DAT_0095c400_s32_arr[];
+#pragma alias DAT_0095c440_s32_arr DAT_0095c440
+extern s32 DAT_0095c440_s32_arr[];
+#pragma alias DAT_0095c448_s32_arr DAT_0095c448
+extern s32 DAT_0095c448_s32_arr[];
+#pragma alias DAT_0095c44c_s32_arr DAT_0095c44c
+extern s32 DAT_0095c44c_s32_arr[];
+#pragma alias DAT_0095c45c_s32_arr DAT_0095c45c
+extern s32 DAT_0095c45c_s32_arr[];
+#pragma alias DAT_00960070_u8_arr DAT_00960070
+extern u8 DAT_00960070_u8_arr[];
+#pragma alias DAT_00960178_rwt DAT_00960178
+extern void * (*DAT_00960178_rwt[])(u32 size, u32 align);
+#pragma alias DAT_0096017c_rwt DAT_0096017c
+extern void (*DAT_0096017c_rwt[])(void *);
+#pragma alias DAT_0096017c_rwt2 DAT_0096017c
+extern void (*DAT_0096017c_rwt2[])(u8 *arg0);
+#pragma alias DAT_0096018c_rwt DAT_0096018c
+extern void (*DAT_0096018c_rwt[])(s32, void *);
+extern s32 FUN_00465a00_rwt();
+extern s32 FUN_00465ae0_rwt(s32 arg0);
+extern s32 FUN_00465b20_rwt(s32 arg0);
+extern s32 FUN_00465b40_rwt();
+extern s32 FUN_00465bf0_rwt();
+extern s32 FUN_00465cf0_rwt();
+extern s32 FUN_00465eb0_rwt();
+extern void FUN_004676c0_rwt(u8 *arg0);
+extern s32 FUN_00469a90_rwt(u8 *arg0, s32 arg1);
+extern void FUN_00469b50_rwt(s32 arg0);
+extern void FUN_00469bc0_rwt(s32 arg0);
+extern s32 FUN_00469cf0_rwt(void);
+extern u8 * FUN_00469e30_rwt(u8 *arg0, u8 *arg1);
+extern s32 FUN_00469fe0_rwt(s32 arg0);
+extern s32 FUN_0046a040_rwt(s32 arg0, s32 arg1);
+extern s32 FUN_0046a0f0_rwt(s32 arg0, s32 arg1);
+extern s32 FUN_0046a230_rwt(s32 arg0, s32 arg1);
+extern s32 FUN_0046a600_rwt(s32 arg0);
+extern s32 FUN_0046a660_rwt(s32 arg0);
+extern s32 FUN_0046a6c0_rwt(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+extern s32 FUN_0046a6f0_rwt(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+extern s32 FUN_0046a720_rwt(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+extern s32 FUN_0046a890_rwt(s32 arg0);
+extern s32 FUN_0046a970_rwt(s32 arg0, s32 arg1);
+extern void FUN_0046a9e0_rwt(u8 *arg0);
+extern void FUN_0046aa80_rwt(s32 arg0, s32 arg1);
+extern void FUN_0046ac30_rwt(s32 arg0);
+extern u8 * FUN_0046ad20_rwt(u8 **arg0, s32 arg1);
+extern u8 * FUN_004734d0_rwt(u8 *arg0);
+extern void FUN_00474a80_rwt(s32 *arg0);
+extern void FUN_00474a80_rwt2(u8 *arg0);
+extern s32 FUN_00474bb0_rwt(s32 arg0);
+extern s32 FUN_00474c60_rwt(s32 arg0);
+extern void FUN_00475c20_rwt(u8 *arg0);
+extern void FUN_00475cb0_rwt(u8 *arg0);
+extern void FUN_00477150_rwt();
+#pragma alias FUN_00477470_rwt FUN_00477470
+extern void FUN_00477470_rwt(u8 *arg0, u8 *arg1, s32 *arg2, u8 *arg3, u32 arg4);
+extern s32 FUN_00479030_rwt(u8 *arg0);
+extern void FUN_00479170_rwt(void);
+#pragma alias FUN_00479590_rwt FUN_00479590
+extern void FUN_00479590_rwt(u8 *arg0, s32 *arg2, s32 arg4);
+extern s32 FUN_0047a3d0_rwt(u8 *arg0);
+extern s32 FUN_0047ab70_rwt(void);
+extern s32 FUN_0047abf0_rwt(u8 *arg0, u8 **arg1);
+extern s32 FUN_0047b1a0_rwt(void);
+extern void FUN_0047c240_rwt(void);
+extern void FUN_0047c8c0_rwt(void);
+#pragma alias FUN_0047cfd0_rwt FUN_0047cfd0
+extern void FUN_0047cfd0_rwt(void);
+#pragma alias FUN_0047de30_rwt FUN_0047de30
+extern void FUN_0047de30_rwt(void);
+extern void FUN_0047e9e0_rwt(void);
+#pragma alias FUN_0047fb10_rwt FUN_0047fb10
+extern void FUN_0047fb10_rwt(void);
+#pragma alias FUN_00480c30_rwt FUN_00480c30
+extern void FUN_00480c30_rwt(void);
+extern void FUN_00481860_rwt(void);
+#pragma alias FUN_00482a50_rwt FUN_00482a50
+extern void FUN_00482a50_rwt(void);
+#pragma alias FUN_00483170_rwt FUN_00483170
+extern void FUN_00483170_rwt(void);
+extern void FUN_004838e0_rwt(void);
+extern void FUN_00485070_rwt(void);
+extern void FUN_00485110_rwt(void);
+extern void FUN_00485440_rwt(void);
+extern void FUN_00485750_rwt(void);
+extern void FUN_00485e20_rwt(void);
+extern void FUN_00485ef0_rwt(void);
+extern void FUN_00485ff0_rwt(void);
+extern s32 FUN_004861b0_rwt();
+extern void FUN_00488550_rwt(void);
+#pragma alias FUN_0048d0e0_rwt FUN_0048d0e0
+extern u8 * FUN_0048d0e0_rwt(u8 *arg0);
+#pragma alias FUN_004919b0_rwt FUN_004919b0
+extern void FUN_004919b0_rwt(u8 *arg0, u8 *arg1, s32 arg2);
+#pragma alias FUN_00492c30_rwt FUN_00492c30
+extern s32 FUN_00492c30_rwt(s32 a, s32 b, void *c, void *d, s32 e);
+#pragma alias FUN_00492c30_rwt2 FUN_00492c30
+extern s32 FUN_00492c30_rwt2(s32 arg0, s32 arg1, s32 (*arg2)(), s32 (*arg3)(), s32 (*arg4)());
+#pragma alias FUN_00492ce0_rwt FUN_00492ce0
+extern s32 FUN_00492ce0_rwt(s32 arg0, s32 arg1);
+#pragma alias FUN_004933d0_rwt FUN_004933d0
+extern s32 FUN_004933d0_rwt(u8 *arg0);
+#pragma alias FUN_00493710_rwt FUN_00493710
+extern u8 * FUN_00493710_rwt(s32 arg0, s32 arg1, s32 arg2);
+#pragma alias FUN_00493b60_rwt FUN_00493b60
+extern void FUN_00493b60_rwt(u8 *arg0);
+#pragma alias FUN_00493c50_rwt FUN_00493c50
+extern s32 FUN_00493c50_rwt(s32 arg0, s32 arg1, s32 (*arg2)(), s32 (*arg3)(), s32 (*arg4)());
+#pragma alias FUN_00493c80_rwt FUN_00493c80
+extern s32 FUN_00493c80_rwt(s32 arg0, s32 (*arg1)(), s32 (*arg2)(), s32 (*arg3)());
+#pragma alias FUN_00494be0_rwt FUN_00494be0
+extern u8 * FUN_00494be0_rwt(void);
+#pragma alias FUN_00494cc0_rwt FUN_00494cc0
+extern void FUN_00494cc0_rwt(u8 *arg0);
+#pragma alias FUN_00494d50_rwt FUN_00494d50
+extern void FUN_00494d50_rwt(void *arg0, s32 arg1);
+#pragma alias FUN_00494db0_rwt FUN_00494db0
+extern s32 FUN_00494db0_rwt(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+#pragma alias FUN_00494e10_rwt FUN_00494e10
+extern s32 FUN_00494e10_rwt(s32 arg0, s32 arg1);
+#pragma alias FUN_00495340_rwt FUN_00495340
+extern void FUN_00495340_rwt(u8 *arg0, u8 *arg1);
+#pragma alias FUN_00499250_rwt FUN_00499250
+extern s32 FUN_00499250_rwt(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+#pragma alias FUN_004992d0_rwt FUN_004992d0
+extern s32 FUN_004992d0_rwt(s32 arg0, s32 arg1);
+#pragma alias FUN_0049a170_rwt FUN_0049a170
+extern s32 FUN_0049a170_rwt();
+#pragma alias FUN_0049fe40_rwt FUN_0049fe40
+extern u8 * FUN_0049fe40_rwt(u8 *arg0, s32 arg1, s32 arg2);
+#pragma alias FUN_0049fe40_rwt2 FUN_0049fe40
+extern u8 * FUN_0049fe40_rwt2(u8 *arg0, s32 arg1, void *arg2);
+#pragma alias FUN_0049fec0_rwt FUN_0049fec0
+extern u8 * FUN_0049fec0_rwt(u8 *arg0, s32 arg1);
+#pragma alias FUN_0049ff00_rwt FUN_0049ff00
+extern s32 * FUN_0049ff00_rwt(void);
+#pragma alias FUN_004b6eb0_rwt FUN_004b6eb0
+extern void FUN_004b6eb0_rwt(u8 *arg0);
+#pragma alias FUN_004c1600_rwt FUN_004c1600
+extern s32 FUN_004c1600_rwt(void *arg0, s32 arg1, s32 arg2, u32 *arg3);
+#pragma alias FUN_004c1c50_rwt FUN_004c1c50
+extern void FUN_004c1c50_rwt(s32 *arg0);
+#pragma alias FUN_004c1d10_rwt FUN_004c1d10
+extern s32 FUN_004c1d10_rwt(s64 arg0, ...);
+#pragma alias FUN_004c3c30_rwt FUN_004c3c30
+extern void FUN_004c3c30_rwt(s32 arg0);
+#pragma alias FUN_004c47e0_rwt FUN_004c47e0
+extern void FUN_004c47e0_rwt(s32 arg0);
+#pragma alias FUN_004c5780_rwt FUN_004c5780
+extern void FUN_004c5780_rwt(void *arg0, s32 arg1);
+#pragma alias FUN_004c58a0_rwt FUN_004c58a0
+extern u8 * FUN_004c58a0_rwt(s32 arg0, s32 arg1, void *arg2);
+#pragma alias FUN_004c7d00_rwt FUN_004c7d00
+extern s32 FUN_004c7d00_rwt(s32 arg0, s32 (*arg1)(), s32 (*arg2)(), s32 (*arg3)());
+#pragma alias FUN_004ca520_rwt FUN_004ca520
+extern s32 FUN_004ca520_rwt(s32 a, s32 b, void *c, void *d);
+#pragma alias FUN_004ca520_rwt2 FUN_004ca520
+extern s32 FUN_004ca520_rwt2(s32 arg0, s32 arg1, s32 (*arg2)(), s32 (*arg3)());
+#pragma alias FUN_004cb9f0_rwt FUN_004cb9f0
+extern s32 FUN_004cb9f0_rwt(s32 arg0, s32 arg1, s32 (*arg2)(), s32 (*arg3)(), s32 (*arg4)());
+#pragma alias FUN_004d0f00_rwt FUN_004d0f00
+extern void FUN_004d0f00_rwt(void *arg0, s32 arg1);
+#pragma alias FUN_004d5e90_rwt FUN_004d5e90
+extern void FUN_004d5e90_rwt(void);
+#pragma alias FUN_004f2f70_rwt FUN_004f2f70
+extern s32 FUN_004f2f70_rwt(void);
+#pragma alias FUN_004f2f70_rwt2 FUN_004f2f70
+extern u8 * FUN_004f2f70_rwt2(void);
+#pragma alias FUN_004f3010_rwt FUN_004f3010
+extern void FUN_004f3010_rwt(s32 arg0);
+#pragma alias FUN_004f3f80_rwt FUN_004f3f80
+extern s32 FUN_004f3f80_rwt(s32 arg0);
+#pragma alias FUN_004f3f80_rwt2 FUN_004f3f80
+extern s32 FUN_004f3f80_rwt2();
+#pragma alias FUN_004f4640_rwt FUN_004f4640
+extern s32 FUN_004f4640_rwt(s32 arg0);
+#pragma alias FUN_004f4640_rwt2 FUN_004f4640
+extern s32 * FUN_004f4640_rwt2(s32 *arg0);
+#pragma alias FUN_004f4830_rwt FUN_004f4830
+extern s32 ** FUN_004f4830_rwt(u8 *arg0, s32 arg1, s32 arg2, s32 *arg3);
+#pragma alias FUN_004f4830_rwt2 FUN_004f4830
+extern s32 FUN_004f4830_rwt2(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+#pragma alias FUN_004f4950_rwt FUN_004f4950
+extern s32 FUN_004f4950_rwt(s32 arg0, s32 arg1, void *arg2, s32 arg3);
+#pragma alias FUN_004f4950_rwt2 FUN_004f4950
+extern u8 * FUN_004f4950_rwt2(u8 *arg0, s32 *arg1, s32 *arg2, s32 arg3);
+#pragma alias FUN_00521250_rwt FUN_00521250
+extern void FUN_00521250_rwt(void *dst, const void *src, u32 size);
+#pragma alias LAB_00486100_u8_arr LAB_00486100
+extern u8 LAB_00486100_u8_arr[];
+#pragma alias LAB_00488b80_u8_arr LAB_00488b80
+extern u8 LAB_00488b80_u8_arr[];
+#pragma alias func_00466130_rwt func_00466130
+extern s32 func_00466130_rwt();
+#pragma alias func_00469DD0_rwt func_00469DD0
+extern s32 func_00469DD0_rwt(s32 arg0);
+#pragma alias func_00469DF0_rwt func_00469DF0
+extern s32 func_00469DF0_rwt(s32 arg0);
+#pragma alias func_00469E10_rwt func_00469E10
+extern s32 func_00469E10_rwt(s32 arg0);
+#pragma alias func_0046A3C0_rwt func_0046A3C0
+extern s32 func_0046A3C0_rwt(u8 *arg0);
+#pragma alias func_0046A440_rwt func_0046A440
+extern s32 func_0046A440_rwt(s32 arg0);
+#pragma alias func_004734B0_rwt func_004734B0
+extern s32 func_004734B0_rwt(s32 arg0);
+#pragma alias iGpffffba44_s32 iGpffffba44
+extern s32 iGpffffba44_s32;
+#pragma alias iGpffffba48_s32 iGpffffba48
+extern s32 iGpffffba48_s32;
+#pragma alias iGpffffba58_s32 iGpffffba58
+extern s32 iGpffffba58_s32;
+#pragma alias iGpffffba80_s32 iGpffffba80
+extern s32 iGpffffba80_s32;
+#pragma alias uGpffffba54_s32 uGpffffba54
+extern s32 uGpffffba54_s32;
+#pragma alias uGpffffba58_s32 uGpffffba58
+extern s32 uGpffffba58_s32;
+#pragma alias uGpffffba80_s32 uGpffffba80
+extern s32 uGpffffba80_s32;
+#pragma alias uGpffffba84_s32 uGpffffba84
+extern s32 uGpffffba84_s32;
+extern s32 D_0077B210[];
+
 /* auto-extern (generated) */
 extern u32* pcGpffffba74;
 extern u32* puGpffffbd04;
@@ -469,7 +712,7 @@ extern code FUN_0052ea18;
 char FUN_00435440(char param_1);
 char FUN_0043bc20(char param_1);
 float FUN_0045b4e0(long param_1);
-float FUN_004693a0(int param_1);
+f32 FUN_004693a0(s32 arg0);
 float FUN_0047cfd0(u32 *param_1,u8 (*param_2) [12],u8 (*param_3) [12], int param_4,int param_5);
 float FUN_004a9560(float param_1,int param_2,u8 *param_3);
 float FUN_004aa2c0(void);
@@ -528,8 +771,8 @@ long FUN_0046bd00(long param_1,u64 param_2);
 long FUN_0046bfb0(float param_1,long param_2,u8 *param_3,float *param_4,u32 param_5);
 long FUN_00474260(u32 param_1,u32 param_2,u64 param_3,u64 param_4);
 long FUN_00475d60(u64 param_1,u64 param_2,u64 param_3,u32 param_4, u32 param_5);
-long FUN_0047ab70(void);
-long FUN_0047b1a0(void);
+s32 FUN_0047ab70(void);
+s32 FUN_0047b1a0(void);
 long FUN_0047bb40(int param_1,int param_2,u32 param_3);
 long FUN_0048a9a0(long param_1,u64 param_2);
 long FUN_0048af80(u32 param_1);
@@ -639,34 +882,34 @@ u32 FUN_00465590(int param_1,u64 param_2);
 u32 FUN_00466710(int param_1);
 u32 FUN_00466720(int param_1);
 u32 FUN_00466730(u32 *param_1);
-u32 FUN_00469030(int param_1);
-u32 FUN_00469340(int param_1);
-u32 FUN_004695f0(int param_1);
-u32 FUN_00469650(int param_1);
-u32 FUN_004696b0(int param_1);
-u32 FUN_00469710(int param_1);
-u32 FUN_004698e0(int param_1);
+s32 FUN_00469030(s32 arg0);
+u32 FUN_00469340(s32 arg0);
+u32 FUN_004695f0(s32 arg0);
+u32 FUN_00469650(s32 arg0);
+u32 FUN_004696b0(s32 arg0);
+f32 FUN_00469710(s32 arg0);
+u32 FUN_004698e0(s32 arg0);
 u32 FUN_00469a90(void);
 u32 FUN_00469ce0(void);
 u32 FUN_00469cf0(void);
 u32 FUN_0046a6c0(int param_1,u64 param_2,u64 param_3,u64 param_4);
 u32 FUN_0046a6f0(int param_1,u64 param_2,u64 param_3,u64 param_4);
 u32 FUN_0046a720(int param_1,u64 param_2,u64 param_3,u64 param_4);
-u32 FUN_0046a750(u64 param_1);
-u32 FUN_0046a890(u64 param_1);
+s32 FUN_0046a750(s32 arg0);
+u32 FUN_0046a890(u64 arg0);
 u32 FUN_0046eb10(int param_1,u32 *param_2);
 u32 FUN_00473600(int *param_1,u32 param_2);
 u32 FUN_00473b10(int *param_1,u32 param_2);
 u32 FUN_00473fb0(u32 param_1);
 u32 FUN_00474640(int param_1,int *param_2,u32 param_3,u32 param_4);
 u32 FUN_00474a80(int param_1);
-u32 FUN_00478440(int param_1,u32 *param_2);
+s32 FUN_00478440(u8 *arg0, u8 *arg1);
 u32 FUN_00478e80(u64 param_1,u32 param_2);
-u32 FUN_00479840(int param_1,u32 *param_2);
+s32 FUN_00479840(u8 *arg0, u8 *arg1);
 u32 FUN_0047a210(u64 param_1,int param_2);
-u32 FUN_0047a510(u64 param_1,u64 param_2,u64 param_3,u32 param_4);
+s32 FUN_0047a510(s32 arg0, u8 *arg1, s32 arg2, s32 arg3);
 u32 FUN_0047abf0(int param_1,u32 *param_2);
-u32 FUN_0047bd20(u64 param_1);
+s32 FUN_0047bd20(u8 *arg0);
 u32 FUN_0047de30(u32 *param_1,u64 param_2,u64 param_3,int param_4,int param_5);
 u32 FUN_0047e9e0(u32 *param_1,float *param_2,float *param_3,int param_4,int param_5);
 u32 FUN_0047fb10(u32 *param_1,u64 param_2,u64 param_3,int param_4,int param_5);
@@ -687,7 +930,7 @@ u32 FUN_0048a3e0(int param_1);
 u32 FUN_0048a480(int param_1);
 u32 FUN_0048abf0(void);
 u32 FUN_0048ac00(void);
-u32 FUN_0048da30(u64 param_1);
+s32 FUN_0048da30(u8 *arg0);
 u32 FUN_0048ef30(int param_1);
 f32 FUN_0048ef60(int param_1, int param_2);
 u32 FUN_0048ef80(int param_1,int param_2);
@@ -779,19 +1022,19 @@ u64 FUN_004643b0(u64 param_1,int param_2,u32 param_3);
 u64 FUN_004654a0(u64 param_1,u64 param_2);
 u64 FUN_00465930(u64 param_1,u64 param_2);
 u64 FUN_00465a00(u64 param_1);
-u64 FUN_00465ae0(u64 param_1);
+s32 FUN_00465ae0(s32 arg0);
 u64 FUN_00465bf0(u64 param_1,int param_2);
 u64 FUN_00465cf0(u64 param_1,u64 param_2,int param_3);
 u64 FUN_00465eb0(u64 param_1,u64 param_2,u32 param_3);
 u64 FUN_00466260(u32 param_1,u32 *param_2,u32 *param_3,u32 param_4,u64 param_5);
-u64 FUN_004663d0(u64 param_1);
+s32 FUN_004663d0(u8 *arg0);
 u64 FUN_00466480(u32 param_1,int param_2,u32 param_3,u64 param_4);
 u64 FUN_00466640(u64 param_1);
 u64 FUN_00466ef0(u32 *param_1);
-u64 FUN_00467590(u64 param_1);
+s32 FUN_00467590(s32 arg0);
 u64 FUN_00467600(u64 param_1);
 u64 FUN_004676c0(u64 param_1);
-u64 FUN_004677f0(u64 param_1);
+s32 FUN_004677f0(s32 arg0);
 u64 FUN_00467860(u64 param_1,u64 param_2);
 u64 FUN_00467b40(u64 param_1,int *param_2);
 u64 FUN_00467fd0(u64 param_1,u64 param_2,u64 param_3);
@@ -802,33 +1045,33 @@ u64 FUN_00468dc0(u64 param_1);
 u64 FUN_00468e30(u64 param_1);
 u64 FUN_00468ea0(u64 param_1,int param_2);
 u64 FUN_00469060(u64 param_1,int *param_2);
-u64 FUN_00469280(u64 param_1,u32 param_2);
-u64 FUN_004692e0(float param_1,u64 param_2);
-u64 FUN_00469400(u64 param_1,int param_2);
-u64 FUN_004694b0(u64 param_1,u32 param_2);
-u64 FUN_00469510(u64 param_1,u32 param_2);
-u64 FUN_00469590(u32 param_1,u64 param_2);
-u32 FUN_00469770(u32 param_1,int param_2);
-u64 FUN_00469840(u64 param_1,u32 param_2,u32 param_3);
-u64 FUN_00469940(u64 param_1,u32 *param_2,u32 *param_3);
-u64 FUN_004699b0(u64 param_1,u32 param_2,u32 param_3);
-u64 FUN_00469a10(u64 param_1,long param_2,long param_3);
-u64 FUN_00469d00(u64 param_1);
-u64 FUN_00469d60(u64 param_1);
+s32 FUN_00469280(s32 arg0, s32 arg1);
+s32 FUN_004692e0(s32 arg0, f32 fparg0);
+s32 FUN_00469400(s32 arg0, u8 **arg1);
+s32 FUN_004694b0(s32 arg0, s32 arg1);
+s32 FUN_00469510(s32 arg0, s32 arg1);
+s32 FUN_00469590(s32 arg0, f32 fparg0);
+s32 FUN_00469770(s32 arg0, u8 **arg1);
+s32 FUN_00469840(s32 arg0, s32 arg1, s32 arg2);
+s32 FUN_00469940(s32 arg0, s32 *arg1, s32 *arg2);
+s32 FUN_004699b0(s32 arg0, s32 arg1, s32 arg2);
+s32 FUN_00469a10(s32 arg0, s32 *arg1, s32 *arg2);
+u8 * FUN_00469d00(u8 *arg0);
+u8 * FUN_00469d60(u8 *arg0);
 u64 FUN_00469e30(u64 param_1,int param_2);
-u64 FUN_00469fe0(u64 param_1);
+s32 FUN_00469fe0(s32 arg0);
 u64 FUN_0046a040(u64 param_1,int param_2);
 u64 FUN_0046a0f0(u64 param_1,u64 param_2,int param_3);
 u64 FUN_0046a230(u64 param_1,u64 param_2,u64 param_3);
 u64 FUN_0046a470(u64 param_1,int param_2);
-u64 FUN_0046a600(u64 param_1);
-u64 FUN_0046a660(u64 param_1);
-u64 FUN_0046a830(u64 param_1);
-u64 FUN_0046a970(u64 param_1,int param_2);
+s32 FUN_0046a600(s32 arg0);
+s32 FUN_0046a660(s32 arg0);
+s32 FUN_0046a830(s32 arg0);
+s32 FUN_0046a970(s32 arg0, s32 arg1);
 u64 FUN_0046aa80(u64 param_1,u32 *param_2);
 u64 FUN_0046ac30(u64 param_1);
 u64 FUN_0046ad80(u32 *param_1);
-u64 FUN_0046afa0(u32 *param_1);
+u8 * FUN_0046afa0(u8 *arg0);
 u64 FUN_0046b8e0(int param_1);
 u64 FUN_0046c330(u64 param_1,u32 param_2);
 u64 FUN_0046c5b0(int param_1);
@@ -862,14 +1105,14 @@ extern u64 FUN_0046e170_u64(u64 param_1);
 extern u64 FUN_00472270_u64(u64 param_1);
 #pragma alias FUN_00472970_u64 FUN_00472970
 extern u64 FUN_00472970_u64(u64 param_1);
-u64 FUN_004734d0(u64 param_1);
+u8 * FUN_004734d0(u8 *arg0);
 u64 FUN_00474160(u64 param_1);
 u32 FUN_004747f0(int *param_1);
 u64 FUN_00474820(int param_1,long param_2,u32 param_3);
 u64 FUN_004748c0(int param_1,long param_2);
-u64 FUN_004749a0(int param_1,long param_2);
-u64 FUN_00474bb0(u64 param_1);
-u64 FUN_00474c60(u64 param_1);
+s32 FUN_004749a0(u8 *arg0, u8 *arg1);
+s32 FUN_00474bb0(s32 arg0);
+s32 FUN_00474c60(s32 arg0);
 u64 FUN_00478520(int param_1);
 u64 FUN_00478a70(void);
 u64 FUN_00479900(int param_1);
@@ -903,7 +1146,7 @@ u64 FUN_0048d0e0(u64 param_1);
 u64 FUN_0048d270(int param_1,int param_2,u64 param_3);
 u64 FUN_0048d370(u32 *param_1,int param_2,float *param_3);
 u64 FUN_0048d480(float param_1,int param_2,long param_3,u64 param_4,long param_5);
-u64 FUN_0048d960(u64 param_1);
+u8 * FUN_0048d960(u8 *arg0);
 u64 FUN_0048e020(int *param_1,u64 param_2);
 u64 FUN_0048e2d0(int *param_1,u64 param_2);
 u64 FUN_0048e750(long param_1,u64 param_2);
@@ -1088,10 +1331,10 @@ u8 FUN_0045e170(int param_1);
 u8 FUN_0045ec00(void);
 u8 FUN_0045ec20(void);
 u8 FUN_0045f7d0(void);
-u8 FUN_004661b0(void);
+s32 FUN_004661b0(void);
 u8 FUN_00468c50(void);
-u8 FUN_0046a530(void);
-u8 FUN_00473590(void);
+s32 FUN_0046a530(void);
+s32 FUN_00473590(void);
 u8 FUN_00477050(int param_1);
 u8 FUN_00479030(int param_1);
 u8 FUN_0047a3d0(int param_1);
@@ -1256,7 +1499,7 @@ void FUN_00465670(int param_1,int param_2);
 void FUN_00468530(u64 param_1,u64 param_2,int param_3);
 void FUN_00468660(u64 param_1,u64 param_2,int param_3);
 void FUN_00468720(char *param_1,long param_2,int param_3);
-void FUN_00469aa0(int param_1);
+void FUN_00469aa0(s32 arg0);
 void FUN_00469b50(int param_1);
 void FUN_00469bc0(int param_1);
 void FUN_0046a8d0(int *param_1,int *param_2);
@@ -1273,7 +1516,7 @@ void FUN_00473380(u64 param_1);
 void FUN_00474210(u64 param_1,u64 param_2,u64 param_3);
 void FUN_00474d30(int param_1,int param_2);
 void FUN_00474f20(int param_1,u32 param_2);
-void FUN_00475c20(int param_1);
+void FUN_00475c20(u8 *arg0);
 void FUN_00475cb0(int param_1);
 void FUN_00476140(u32 *param_1,long param_2,u32 param_3);
 void FUN_00476490(u64 *param_1,long param_2,u64 *param_3);
@@ -1281,7 +1524,7 @@ void FUN_00476720(int param_1,long param_2,u64 *param_3);
 void FUN_00476980(int param_1,long param_2,u64 *param_3);
 void FUN_00476c20(int param_1,int param_2,long param_3);
 void FUN_00477150(int *param_1,int param_2,u64 param_3,u64 param_4,u32 param_5);
-void FUN_00477470(int *param_1,u64 param_2,u64 param_3,u64 param_4, u32 param_5);
+void FUN_00477470(u8 *arg0, u8 *arg1, s32 *arg2, u8 *arg3, u32 arg4);
 void FUN_00477610(int *param_1,u64 param_2,u64 param_3,int param_4,int param_5);
 void FUN_00477810(u32 *param_1,int param_2,int param_3);
 void FUN_00477a20(u32 *param_1,int param_2,int param_3);
@@ -1293,7 +1536,7 @@ void FUN_00478cc0(int param_1,u32 *param_2);
 void FUN_00479170(int *param_1,int param_2,u64 param_3,u64 param_4,u32 param_5);
 void FUN_00479590(int *param_1,u64 param_2,u64 param_3,u64 param_4, u32 param_5);
 void FUN_0047a050(int param_1,u32 *param_2);
-void FUN_0047bf80(int param_1);
+void FUN_0047bf80(s32 arg0);
 void FUN_0047c240(u32 *param_1,float *param_2,float *param_3,int param_4,int param_5);
 void FUN_0047c8c0(u32 *param_1,float *param_2,float *param_3,int param_4,int param_5);
 void FUN_004838e0(u32 *param_1,int param_2,int param_3);
@@ -2031,7 +2274,7 @@ extern code FUN_005316d0;
 char FUN_00435440(char param_1);
 char FUN_0043bc20(char param_1);
 float FUN_0045b4e0(long param_1);
-float FUN_004693a0(int param_1);
+f32 FUN_004693a0(s32 arg0);
 float FUN_0047cfd0(u32 *param_1,u8 (*param_2) [12],u8 (*param_3) [12], int param_4,int param_5);
 float FUN_004a9560(float param_1,int param_2,u8 *param_3);
 float FUN_004aa2c0(void);
@@ -2090,8 +2333,8 @@ long FUN_0046bd00(long param_1,u64 param_2);
 long FUN_0046bfb0(float param_1,long param_2,u8 *param_3,float *param_4,u32 param_5);
 long FUN_00474260(u32 param_1,u32 param_2,u64 param_3,u64 param_4);
 long FUN_00475d60(u64 param_1,u64 param_2,u64 param_3,u32 param_4, u32 param_5);
-long FUN_0047ab70(void);
-long FUN_0047b1a0(void);
+s32 FUN_0047ab70(void);
+s32 FUN_0047b1a0(void);
 long FUN_0047bb40(int param_1,int param_2,u32 param_3);
 long FUN_0048a9a0(long param_1,u64 param_2);
 long FUN_0048af80(u32 param_1);
@@ -2201,34 +2444,34 @@ u32 FUN_00465590(int param_1,u64 param_2);
 u32 FUN_00466710(int param_1);
 u32 FUN_00466720(int param_1);
 u32 FUN_00466730(u32 *param_1);
-u32 FUN_00469030(int param_1);
-u32 FUN_00469340(int param_1);
-u32 FUN_004695f0(int param_1);
-u32 FUN_00469650(int param_1);
-u32 FUN_004696b0(int param_1);
-u32 FUN_00469710(int param_1);
-u32 FUN_004698e0(int param_1);
+s32 FUN_00469030(s32 arg0);
+u32 FUN_00469340(s32 arg0);
+u32 FUN_004695f0(s32 arg0);
+u32 FUN_00469650(s32 arg0);
+u32 FUN_004696b0(s32 arg0);
+f32 FUN_00469710(s32 arg0);
+u32 FUN_004698e0(s32 arg0);
 u32 FUN_00469a90(void);
 u32 FUN_00469ce0(void);
 u32 FUN_00469cf0(void);
 u32 FUN_0046a6c0(int param_1,u64 param_2,u64 param_3,u64 param_4);
 u32 FUN_0046a6f0(int param_1,u64 param_2,u64 param_3,u64 param_4);
 u32 FUN_0046a720(int param_1,u64 param_2,u64 param_3,u64 param_4);
-u32 FUN_0046a750(u64 param_1);
-u32 FUN_0046a890(u64 param_1);
+s32 FUN_0046a750(s32 arg0);
+u32 FUN_0046a890(u64 arg0);
 u32 FUN_0046eb10(int param_1,u32 *param_2);
 u32 FUN_00473600(int *param_1,u32 param_2);
 u32 FUN_00473b10(int *param_1,u32 param_2);
 u32 FUN_00473fb0(u32 param_1);
 u32 FUN_00474640(int param_1,int *param_2,u32 param_3,u32 param_4);
 u32 FUN_00474a80(int param_1);
-u32 FUN_00478440(int param_1,u32 *param_2);
+s32 FUN_00478440(u8 *arg0, u8 *arg1);
 u32 FUN_00478e80(u64 param_1,u32 param_2);
-u32 FUN_00479840(int param_1,u32 *param_2);
+s32 FUN_00479840(u8 *arg0, u8 *arg1);
 u32 FUN_0047a210(u64 param_1,int param_2);
-u32 FUN_0047a510(u64 param_1,u64 param_2,u64 param_3,u32 param_4);
+s32 FUN_0047a510(s32 arg0, u8 *arg1, s32 arg2, s32 arg3);
 u32 FUN_0047abf0(int param_1,u32 *param_2);
-u32 FUN_0047bd20(u64 param_1);
+s32 FUN_0047bd20(u8 *arg0);
 u32 FUN_0047de30(u32 *param_1,u64 param_2,u64 param_3,int param_4,int param_5);
 u32 FUN_0047e9e0(u32 *param_1,float *param_2,float *param_3,int param_4,int param_5);
 u32 FUN_0047fb10(u32 *param_1,u64 param_2,u64 param_3,int param_4,int param_5);
@@ -2249,7 +2492,7 @@ u32 FUN_0048a3e0(int param_1);
 u32 FUN_0048a480(int param_1);
 u32 FUN_0048abf0(void);
 u32 FUN_0048ac00(void);
-u32 FUN_0048da30(u64 param_1);
+s32 FUN_0048da30(u8 *arg0);
 u32 FUN_0048ef30(int param_1);
 f32 FUN_0048ef60(int param_1, int param_2);
 u32 FUN_0048ef80(int param_1,int param_2);
@@ -2341,19 +2584,19 @@ u64 FUN_004643b0(u64 param_1,int param_2,u32 param_3);
 u64 FUN_004654a0(u64 param_1,u64 param_2);
 u64 FUN_00465930(u64 param_1,u64 param_2);
 u64 FUN_00465a00(u64 param_1);
-u64 FUN_00465ae0(u64 param_1);
+s32 FUN_00465ae0(s32 arg0);
 u64 FUN_00465bf0(u64 param_1,int param_2);
 u64 FUN_00465cf0(u64 param_1,u64 param_2,int param_3);
 u64 FUN_00465eb0(u64 param_1,u64 param_2,u32 param_3);
 u64 FUN_00466260(u32 param_1,u32 *param_2,u32 *param_3,u32 param_4,u64 param_5);
-u64 FUN_004663d0(u64 param_1);
+s32 FUN_004663d0(u8 *arg0);
 u64 FUN_00466480(u32 param_1,int param_2,u32 param_3,u64 param_4);
 u64 FUN_00466640(u64 param_1);
 u64 FUN_00466ef0(u32 *param_1);
-u64 FUN_00467590(u64 param_1);
+s32 FUN_00467590(s32 arg0);
 u64 FUN_00467600(u64 param_1);
 u64 FUN_004676c0(u64 param_1);
-u64 FUN_004677f0(u64 param_1);
+s32 FUN_004677f0(s32 arg0);
 u64 FUN_00467860(u64 param_1,u64 param_2);
 u64 FUN_00467b40(u64 param_1,int *param_2);
 u64 FUN_00467fd0(u64 param_1,u64 param_2,u64 param_3);
@@ -2364,33 +2607,33 @@ u64 FUN_00468dc0(u64 param_1);
 u64 FUN_00468e30(u64 param_1);
 u64 FUN_00468ea0(u64 param_1,int param_2);
 u64 FUN_00469060(u64 param_1,int *param_2);
-u64 FUN_00469280(u64 param_1,u32 param_2);
-u64 FUN_004692e0(float param_1,u64 param_2);
-u64 FUN_00469400(u64 param_1,int param_2);
-u64 FUN_004694b0(u64 param_1,u32 param_2);
-u64 FUN_00469510(u64 param_1,u32 param_2);
-u64 FUN_00469590(u32 param_1,u64 param_2);
-u32 FUN_00469770(u32 param_1,int param_2);
-u64 FUN_00469840(u64 param_1,u32 param_2,u32 param_3);
-u64 FUN_00469940(u64 param_1,u32 *param_2,u32 *param_3);
-u64 FUN_004699b0(u64 param_1,u32 param_2,u32 param_3);
-u64 FUN_00469a10(u64 param_1,long param_2,long param_3);
-u64 FUN_00469d00(u64 param_1);
-u64 FUN_00469d60(u64 param_1);
+s32 FUN_00469280(s32 arg0, s32 arg1);
+s32 FUN_004692e0(s32 arg0, f32 fparg0);
+s32 FUN_00469400(s32 arg0, u8 **arg1);
+s32 FUN_004694b0(s32 arg0, s32 arg1);
+s32 FUN_00469510(s32 arg0, s32 arg1);
+s32 FUN_00469590(s32 arg0, f32 fparg0);
+s32 FUN_00469770(s32 arg0, u8 **arg1);
+s32 FUN_00469840(s32 arg0, s32 arg1, s32 arg2);
+s32 FUN_00469940(s32 arg0, s32 *arg1, s32 *arg2);
+s32 FUN_004699b0(s32 arg0, s32 arg1, s32 arg2);
+s32 FUN_00469a10(s32 arg0, s32 *arg1, s32 *arg2);
+u8 * FUN_00469d00(u8 *arg0);
+u8 * FUN_00469d60(u8 *arg0);
 u64 FUN_00469e30(u64 param_1,int param_2);
-u64 FUN_00469fe0(u64 param_1);
+s32 FUN_00469fe0(s32 arg0);
 u64 FUN_0046a040(u64 param_1,int param_2);
 u64 FUN_0046a0f0(u64 param_1,u64 param_2,int param_3);
 u64 FUN_0046a230(u64 param_1,u64 param_2,u64 param_3);
 u64 FUN_0046a470(u64 param_1,int param_2);
-u64 FUN_0046a600(u64 param_1);
-u64 FUN_0046a660(u64 param_1);
-u64 FUN_0046a830(u64 param_1);
-u64 FUN_0046a970(u64 param_1,int param_2);
+s32 FUN_0046a600(s32 arg0);
+s32 FUN_0046a660(s32 arg0);
+s32 FUN_0046a830(s32 arg0);
+s32 FUN_0046a970(s32 arg0, s32 arg1);
 u64 FUN_0046aa80(u64 param_1,u32 *param_2);
 u64 FUN_0046ac30(u64 param_1);
 u64 FUN_0046ad80(u32 *param_1);
-u64 FUN_0046afa0(u32 *param_1);
+u8 * FUN_0046afa0(u8 *arg0);
 u64 FUN_0046b8e0(int param_1);
 u64 FUN_0046c330(u64 param_1,u32 param_2);
 u64 FUN_0046c5b0(int param_1);
@@ -2408,14 +2651,14 @@ u64 FUN_004718a0(int param_1,u32 *param_2);
 u64 FUN_00472270(int param_1);
 u64 FUN_00472970(int param_1);
 u64 FUN_004733c0(int param_1,int param_2);
-u64 FUN_004734d0(u64 param_1);
+u8 * FUN_004734d0(u8 *arg0);
 u64 FUN_00474160(u64 param_1);
 u32 FUN_004747f0(int *param_1);
 u64 FUN_00474820(int param_1,long param_2,u32 param_3);
 u64 FUN_004748c0(int param_1,long param_2);
-u64 FUN_004749a0(int param_1,long param_2);
-u64 FUN_00474bb0(u64 param_1);
-u64 FUN_00474c60(u64 param_1);
+s32 FUN_004749a0(u8 *arg0, u8 *arg1);
+s32 FUN_00474bb0(s32 arg0);
+s32 FUN_00474c60(s32 arg0);
 u64 FUN_00478520(int param_1);
 u64 FUN_00478a70(void);
 u64 FUN_00479900(int param_1);
@@ -2449,7 +2692,7 @@ u64 FUN_0048d0e0(u64 param_1);
 u64 FUN_0048d270(int param_1,int param_2,u64 param_3);
 u64 FUN_0048d370(u32 *param_1,int param_2,float *param_3);
 u64 FUN_0048d480(float param_1,int param_2,long param_3,u64 param_4,long param_5);
-u64 FUN_0048d960(u64 param_1);
+u8 * FUN_0048d960(u8 *arg0);
 u64 FUN_0048e020(int *param_1,u64 param_2);
 u64 FUN_0048e2d0(int *param_1,u64 param_2);
 u64 FUN_0048e750(long param_1,u64 param_2);
@@ -2634,10 +2877,10 @@ u8 FUN_0045e170(int param_1);
 u8 FUN_0045ec00(void);
 u8 FUN_0045ec20(void);
 u8 FUN_0045f7d0(void);
-u8 FUN_004661b0(void);
+s32 FUN_004661b0(void);
 u8 FUN_00468c50(void);
-u8 FUN_0046a530(void);
-u8 FUN_00473590(void);
+s32 FUN_0046a530(void);
+s32 FUN_00473590(void);
 u8 FUN_00477050(int param_1);
 u8 FUN_00479030(int param_1);
 u8 FUN_0047a3d0(int param_1);
@@ -2802,7 +3045,7 @@ void FUN_00465670(int param_1,int param_2);
 void FUN_00468530(u64 param_1,u64 param_2,int param_3);
 void FUN_00468660(u64 param_1,u64 param_2,int param_3);
 void FUN_00468720(char *param_1,long param_2,int param_3);
-void FUN_00469aa0(int param_1);
+void FUN_00469aa0(s32 arg0);
 void FUN_00469b50(int param_1);
 void FUN_00469bc0(int param_1);
 void FUN_0046a8d0(int *param_1,int *param_2);
@@ -2819,7 +3062,7 @@ void FUN_00473380(u64 param_1);
 void FUN_00474210(u64 param_1,u64 param_2,u64 param_3);
 void FUN_00474d30(int param_1,int param_2);
 void FUN_00474f20(int param_1,u32 param_2);
-void FUN_00475c20(int param_1);
+void FUN_00475c20(u8 *arg0);
 void FUN_00475cb0(int param_1);
 void FUN_00476140(u32 *param_1,long param_2,u32 param_3);
 void FUN_00476490(u64 *param_1,long param_2,u64 *param_3);
@@ -2827,7 +3070,7 @@ void FUN_00476720(int param_1,long param_2,u64 *param_3);
 void FUN_00476980(int param_1,long param_2,u64 *param_3);
 void FUN_00476c20(int param_1,int param_2,long param_3);
 void FUN_00477150(int *param_1,int param_2,u64 param_3,u64 param_4,u32 param_5);
-void FUN_00477470(int *param_1,u64 param_2,u64 param_3,u64 param_4, u32 param_5);
+void FUN_00477470(u8 *arg0, u8 *arg1, s32 *arg2, u8 *arg3, u32 arg4);
 void FUN_00477610(int *param_1,u64 param_2,u64 param_3,int param_4,int param_5);
 void FUN_00477810(u32 *param_1,int param_2,int param_3);
 void FUN_00477a20(u32 *param_1,int param_2,int param_3);
@@ -2839,7 +3082,7 @@ void FUN_00478cc0(int param_1,u32 *param_2);
 void FUN_00479170(int *param_1,int param_2,u64 param_3,u64 param_4,u32 param_5);
 void FUN_00479590(int *param_1,u64 param_2,u64 param_3,u64 param_4, u32 param_5);
 void FUN_0047a050(int param_1,u32 *param_2);
-void FUN_0047bf80(int param_1);
+void FUN_0047bf80(s32 arg0);
 void FUN_0047c240(u32 *param_1,float *param_2,float *param_3,int param_4,int param_5);
 void FUN_0047c8c0(u32 *param_1,float *param_2,float *param_3,int param_4,int param_5);
 void FUN_004838e0(u32 *param_1,int param_2,int param_3);
@@ -3336,17 +3579,23 @@ u64 FUN_00465a00(u64 param_1)
 }
 
 #pragma schedule on
-// FUN_00465AE0 NONMATCHING
-
-u64 FUN_00465ae0(u64 param_1)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+// FUN_00465AE0
+s32 FUN_00465ae0(s32 arg0)
 {
-  if (iGpffffba44 != 0) {
-    FUN_004c3c30_typed(iGpffffba44);
-    iGpffffba44 = 0;
-  }
-  return param_1;
+    s32 temp;
+
+    temp = iGpffffba44_s32;
+    if (temp != 0) {
+        FUN_004c3c30_rwt(temp);
+        iGpffffba44_s32 = 0;
+    }
+    return arg0;
 }
+#pragma pop
 #pragma schedule off
 
 #pragma schedule on
@@ -3605,28 +3854,26 @@ u64 FUN_00465eb0(u64 param_1,u64 param_2,u32 param_3)
   return param_1;
 }
 
-// FUN_004661B0 NONMATCHING
-
-u8 FUN_004661b0(void)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+// FUN_004661B0
+s32 FUN_004661b0(void)
 {
-  u8 bVar1;
-  long lVar2;
-  
-  lVar2 = ((code)FUN_004ca520)(0,0x11e,0x465a00,0x465ae0);
-  if (lVar2 < 0) {
-    bVar1 = 0;
-  }
-  else {
-    DAT_007ce730 = ((code)FUN_004cb9f0)(8,0x11e,0x465b20,0x465b40,0x465bf0);
-    lVar2 = ((code)FUN_004c7d00)(0x11e,0x465eb0,0x465cf0,0x466130);
-    bVar1 = 0;
-    if (-1 < lVar2) {
-      bVar1 = -1 < DAT_007ce730;
+    s32 var_2;
+
+    if (FUN_004ca520_rwt2(0, 0x11E, FUN_00465a00_rwt, FUN_00465ae0_rwt) < 0) {
+        return 0;
     }
-  }
-  return bVar1;
+    DAT_007ce730_s32 = FUN_004cb9f0_rwt(8, 0x11E, FUN_00465b20_rwt, FUN_00465b40_rwt, FUN_00465bf0_rwt);
+    var_2 = FUN_004c7d00_rwt(0x11E, FUN_00465eb0_rwt, FUN_00465cf0_rwt, func_00466130_rwt) >= 0;
+    if (var_2 != 0) {
+        var_2 = DAT_007ce730_s32 >= 0;
+    }
+    return var_2;
 }
+#pragma pop
 
 // FUN_00466260 NONMATCHING
 
@@ -3684,32 +3931,35 @@ FUN_00466260(u32 param_1,u32 *param_2,u32 *param_3,u32 param_4,u64 param_5)
   return uVar2;
 }
 
-// FUN_004663D0 NONMATCHING
-
-u64 FUN_004663d0(u64 param_1)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+// FUN_004663D0
+s32 FUN_004663d0(u8 *arg0)
 {
-  u32 uVar1;
-  u32 *puVar2;
-  
-  puVar2 = (u32 *)param_1;
-  uVar1 = puVar2[5];
-  if ((*puVar2 & 1) == 0) {
-    if ((*puVar2 & 2) == 0) {
-      (*DAT_0096017c)(puVar2[3]);
+    s32 temp_3;
+    s32 temp_16;
+
+    temp_3 = *(s32 *)arg0;
+    temp_16 = *(s32 *)(arg0 + 0x14);
+    if ((temp_3 & 1) == 0) {
+        if ((temp_3 & 2) == 0) {
+            DAT_0096017c_rwt[0](*(u8 **)(arg0 + 0xC));
+        }
+        DAT_0096017c_rwt[0](*(u8 **)(arg0 + 0x10));
     }
-    (*DAT_0096017c)(puVar2[4]);
-  }
-  puVar2[3] = 0;
-  puVar2[2] = 0;
-  puVar2[4] = 0;
-  ((code)FUN_004b6eb0)(puVar2[8]);
-  (*DAT_0096018c)(DAT_007ce734,param_1);
-  if (uVar1 != 0) {
-    *(u32 *)(uVar1 + DAT_007ce730 + 4) = 0;
-  }
-  return 0;
+    *(s32 *)(arg0 + 0xC) = 0;
+    *(s32 *)(arg0 + 8) = 0;
+    *(s32 *)(arg0 + 0x10) = 0;
+    FUN_004b6eb0_rwt(*(u8 **)(arg0 + 0x20));
+    DAT_0096018c_rwt[0](DAT_007ce734_s32, arg0);
+    if (temp_16 != 0) {
+        *(s32 *)((u8 *)temp_16 + DAT_007ce730_s32 + 4) = 0;
+    }
+    return 0;
 }
+#pragma pop
 
 #pragma schedule on
 // FUN_00466480 NONMATCHING
@@ -4359,21 +4609,31 @@ u64 FUN_00466ef0(u32 *param_1)
   return uVar7;
 }
 
-// FUN_00467590 NONMATCHING
-
-u64 FUN_00467590(u64 param_1)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+// FUN_00467590
+s32 FUN_00467590(s32 arg0)
 {
-  DAT_0095c3fc = DAT_0095c3fc + -1;
-  if (DAT_0095c3fc == 0) {
-    ((code)FUN_00469cf0)();
-  }
-  if (DAT_0095c400 != 0) {
-    ((code)FUN_004c3c30)();
-    DAT_0095c400 = 0;
-  }
-  return param_1;
+    s32 temp;
+
+    temp = DAT_0095c3fc_s32_arr[0] - 1;
+    DAT_0095c3fc_s32_arr[0] = temp;
+    if (temp == 0) {
+        goto init;
+    }
+tail:
+    if (DAT_0095c400_s32_arr[0] != 0) {
+        FUN_004c3c30_rwt(DAT_0095c400_s32_arr[0]);
+        DAT_0095c400_s32_arr[0] = 0;
+    }
+    return arg0;
+init:
+    FUN_00469cf0_rwt();
+    goto tail;
 }
+#pragma pop
 
 // FUN_00467600 NONMATCHING
 
@@ -4438,21 +4698,24 @@ u64 FUN_004676c0(u64 param_1)
   return param_1;
 }
 
-// FUN_004677F0 NONMATCHING
-
-u64 FUN_004677f0(u64 param_1)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+// FUN_004677F0
+s32 FUN_004677f0(s32 arg0)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)((int)param_1 + DAT_007ce738);
-  if (iVar1 != 0) {
-    ((code)FUN_004676c0)(iVar1);
-    (*DAT_0096018c)(DAT_0095c400,iVar1);
-    *(u32 *)((int)param_1 + DAT_007ce738) = 0;
-  }
-  return param_1;
+    u8 *temp_17;
+
+    temp_17 = *(u8 **)(arg0 + DAT_007ce738_s32);
+    if (temp_17 != NULL) {
+        FUN_004676c0_rwt(temp_17);
+        DAT_0096018c_rwt[0](DAT_0095c400_s32_arr[0], temp_17);
+        *(u8 **)(arg0 + DAT_007ce738_s32) = NULL;
+    }
+    return arg0;
 }
+#pragma pop
 
 // FUN_00467860 NONMATCHING
 
@@ -5327,18 +5590,22 @@ LAB_00468f98:
   return param_1;
 }
 
-// FUN_00469030 NONMATCHING
-u32 FUN_00469030(int param_1)
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+// FUN_00469030
+s32 FUN_00469030(s32 arg0)
 {
-  u32 result;
-  result = *(u32 *)((u8 *)param_1 + iGpffffba48);
-  if (result == 0) {
-    result = 0;
-  } else {
-    result = *(u32 *)(result + 0x80);
-  }
-  return result;
+    u8 *p;
+
+    p = *(u8 **)(arg0 + iGpffffba48_s32);
+    if (p == NULL) {
+        return 0;
+    }
+    return *(s32 *)(p + 0x80);
 }
+#pragma pop
 
 // FUN_00469060 NONMATCHING
 
@@ -5431,414 +5698,696 @@ LAB_004691d0:
   return param_1;
 }
 
-// FUN_00469280 NONMATCHING
+#pragma push
+#pragma optimization_level 2
+#pragma schedule off
+#pragma no_branch_likely off
+// FUN_00469280
+/* measured: opt_loop_invariants hoists the compare constant; schedule off
+   keeps the loop body order, while the scoped tail schedule on fills the
+   found-store delay slot. */
+#pragma opt_loop_invariants on
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+s32 FUN_00469280(s32 arg0, s32 arg1) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+    s32 want;
 
-u64 FUN_00469280(u64 param_1,u32 param_2)
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    want = 1;
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == want) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on fills the found-store branch delay slot. */
+#pragma schedule on
+found:
+    *(s32 *)r = arg1;
+    return arg0;
+}
+#pragma pop
 
+#pragma push
+#pragma optimization_level 2
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+// FUN_004692E0
+/* measured: opt_loop_invariants hoists the compare constant; schedule off
+   keeps the loop body order, while the scoped tail schedule on fills the
+   found-negation delay slot. */
+#pragma opt_loop_invariants on
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+s32 FUN_004692e0(s32 arg0, f32 fparg0) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 1) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on fills the found-negation branch delay slot. */
+#pragma schedule on
+found:
+    *(f32 *)(r + 0xC) = -fparg0;
+    return arg0;
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 2
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+// FUN_00469340
+/* measured: the function body is exact at O2 with the comparison constant
+   hoisted and its found-load tail scheduled separately. */
+#pragma optimization_level 2
+/* measured: opt_loop_invariants hoists the compare constant. */
+#pragma opt_loop_invariants on
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+u32 FUN_00469340(s32 arg0) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 1) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the found-load epilogue order. */
+#pragma schedule on
+found:
+    return *(u32 *)(r + 0x0);
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+// FUN_004693A0
+/* measured: opt_loop_invariants hoists the compare constant; schedule off
+   keeps the loop body order, while the scoped tail schedule on preserves the
+   found-load epilogue order. */
+#pragma opt_loop_invariants on
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+f32 FUN_004693a0(s32 arg0) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 1) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the found-load epilogue order. */
+#pragma schedule on
+found:
+    return -*(f32 *)(r + 0xC);
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_loop_invariants on
+// FUN_00469400
+s32 FUN_00469400(s32 arg0, u8 **arg1)
 {
-  u32 uVar1;
-  u32 *puVar2;
-  
-  uVar1 = 0;
-  do {
-    puVar2 = (u32 *)(*(int *)((int)param_1 + iGpffffba48) + uVar1 * 0x40);
-    if (puVar2[8] == 1) {
-      *puVar2 = param_2;
-      return param_1;
+    s32 var_5;
+    u8 *p;
+    u8 *var_16;
+    u8 *temp_4;
+    u8 *result;
+    s32 want;
+
+    p = *(u8 **)(arg0 + (s32)iGpffffba48_s32);
+    var_5 = 0;
+    want = 2;
+loop_1:
+    var_16 = p + ((var_5 & 0xFF) << 6);
+    if (*(s32 *)(var_16 + 0x20) == want) {
+        result = var_16;
+        goto found;
     }
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  uRam00000000 = param_2;
-  return param_1;
-}
-
-// FUN_004692E0 NONMATCHING
-
-u64 FUN_004692e0(float param_1,u64 param_2)
-{
-  u32 uVar1;
-  int iVar2;
-
-  uVar1 = 0;
-  do {
-    iVar2 = *(int *)((int)param_2 + iGpffffba48) + uVar1 * 0x40;
-    if (*(int *)(iVar2 + 0x20) == 1) goto LAB_00469330;
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  iVar2 = 0;
-LAB_00469330:
-  *(float *)(iVar2 + 0xc) = -param_1;
-  return param_2;
-}
-
-// FUN_00469340 NONMATCHING
-
-u32 FUN_00469340(int param_1)
-
-{
-  u32 uVar1;
-  int iVar2;
-  u32 *puVar2;
-  
-  uVar1 = 0;
-  iVar2 = *(int *)(param_1 + iGpffffba48);
-  do {
-    puVar2 = (u32 *)(iVar2 + uVar1 * 0x40);
-    if (puVar2[8] == 1) {
-      return *puVar2;
+    var_5 = (var_5 + 1) & 0xFF;
+    if (var_5 < 2) {
+        goto loop_1;
     }
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  return uRam00000000;
-}
-
-// FUN_004693A0 NONMATCHING
-
-float FUN_004693a0(int param_1)
-
-{
-  u32 uVar1;
-  int iVar2;
-  float fVar3;
-  
-  uVar1 = 0;
-  do {
-    iVar2 = *(int *)(param_1 + iGpffffba48) + uVar1 * 0x40;
-    if (*(int *)(iVar2 + 0x20) == 1) {
-      fVar3 = *(float *)(iVar2 + 0xc);
-      break;
+    result = NULL;
+found:
+    *(s32 *)((u8 *)arg1 + 0x54) += 1;
+    temp_4 = *(u8 **)(result + 4);
+    if (temp_4 != NULL) {
+        FUN_004d0f00_rwt(temp_4, var_5);
+        *(u8 **)(result + 4) = NULL;
     }
-    uVar1 = uVar1 + 1 & 0xff;
-    fVar3 = fRam0000000c;
-  } while (uVar1 < 2);
-  return -fVar3;
+    *(u8 **)(result + 4) = (u8 *)arg1;
+    return arg0;
 }
+#pragma pop
 
-// FUN_00469400 NONMATCHING
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+// FUN_004694B0
+/* measured: opt_loop_invariants hoists the compare constant; schedule off
+   keeps the loop body order, while the scoped tail schedule on fills the
+   found-store delay slot. */
+#pragma opt_loop_invariants on
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+s32 FUN_004694b0(s32 arg0, s32 arg1) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+    s32 want;
 
-u64 FUN_00469400(u64 param_1,int param_2)
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    want = 2;
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == want) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on fills the found-store branch delay slot. */
+#pragma schedule on
+found:
+    *(s32 *)r = arg1;
+    return arg0;
+}
+#pragma pop
 
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely on
+#pragma opt_loop_invariants on
+// FUN_00469510
+/* measured: opt_loop_invariants hoists the compare constant. */
+#pragma opt_loop_invariants on
+/* measured: the loop uses baseline scheduling and plain branches. */
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+s32 FUN_00469510(s32 arg0, s32 arg1) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 2) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the found-store/call epilogue order. */
+#pragma schedule on
+found:
+    *(s32 *)(r + 0xC) = arg1;
+    FUN_00469b50_rwt(arg0);
+    return arg0;
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+// FUN_00469590
+/* measured: opt_loop_invariants hoists the compare constant; schedule off
+   keeps the loop body order, while the scoped tail schedule on preserves the
+   found-store epilogue order. */
+#pragma opt_loop_invariants on
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+s32 FUN_00469590(s32 arg0, f32 fparg0) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 2) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the found-store epilogue order. */
+#pragma schedule on
+found:
+    *(f32 *)(r + 0x8) = fparg0;
+    return arg0;
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+// FUN_004695F0
+/* measured: the function body is exact at O2 with the comparison constant
+   hoisted and its found-load tail scheduled separately. */
+#pragma optimization_level 2
+/* measured: opt_loop_invariants hoists the compare constant. */
+#pragma opt_loop_invariants on
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+u32 FUN_004695f0(s32 arg0) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 2) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the found-load epilogue order. */
+#pragma schedule on
+found:
+    return *(u32 *)(r + 0x4);
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+// FUN_00469650
+/* measured: the function body is exact at O2 with the comparison constant
+   hoisted and its found-load tail scheduled separately. */
+#pragma optimization_level 2
+/* measured: opt_loop_invariants hoists the compare constant. */
+#pragma opt_loop_invariants on
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+u32 FUN_00469650(s32 arg0) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 2) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the found-load epilogue order. */
+#pragma schedule on
+found:
+    return *(u32 *)(r + 0x0);
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+// FUN_004696B0
+/* measured: the function body is exact at O2 with the comparison constant
+   hoisted and its found-load tail scheduled separately. */
+#pragma optimization_level 2
+/* measured: opt_loop_invariants hoists the compare constant. */
+#pragma opt_loop_invariants on
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+u32 FUN_004696b0(s32 arg0) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 2) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the found-load epilogue order. */
+#pragma schedule on
+found:
+    return *(u32 *)(r + 0xC);
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+// FUN_00469710
+/* measured: opt_loop_invariants hoists the compare constant; schedule off
+   keeps the loop body order, while the scoped tail schedule on preserves the
+   found-load epilogue order. */
+#pragma opt_loop_invariants on
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+f32 FUN_00469710(s32 arg0) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 2) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the found-load epilogue order. */
+#pragma schedule on
+found:
+    return *(f32 *)(r + 0x8);
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_loop_invariants on
+// FUN_00469770
+s32 FUN_00469770(s32 arg0, u8 **arg1)
 {
-  int iVar1;
-  u32 uVar2;
-  int iVar3;
-  
-  uVar2 = 0;
-  do {
-    iVar3 = *(int *)((int)param_1 + iGpffffba48) + uVar2 * 0x40;
-    if (*(int *)(iVar3 + 0x20) == 2) {
-      iVar1 = *(int *)(param_2 + 0x54);
-      goto LAB_0046946c;
+    s32 var_5;
+    u8 *p;
+    u8 ***var_16;
+    u8 **temp_4;
+    u8 ***result;
+    s32 want;
+
+    p = *(u8 **)(arg0 + (s32)iGpffffba48_s32);
+    var_5 = 0;
+    want = 4;
+
+loop_1:
+    var_16 = (u8 ***)((p) + ((var_5 & 0xFF) << 6));
+
+    if (*(s32 *)((u8 *)var_16 + 0x20) == want) {
+        result = var_16;
+        goto found;
     }
-    uVar2 = uVar2 + 1 & 0xff;
-  } while (uVar2 < 2);
-  iVar3 = 0;
-  iVar1 = *(int *)(param_2 + 0x54);
-LAB_0046946c:
-  *(int *)(param_2 + 0x54) = iVar1 + 1;
-  if (*(int *)(iVar3 + 4) != 0) {
-    ((code)FUN_004d0f00)();
-    *(u32 *)(iVar3 + 4) = 0;
-  }
-  *(int *)(iVar3 + 4) = param_2;
-  return param_1;
-}
-
-// FUN_004694B0 NONMATCHING
-
-u64 FUN_004694b0(u64 param_1,u32 param_2)
-
-{
-  u32 uVar1;
-  u32 *puVar2;
-  
-  uVar1 = 0;
-  do {
-    puVar2 = (u32 *)(*(int *)((int)param_1 + iGpffffba48) + uVar1 * 0x40);
-    if (puVar2[8] == 2) {
-      *puVar2 = param_2;
-      return param_1;
+    var_5 = (var_5 + 1) & 0xFF;
+    if (var_5 < 2) {
+        goto loop_1;
     }
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  uRam00000000 = param_2;
-  return param_1;
-}
-
-// FUN_00469510 NONMATCHING
-
-u64 FUN_00469510(u64 param_1,u32 param_2)
-
-{
-  u32 uVar1;
-  u32 uVar2;
-  int iVar3;
-  
-  uVar2 = 0;
-  do {
-    iVar3 = *(int *)((int)param_1 + iGpffffba48) + uVar2 * 0x40;
-    if (*(int *)(iVar3 + 0x20) == 2) {
-      *(u32 *)(iVar3 + 0xc) = param_2;
-      uVar1 = uRam0000000c;
-      break;
+    result = NULL;
+found:
+    *(s32 *)((u8 *)arg1 + 0x54) += 1;
+    temp_4 = *result;
+    if (temp_4 != NULL) {
+        FUN_004d0f00_rwt(temp_4, var_5);
+        *result = NULL;
     }
-    uVar2 = uVar2 + 1 & 0xff;
-    uVar1 = param_2;
-  } while (uVar2 < 2);
-  uRam0000000c = uVar1;
-  ((code)FUN_00469b50)(param_1);
-  return param_1;
+    *result = arg1;
+    FUN_00469a90_rwt((u8 *)result, 2);
+    FUN_00469a90_rwt((u8 *)result, 1);
+    return arg0;
 }
+#pragma pop
 
-// FUN_00469590 NONMATCHING
-
-u64 FUN_00469590(u32 param_1,u64 param_2)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_loop_invariants on
+#pragma opt_rebuildconditionals off
+// FUN_00469840
+s32 FUN_00469840(s32 arg0, s32 arg1, s32 arg2)
 {
-  u32 uVar1;
-  int iVar2;
-  
-  uVar1 = 0;
-  do {
-    iVar2 = *(int *)((int)param_2 + iGpffffba48) + uVar1 * 0x40;
-    if (*(int *)(iVar2 + 0x20) == 2) {
-      *(u32 *)(iVar2 + 8) = param_1;
-      return param_2;
+    s32 want;
+    s32 i;
+    u8 *entry;
+    u8 *base;
+    u8 *result;
+
+    i = 0;
+    base = *(u8 **)(arg0 + iGpffffba48_s32);
+    want = 4;
+
+    do {
+        entry = base + ((i & 0xFF) << 6);
+        if (*(s32 *)(entry + 0x20) == want) {
+            result = entry;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while (i < 2);
+    result = NULL;
+found:
+    *(s32 *)(result + 4) = arg1;
+    *(s32 *)(result + 8) = arg2;
+    FUN_00469a90_rwt(result, 0xA);
+    FUN_00469a90_rwt(result, 0xB);
+    FUN_00469bc0_rwt(arg0);
+    return arg0;
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_004698E0
+/* measured: the function body is exact at O2 with the comparison constant
+   hoisted and its found-load tail scheduled separately. */
+#pragma optimization_level 2
+/* measured: opt_loop_invariants hoists the compare constant. */
+#pragma opt_loop_invariants on
+/* measured: retail uses plain bne/b dispatches in this loop. */
+#pragma no_branch_likely on
+u32 FUN_004698e0(s32 arg0) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 4) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the found-load epilogue order. */
+#pragma schedule on
+found:
+    return *(u32 *)(r + 0x0);
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_00469940
+/* measured: opt_loop_invariants hoists the compare constant; schedule off
+   keeps the loop body order, while the scoped tail schedule on preserves the
+   two output-load/store sequences. */
+#pragma opt_loop_invariants on
+/* measured: the loop must use the baseline scheduler until the found tail. */
+#pragma no_branch_likely on
+s32 FUN_00469940(s32 arg0, s32 *arg1, s32 *arg2) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 4) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the found output-load/store epilogue. */
+#pragma schedule on
+found:
+    *arg1 = *(s32 *)(r + 0x4);
+    *arg2 = *(s32 *)(r + 0x8);
+    return arg0;
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_004699B0
+/* measured: opt_loop_invariants hoists the compare constant; schedule off
+   keeps the loop body order, while the scoped tail schedule on preserves the
+   two found-store operations. */
+#pragma opt_loop_invariants on
+/* measured: the loop must use the baseline scheduler until the found tail. */
+#pragma no_branch_likely on
+s32 FUN_004699b0(s32 arg0, s32 arg1, s32 arg2) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 5) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the found-store epilogue order. */
+#pragma schedule on
+found:
+    *(s32 *)(r + 0x0) = arg1;
+    *(s32 *)(r + 0x4) = arg2;
+    return arg0;
+}
+#pragma pop
+
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_00469A10
+/* measured: opt_loop_invariants hoists the compare constant; schedule off
+   keeps the loop body and empty found branch order, while the scoped tail
+   schedule on preserves the conditional-store epilogue. */
+#pragma opt_loop_invariants on
+/* measured: the loop must use the baseline scheduler until the found tail. */
+#pragma no_branch_likely on
+s32 FUN_00469a10(s32 arg0, s32 *arg1, s32 *arg2) {
+    u8 *p;
+    u8 *e;
+    u8 *r;
+    s32 i;
+
+    i = 0;
+    p = *(u8 **)(arg0 + (s32)iGpffffba48);
+    do {
+        e = p + (u8)i * 0x40;
+        if (*(s32 *)(e + 0x20) == 5) {
+            r = e;
+            goto found;
+        }
+        i = (i + 1) & 0xFF;
+    } while ((s32)(u8)i < 2);
+    r = NULL;
+/* measured: schedule on preserves the conditional-store epilogue order. */
+#pragma schedule on
+found:
+    if (arg1 != NULL) {
+        *arg1 = *(s32 *)(r + 0x0);
     }
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  uRam00000008 = param_1;
-  return param_2;
-}
-
-// FUN_004695F0 NONMATCHING
-
-u32 FUN_004695f0(int param_1)
-
-{
-  u32 uVar1;
-  int iVar2;
-  
-  uVar1 = 0;
-  do {
-    iVar2 = *(int *)(param_1 + iGpffffba48) + uVar1 * 0x40;
-    if (*(int *)(iVar2 + 0x20) == 2) {
-      return *(u32 *)(iVar2 + 4);
+    if (arg2 != NULL) {
+        *arg2 = *(s32 *)(r + 0x4);
     }
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  return uRam00000004;
+    return arg0;
 }
-
-// FUN_00469650 NONMATCHING
-
-u32 FUN_00469650(int param_1)
-
-{
-  u32 uVar1;
-  u32 *puVar2;
-  
-  uVar1 = 0;
-  do {
-    puVar2 = (u32 *)(*(int *)(param_1 + iGpffffba48) + uVar1 * 0x40);
-    if (puVar2[8] == 2) {
-      return *puVar2;
-    }
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  return uRam00000000;
-}
-
-// FUN_004696B0 NONMATCHING
-
-u32 FUN_004696b0(int param_1)
-
-{
-  u32 uVar1;
-  int iVar2;
-  
-  uVar1 = 0;
-  do {
-    iVar2 = *(int *)(param_1 + iGpffffba48) + uVar1 * 0x40;
-    if (*(int *)(iVar2 + 0x20) == 2) {
-      return *(u32 *)(iVar2 + 0xc);
-    }
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  return uRam0000000c;
-}
-
-// FUN_00469710 NONMATCHING
-
-u32 FUN_00469710(int param_1)
-
-{
-  u32 uVar1;
-  int iVar2;
-  
-  uVar1 = 0;
-  do {
-    iVar2 = *(int *)(param_1 + iGpffffba48) + uVar1 * 0x40;
-    if (*(int *)(iVar2 + 0x20) == 2) {
-      return *(u32 *)(iVar2 + 8);
-    }
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  return uRam00000008;
-}
-
-// FUN_00469770 NONMATCHING
-
-u32 FUN_00469770(u32 param_1,int param_2)
-
-{
-  int iVar1;
-  u32 uVar2;
-  int *piVar3;
-  
-  uVar2 = 0;
-  do {
-    piVar3 = (int *)(*(int *)((int)param_1 + iGpffffba48) + uVar2 * 0x40);
-    if (piVar3[8] == 4) {
-      iVar1 = *(int *)(param_2 + 0x54);
-      goto LAB_004697dc;
-    }
-    uVar2 = uVar2 + 1 & 0xff;
-  } while (uVar2 < 2);
-  piVar3 = (int *)0x0;
-  iVar1 = *(int *)(param_2 + 0x54);
-LAB_004697dc:
-  *(int *)(param_2 + 0x54) = iVar1 + 1;
-  if (*piVar3 != 0) {
-    ((code)FUN_004d0f00)();
-    *piVar3 = 0;
-  }
-  *piVar3 = param_2;
-  ((code)FUN_00469a90)(piVar3,2);
-  ((code)FUN_00469a90)(piVar3,1);
-  return param_1;
-}
-
-// FUN_00469840 NONMATCHING
-
-u64 FUN_00469840(u64 param_1,u32 param_2,u32 param_3)
-
-{
-  u32 uVar1;
-  int iVar2;
-  
-  uVar1 = 0;
-  do {
-    iVar2 = *(int *)((int)param_1 + iGpffffba48) + uVar1 * 0x40;
-    if (*(int *)(iVar2 + 0x20) == 4) {
-      *(u32 *)(iVar2 + 4) = param_2;
-      goto LAB_004698a4;
-    }
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  iVar2 = 0;
-  uRam00000004 = param_2;
-LAB_004698a4:
-  *(u32 *)(iVar2 + 8) = param_3;
-  ((code)FUN_00469a90)(iVar2,10);
-  ((code)FUN_00469a90)(iVar2,0xb);
-  ((code)FUN_00469bc0)(param_1);
-  return param_1;
-}
-
-// FUN_004698E0 NONMATCHING
-
-u32 FUN_004698e0(int param_1)
-
-{
-  u32 uVar1;
-  u32 *puVar2;
-  
-  uVar1 = 0;
-  do {
-    puVar2 = (u32 *)(*(int *)(param_1 + iGpffffba48) + uVar1 * 0x40);
-    if (puVar2[8] == 4) {
-      return *puVar2;
-    }
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  return uRam00000000;
-}
-
-// FUN_00469940 NONMATCHING
-
-u64 FUN_00469940(u64 param_1,u32 *param_2,u32 *param_3)
-
-{
-  u32 uVar1;
-  u32 uVar2;
-  int iVar3;
-  
-  uVar2 = 0;
-  do {
-    iVar3 = *(int *)((int)param_1 + iGpffffba48) + uVar2 * 0x40;
-    if (*(int *)(iVar3 + 0x20) == 4) {
-      uVar1 = *(u32 *)(iVar3 + 4);
-      goto LAB_00469990;
-    }
-    uVar2 = uVar2 + 1 & 0xff;
-  } while (uVar2 < 2);
-  iVar3 = 0;
-  uVar1 = uRam00000004;
-LAB_00469990:
-  *param_2 = uVar1;
-  *param_3 = *(u32 *)(iVar3 + 8);
-  return param_1;
-}
-
-// FUN_004699B0 NONMATCHING
-
-u64 FUN_004699b0(u64 param_1,u32 param_2,u32 param_3)
-
-{
-  u32 uVar1;
-  u32 *puVar2;
-  
-  uVar1 = 0;
-  do {
-    puVar2 = (u32 *)(*(int *)((int)param_1 + iGpffffba48) + uVar1 * 0x40);
-    if (puVar2[8] == 5) {
-      *puVar2 = param_2;
-      goto LAB_00469a00;
-    }
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  puVar2 = (u32 *)0x0;
-  uRam00000000 = param_2;
-LAB_00469a00:
-  puVar2[1] = param_3;
-  return param_1;
-}
-
-// FUN_00469A10 NONMATCHING
-
-u64 FUN_00469a10(u64 param_1,long param_2,long param_3)
-
-{
-  u32 uVar1;
-  u32 *puVar2;
-  
-  uVar1 = 0;
-  do {
-    puVar2 = (u32 *)(*(int *)((int)param_1 + iGpffffba48) + uVar1 * 0x40);
-    if (puVar2[8] == 5) goto LAB_00469a5c;
-    uVar1 = uVar1 + 1 & 0xff;
-  } while (uVar1 < 2);
-  puVar2 = (u32 *)0x0;
-LAB_00469a5c:
-  if (param_2 != 0) {
-    *(u32 *)param_2 = *puVar2;
-  }
-  if (param_3 != 0) {
-    *(u32 *)param_3 = puVar2[1];
-  }
-  return param_1;
-}
+#pragma pop
 
 #pragma optimization_level 3
 // FUN_00469A90
@@ -5848,39 +6397,50 @@ u32 FUN_00469a90(void)
 }
 #pragma optimization_level 3
 
-// FUN_00469AA0 NONMATCHING
-
-void FUN_00469aa0(int param_1)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_00469AA0
+void FUN_00469aa0(s32 arg0)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + iGpffffba48);
-  switch(*(u32 *)(iVar1 + 0x80)) {
-  case 2:
-    *(u64 *)(iVar1 + 0x28) = 0x8000000068;
-    *(u64 *)(iVar1 + 0x30) = 0;
-    *(u64 *)(iVar1 + 0x38) = 0;
-    break;
-  case 3:
-    *(u64 *)(iVar1 + 0x68) = 0x58;
-    *(u64 *)(iVar1 + 0x70) = 0;
-    *(u64 *)(iVar1 + 0x78) = 0;
-  case 1:
-    *(u64 *)(iVar1 + 0x28) = 0x8000000048;
-    *(u64 *)(iVar1 + 0x30) = 0;
-    *(u64 *)(iVar1 + 0x38) = 0;
-    break;
-  case 4:
-    *(u64 *)(iVar1 + 0x30) = 0x1000000;
-    *(u64 *)(iVar1 + 0x38) = 0;
-    break;
-  case 6:
-    *(u64 *)(iVar1 + 0x70) = 0x1000000;
-    *(u64 *)(iVar1 + 0x78) = 0;
-  }
-  return;
+    u8 *temp_5;
+    u32 temp_3;
+
+    temp_5 = *(u8 **)(arg0 + iGpffffba48_s32);
+    temp_3 = *(u32 *)(temp_5 + 0x80);
+    switch (temp_3) {
+    case 3:
+        *(s64 *)(temp_5 + 0x68) = (s64)0x58;
+        *(s64 *)(temp_5 + 0x70) = 0;
+        *(s64 *)(temp_5 + 0x78) = 0;
+    case 1:
+        *(s64 *)(temp_5 + 0x28) = ((s64)0x80 << 32) | (s64)0x48;
+        *(s64 *)(temp_5 + 0x30) = 0;
+        *(s64 *)(temp_5 + 0x38) = 0;
+        break;
+    case 2:
+        *(s64 *)(temp_5 + 0x28) = ((s64)0x80 << 32) | (s64)0x68;
+        *(s64 *)(temp_5 + 0x30) = 0;
+        *(s64 *)(temp_5 + 0x38) = 0;
+        break;
+    case 4:
+        *(s64 *)(temp_5 + 0x30) = (s64)0x01000000;
+        *(s64 *)(temp_5 + 0x38) = 0;
+        break;
+    case 6:
+        *(s64 *)(temp_5 + 0x70) = (s64)0x01000000;
+        *(s64 *)(temp_5 + 0x78) = 0;
+        break;
+    case 0:
+    case 5:
+    default:
+        break;
+    }
 }
+#pragma pop
 
 // FUN_00469B50 NONMATCHING
 
@@ -5979,45 +6539,48 @@ u32 FUN_00469cf0(void)
 }
 #pragma optimization_level 2
 
-// FUN_00469D00 NONMATCHING
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_00469D00
+#pragma schedule on
+/* measured: no_branch_likely on preserves the plain branch dispatch for FUN_00469d00. */
+#pragma no_branch_likely on
+u8 *FUN_00469d00(u8 *arg0) {
+    s32 var_2;
 
-u64 FUN_00469d00(u64 param_1)
-
-{
-  int iVar1;
-  u32 uVar2;
-  
-  iVar1 = ((code)FUN_0049a170)();
-  if ((*(u32 *)(iVar1 + 8) & 0x80) == 0) {
-    uVar2 = ((code)FUN_0046a890)(0x1100f);
-    *(u32 *)((int)param_1 + 0x7c) = uVar2;
-  }
-  else {
-    uVar2 = ((code)FUN_0046a890)(0x11010);
-    *(u32 *)((int)param_1 + 0x7c) = uVar2;
-  }
-  return param_1;
+    if (*(s32 *)((u8 *)(FUN_0049a170_rwt()) + 8) & 0x80) {
+        var_2 = FUN_0046a890_rwt(0x11010);
+    } else {
+        var_2 = FUN_0046a890_rwt(0x1100F);
+    }
+    *(s32 *)((u8 *)(arg0) + 0x7C) = var_2;
+    return (u8 *)(arg0);
 }
+#pragma pop
 
-// FUN_00469D60 NONMATCHING
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely off
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_00469D60
+u8 *FUN_00469d60(u8 *arg0) {
+    s32 var_2;
 
-u64 FUN_00469d60(u64 param_1)
-
-{
-  u32 uVar1;
-  int iVar2;
-  
-  iVar2 = (int)param_1;
-  if ((*(u32 *)(*(int *)(iVar2 + 0x18) + 8) & 0x80) == 0) {
-    uVar1 = ((code)FUN_0046a890)(0x1100d);
-    *(u32 *)(iVar2 + 0x6c) = uVar1;
-  }
-  else {
-    uVar1 = ((code)FUN_0046a890)(0x1100e);
-    *(u32 *)(iVar2 + 0x6c) = uVar1;
-  }
-  return param_1;
+    if (*(s32 *)((u8 *)(*(u8 **)(arg0 + 0x18)) + 8) & 0x80) {
+        var_2 = FUN_0046a890_rwt(0x1100E);
+    } else {
+        var_2 = FUN_0046a890_rwt(0x1100D);
+    }
+    *(s32 *)(arg0 + 0x6C) = var_2;
+    return arg0;
 }
+#pragma pop
 
 
 
@@ -6236,21 +6799,32 @@ u64 FUN_00469e30(u64 param_1,int param_2)
   return param_1;
 }
 
-// FUN_00469FE0 NONMATCHING
-
-u64 FUN_00469fe0(u64 param_1)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_common_subs on
+#pragma opt_propagation on
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_00469FE0
+s32 FUN_00469fe0(s32 arg0)
 {
-  u32 *puVar1;
-  
-  puVar1 = (u32 *)((int)param_1 + iGpffffba58);
-  if (puVar1[2] != 0) {
-    (*DAT_0096017c)();
-  }
-  puVar1[2] = 0;
-  *puVar1 = 0;
-  return param_1;
+    u8 *temp_4;
+    u8 *temp_16;
+    s32 result;
+
+    temp_16 = (u8 *)(arg0 + iGpffffba58_s32);
+    temp_4 = *(u8 **)(temp_16 + 8);
+    if (temp_4 != NULL) {
+        DAT_0096017c_rwt[0](temp_4);
+    }
+    *(s32 *)(temp_16 + 8) = 0;
+    result = arg0;
+    *(s32 *)temp_16 = 0;
+    return result;
 }
+#pragma pop
 
 // FUN_0046A040 NONMATCHING
 
@@ -6402,62 +6976,86 @@ u64 FUN_0046a470(u64 param_1,int param_2)
   return param_1;
 }
 
-// FUN_0046A530 NONMATCHING
-
-u8 FUN_0046a530(void)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_common_subs on
+#pragma opt_propagation on
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_0046A530
+s32 FUN_0046a530(void)
 {
-  u8 bVar1;
-  long lVar2;
-  
-  lVar2 = ((code)FUN_004ca520)(0,0x105,0x469dd0,0x469df0);
-  if (lVar2 < 0) {
-    bVar1 = 0;
-  }
-  else {
-    lVar2 = ((code)FUN_00492c30)(0xc,0x105,0x469e10,0x469e10,0x469e30);
-    uGpffffba54 = (u32)lVar2;
-    if (lVar2 < 0) {
-      bVar1 = 0;
+    s32 temp_2;
+    s32 temp_2_2;
+
+    if (FUN_004ca520_rwt2(0, 0x105, func_00469DD0_rwt, func_00469DF0_rwt) < 0) {
+        return 0;
     }
-    else {
-      lVar2 = ((code)FUN_00493c50)(0xc,0x105,0x46a440,0x469fe0,0x46a040);
-      uGpffffba58 = (u32)lVar2;
-      if (lVar2 < 0) {
-        bVar1 = 0;
-      }
-      else {
-        lVar2 = ((code)FUN_00493c80)(0x105,0x46a230,0x46a0f0,0x46a3c0);
-        bVar1 = -1 < lVar2;
-      }
+    temp_2 = FUN_00492c30_rwt2(0xC, 0x105, func_00469E10_rwt, func_00469E10_rwt,
+                           (s32 (*)())FUN_00469e30_rwt);
+    uGpffffba54_s32 = temp_2;
+    if (temp_2 < 0) {
+        return 0;
     }
-  }
-  return bVar1;
+    temp_2_2 = FUN_00493c50_rwt(0xC, 0x105, func_0046A440_rwt, FUN_00469fe0_rwt, FUN_0046a040_rwt);
+    uGpffffba58_s32 = temp_2_2;
+    if (temp_2_2 < 0) {
+        return 0;
+    }
+    return FUN_00493c80_rwt(0x105, FUN_0046a230_rwt, FUN_0046a0f0_rwt, func_0046A3C0_rwt) >= 0;
 }
+#pragma pop
 
-// FUN_0046A600 NONMATCHING
-
-u64 FUN_0046a600(u64 param_1)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_common_subs on
+#pragma opt_propagation on
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_0046A600
+s32 FUN_0046a600(s32 arg0)
 {
-  if (DAT_0095c448 == 0) {
-    ((code)FUN_0046ac30)(0x95c44c);
-  }
-  DAT_0095c448 = DAT_0095c448 + 1;
-  return param_1;
+    if (DAT_0095c448_s32_arr[0] == 0) {
+        goto init;
+    }
+increment:
+    DAT_0095c448_s32_arr[0] += 1;
+    return arg0;
+init:
+    FUN_0046ac30_rwt((s32)&DAT_0095c44c_s32_arr);
+    goto increment;
 }
+#pragma pop
 
-// FUN_0046A660 NONMATCHING
-
-u64 FUN_0046a660(u64 param_1)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_common_subs on
+#pragma opt_propagation on
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_0046A660
+s32 FUN_0046a660(s32 arg0)
 {
-  DAT_0095c448 = DAT_0095c448 + -1;
-  if (DAT_0095c448 == 0) {
-    ((code)FUN_0046a9e0)(0x95c44c);
-  }
-  return param_1;
+    s32 temp;
+
+    temp = DAT_0095c448_s32_arr[0] - 1;
+    DAT_0095c448_s32_arr[0] = temp;
+    if (temp == 0) {
+        goto init;
+    }
+ret:
+    return arg0;
+init:
+    FUN_0046a9e0_rwt((u8 *)&DAT_0095c44c_s32_arr);
+    goto ret;
 }
+#pragma pop
 
 #pragma optimization_level 3
 // FUN_0046A6C0
@@ -6501,55 +7099,82 @@ u32 FUN_0046a720(int param_1,u64 param_2,u64 param_3,u64 param_4)
 }
 #pragma optimization_level 2
 
-// FUN_0046A750 NONMATCHING
-
-u32 FUN_0046a750(u64 param_1)
-
-{
-  ((code)FUN_0046a970)(0x95c44c,param_1);
-  DAT_0095c45c = (u32)param_1;
-  DAT_0095c440 = ((code)FUN_004ca520)(0,0x131,0x46a600,0x46a660);
-  ((code)FUN_00494db0)(0,0x131,0,0,0);
-  ((code)FUN_00492c30)(0,0x131,0,0,0);
-  ((code)FUN_00499250)(0,0x131,0,0,0);
-  ((code)FUN_00494e10)(0x131,0x46a6c0);
-  ((code)FUN_00492ce0)(0x131,0x46a6f0);
-  ((code)FUN_004992d0)(0x131,0x46a720);
-  return 1;
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_common_subs on
+#pragma opt_propagation on
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_0046A750
+s32 FUN_0046a750(s32 arg0) {
+    FUN_0046a970_rwt((s32)&DAT_0095c44c_s32_arr, arg0);
+    DAT_0095c45c_s32_arr[0] = arg0;
+    DAT_0095c440_s32_arr[0] = FUN_004ca520_rwt2(0, 0x131, FUN_0046a600_rwt, FUN_0046a660_rwt);
+    FUN_00494db0_rwt(0, 0x131, 0, 0, 0);
+    FUN_00492c30_rwt2(0, 0x131, 0, 0, 0);
+    FUN_00499250_rwt(0, 0x131, 0, 0, 0);
+    FUN_00494e10_rwt(0x131, (s32)FUN_0046a6c0_rwt);
+    FUN_00492ce0_rwt(0x131, (s32)FUN_0046a6f0_rwt);
+    FUN_004992d0_rwt(0x131, (s32)FUN_0046a720_rwt);
+    return 1;
 }
+#pragma pop
 
-// FUN_0046A830 NONMATCHING
-
-u64 FUN_0046a830(u64 param_1)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_common_subs on
+#pragma opt_propagation on
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_0046A830
+s32 FUN_0046a830(s32 arg0)
 {
-  u64 uVar1;
-  
-  uVar1 = 0x95c44c;
-  if (DAT_0095c44c == 0) {
-    uVar1 = ((code)FUN_0046a970)(0x95c44c,DAT_0095c45c);
-  }
-  ((code)FUN_0046aa80)(uVar1,param_1);
-  return param_1;
+    s32 base;
+
+    base = (s32)DAT_0095c44c_s32_arr;
+    if (*(s32 *)base == 0) {
+        goto zero;
+    }
+call:
+    FUN_0046aa80_rwt(base, arg0);
+    goto done;
+zero:
+    base = FUN_0046a970_rwt(base, DAT_0095c45c_s32_arr[0]);
+    goto call;
+done:
+    return arg0;
 }
+#pragma pop
 
-// FUN_0046A890 NONMATCHING
-
-u32 FUN_0046a890(u64 param_1)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_common_subs on
+#pragma opt_propagation on
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+extern s32 FUN_0046ad20_rwt2(void *arg0, u64 arg1);
+// FUN_0046A890
+u32 FUN_0046a890(u64 arg0)
 {
-  u32 uVar1;
-  long lVar2;
-  
-  lVar2 = ((code)FUN_0046ad20)(0x95c44c,param_1);
-  if (lVar2 == 0) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = *(u32 *)((int)lVar2 + 0x10);
-  }
-  return uVar1;
+    u8 *temp_2;
+
+    temp_2 = (u8 *)FUN_0046ad20_rwt2((void *)DAT_0095c44c_s32_arr, arg0);
+    if (temp_2 == NULL) {
+        goto ret0;
+    }
+    goto retval;
+retval:
+    return *(s32 *)(temp_2 + 0x10);
+ret0:
+    return 0;
 }
+#pragma pop
 
 // FUN_0046A8D0 NONMATCHING
 
@@ -6584,25 +7209,36 @@ void FUN_0046a8d0(int *param_1,int *param_2)
   return;
 }
 
-// FUN_0046A970 NONMATCHING
-
-u64 FUN_0046a970(u64 param_1,int param_2)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely off
+#pragma opt_common_subs on
+#pragma opt_propagation on
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_0046A970
+/* measured: schedule on probes b7c0's retail branch delay-slot materialization. */
+#pragma schedule on
+s32 FUN_0046a970(s32 arg0, s32 arg1)
 {
-  u32 uVar1;
-  u32 *puVar2;
-  
-  if (param_2 == 0) {
-    param_2 = 9;
-  }
-  uVar1 = (*DAT_00960178)(param_2 * 0x14,0x1040131);
-  puVar2 = (u32 *)param_1;
-  *puVar2 = uVar1;
-  puVar2[2] = param_2;
-  puVar2[1] = 0;
-  puVar2[3] = 0;
-  return param_1;
+    s32 i;
+
+    if (arg1 != 0) {
+        goto nonzero_value;
+    }
+    i = 9;
+    goto common;
+nonzero_value:
+    i = arg1;
+common:
+    *(s32 *)arg0 = (s32)DAT_00960178_rwt[0]((u32)(i * 0x14), 0x01040131);
+    *(s32 *)(arg0 + 8) = i;
+    *(s32 *)(arg0 + 4) = 0;
+    *(s32 *)(arg0 + 0xC) = 0;
+    return arg0;
 }
+#pragma pop
 
 // FUN_0046A9E0 NONMATCHING
 
@@ -6817,28 +7453,36 @@ u64 FUN_0046ad80(u32 *param_1)
   return uVar1;
 }
 
-// FUN_0046AFA0 NONMATCHING
-
-u64 FUN_0046afa0(u32 *param_1)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely off
+#pragma opt_common_subs on
+#pragma opt_propagation on
+#pragma opt_loop_invariants off
+#pragma opt_rebuildconditionals on
+// FUN_0046AFA0
+u8 *FUN_0046afa0(u8 *arg0)
 {
-  u64 uVar1;
-  u64 uVar2;
-  u64 uVar3;
-  
-  uVar1 = ((code)FUN_004f2f70)();
-  *(u32 *)((int)uVar1 + 0x2c) = *param_1;
-  *(u32 *)((int)uVar1 + 0x30) = param_1[1];
-  uVar2 = ((code)FUN_004f4640)(uVar1);
-  uVar3 = ((code)FUN_0049ff00)();
-  uVar2 = ((code)FUN_004f4950)(uVar2,0,uVar3,0);
-  uVar2 = ((code)FUN_004f3f80)(uVar2);
-  uVar2 = ((code)FUN_004f4830)(uVar2,*(u32 *)uVar3,0,0);
-  uVar2 = ((code)FUN_0049fe40)(uVar2,1,param_1[2]);
-  uVar2 = ((code)FUN_0049fe40)(uVar2,2,param_1[3]);
-  ((code)FUN_0049fec0)(uVar2,param_1[4]);
-  return uVar1;
+    u8 *temp_2;
+    s32 *temp_16;
+    s32 *temp_2_2;
+    u8 *result;
+
+    temp_2 = FUN_004f2f70_rwt2();
+    *(s32 *)(temp_2 + 0x2C) = *(s32 *)(arg0 + 0);
+    *(s32 *)(temp_2 + 0x30) = *(s32 *)(arg0 + 4);
+    temp_16 = FUN_004f4640_rwt2((s32 *)temp_2);
+    temp_2_2 = FUN_0049ff00_rwt();
+    result = FUN_004f4950_rwt2((u8 *)temp_16, NULL, temp_2_2, 0);
+    result = (u8 *)FUN_004f3f80_rwt2((s32)result);
+    result = (u8 *)FUN_004f4830_rwt(result, *temp_2_2, 0, NULL);
+    result = FUN_0049fe40_rwt(result, 1, *(s32 *)(arg0 + 8));
+    result = FUN_0049fe40_rwt(result, 2, *(s32 *)(arg0 + 0xC));
+    FUN_0049fec0_rwt(result, *(s32 *)(arg0 + 0x10));
+    return temp_2;
 }
+#pragma pop
 
 // FUN_0046B060 NONMATCHING
 
@@ -14612,47 +15256,41 @@ u64 FUN_004733c0(int param_1,int param_2)
   return 1;
 }
 
-// FUN_004734D0 NONMATCHING
-
-u64 FUN_004734d0(u64 param_1)
-
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+// FUN_004734D0
+u8 *FUN_004734d0(u8 *arg0)
 {
-  int iVar1;
-  
-  iVar1 = (int)param_1;
-  if (*(int *)(iVar1 + iGpffffba80) != 0) {
-    ((code)FUN_00494d50)(**(u32 **)(*(int *)(iVar1 + 0x18) + 0x20),0);
-    if (*(int *)(*(int *)(iVar1 + iGpffffba80) + 0xc) != 0) {
-      ((code)FUN_00475cb0)(param_1);
-      ((code)FUN_00475c20)(param_1);
-      (*DAT_0096017c)(*(u32 *)(*(int *)(iVar1 + iGpffffba80) + 0xc));
+    if (*(u8 **)(arg0 + iGpffffba80_s32) != NULL) {
+        FUN_00494d50_rwt(*(void **)(*(void **)(*(u8 **)(arg0 + 0x18) + 0x20)), 0);
+        if (*(s32 *)(*(u8 **)(arg0 + iGpffffba80_s32) + 0xC) != 0) {
+            FUN_00475cb0_rwt(arg0);
+            FUN_00475c20_rwt(arg0);
+            DAT_0096017c_rwt2[0](*(u8 **)(*(u8 **)(arg0 + iGpffffba80_s32) + 0xC));
+        }
+        DAT_0096017c_rwt2[0](*(u8 **)(arg0 + iGpffffba80_s32));
+        *(s32 *)(arg0 + iGpffffba80_s32) = 0;
     }
-    (*DAT_0096017c)(*(u32 *)(iVar1 + iGpffffba80));
-    *(u32 *)(iVar1 + iGpffffba80) = 0;
-  }
-  return param_1;
+    return arg0;
 }
+#pragma pop
 
-// FUN_00473590 NONMATCHING
-
-u8 FUN_00473590(void)
-
-{
-  u8 bVar1;
-  long lVar2;
-  
-  lVar2 = ((code)FUN_004ca520)(4,0x12f,0x474bb0,0x474c60);
-  uGpffffba84 = (u32)lVar2;
-  if (lVar2 < 0) {
-    bVar1 = 0;
-  }
-  else {
-    lVar2 = ((code)FUN_00492c30)(4,0x12f,0x4734b0,0x4734d0,0);
-    uGpffffba80 = (u32)lVar2;
-    bVar1 = -1 < lVar2;
-  }
-  return bVar1;
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely off
+// FUN_00473590
+s32 FUN_00473590(void) {
+    uGpffffba84_s32 = FUN_004ca520_rwt(4, 0x12F, (void *)FUN_00474bb0_rwt, (void *)FUN_00474c60_rwt);
+    if (uGpffffba84_s32 < 0) {
+        return 0;
+    }
+    uGpffffba80_s32 = FUN_00492c30_rwt(4, 0x12F, (void *)func_004734B0_rwt, (void *)FUN_004734d0_rwt, 0);
+    return uGpffffba80_s32 >= 0;
 }
+#pragma pop
 
 // FUN_00473600 NONMATCHING
 
@@ -15390,60 +16028,69 @@ u64 FUN_004748c0(int param_1,long param_2)
   return 1;
 }
 
-// FUN_004749A0 NONMATCHING
-
-u64 FUN_004749a0(int param_1,long param_2)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+// FUN_004749A0
+s32 FUN_004749a0(u8 *arg0, u8 *arg1)
 {
-  Vec128 in_zero_qw;
-  u64 in_v0_udw;
-  Vec128 auVar1;
-  Vec128 auVar2;
-  Vec128 auVar3;
-  u32 uVar4;
-  u32 uVar5;
-  u32 uVar6;
-  
-  if (param_2 != 0) {
-    uVar5 = *(u32 *)((int)param_2 + 0x50);
-    uVar4 = (uVar5 & 0xf00) >> 8;
-    if ((uVar4 == 4) || (uVar4 == 2)) {
-      return 0;
+    u8 *temp_6;
+    u32 temp_4;
+    u32 temp_3;
+    u32 temp_3_2;
+    u64 var_7 = 0;
+
+    if (arg1 == NULL)
+    {
+        goto block_17;
     }
-    auVar2._8_8_ = in_v0_udw;
-    auVar2._0_8_ = 3;
-    if (uVar4 == 3) {
-      uVar6 = 1;
+    temp_6 = *(u8 **)(arg0 + 0x4C);
+    temp_4 = *(s32 *)(arg1 + 0x50);
+    temp_3 = (temp_4 & 0xF00) >> 8;
+    switch (temp_3)
+    {
+    case 1:
+        var_7 = 0;
+        var_7 &= (s64)-4;
+        goto block_9;
+    case 3:
+        var_7 |= 1;
+        goto block_9;
+    case 2:
+        goto block_0;
+    case 4:
+        goto block_0;
+    default:
+        goto block_0;
     }
-    else {
-      if (uVar4 != 1) {
-        return 0;
-      }
-      auVar1._8_8_ = in_v0_udw;
-      auVar1._0_8_ = 0xfffffffffffffffc;
-      auVar2 = _pcpyld(in_zero_qw,auVar1);
-      uVar6 = 0;
+block_0:
+    return 0;
+block_9:
+    temp_3_2 = (temp_4 & 0xF000) >> 0xC;
+    switch (temp_3_2)
+    {
+    case 1:
+        var_7 &= (s64)-0xD;
+        goto block_16;
+    case 3:
+        var_7 |= 4;
+        goto block_16;
+    case 2:
+        goto block_18;
+    case 4:
+        goto block_18;
+    default:
+        goto block_18;
     }
-    auVar3._8_8_ = auVar2._8_8_;
-    uVar5 = (uVar5 & 0xf000) >> 0xc;
-    if ((uVar5 == 4) || (uVar5 == 2)) {
-      return 0;
-    }
-    if (uVar5 == 3) {
-      uVar6 = uVar6 | 4;
-    }
-    else {
-      if (uVar5 != 1) {
-        return 0;
-      }
-      auVar3._0_8_ = 0xfffffffffffffff3;
-      auVar2 = _pcpyld(in_zero_qw,auVar3);
-      uVar6 = uVar6 & auVar2._0_8_;
-    }
-    *(u32 *)(*(int *)(param_1 + 0x4c) + 0xc0) = uVar6;
-  }
-  return 1;
+block_16:
+    *(s64 *)(temp_6 + 0xC0) = var_7;
+block_17:
+    return 1;
+block_18:
+    return 0;
 }
+#pragma pop
 
 // FUN_00474A80 NONMATCHING
 
@@ -15515,68 +16162,79 @@ u32 FUN_00474a80(int param_1)
   return uVar2;
 }
 
-// FUN_00474BB0 NONMATCHING
-
-u64 FUN_00474bb0(u64 param_1)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+// FUN_00474BB0
+s32 FUN_00474bb0(s32 arg0)
 {
-  u32 uVar1;
-  long lVar2;
-  u32 *puVar3;
-  
-  lVar2 = (*DAT_00960178)(0x18,0x4012f);
-  if (lVar2 == 0) {
-    param_1 = 0;
-  }
-  else {
-    puVar3 = (u32 *)lVar2;
-    *(u32 **)((int)(u8 *)DAT_00960070 + DAT_007ce774) = puVar3;
-    puVar3[1] = 0;
-    puVar3[2] = 0;
-    puVar3[3] = 0;
-    puVar3[4] = 0;
-    puVar3[5] = 0;
-    ((code)FUN_0047a3d0)(lVar2);
-    ((code)FUN_00479030)(lVar2);
-    uVar1 = ((code)FUN_0047ab70)();
-    *puVar3 = uVar1;
-    uVar1 = ((code)FUN_0047b1a0)();
-    puVar3[5] = uVar1;
-  }
-  return param_1;
+    u8 *temp_2;
+
+    temp_2 = (u8 *)DAT_00960178_rwt[0](0x18, 0x4012F);
+    if (temp_2 != NULL) {
+        *(u8 **)(DAT_00960070_u8_arr + DAT_007ce774_s32) = temp_2;
+        *(s32 *)(temp_2 + 4) = 0;
+        *(s32 *)(temp_2 + 8) = 0;
+        *(s32 *)(temp_2 + 0xC) = 0;
+        *(s32 *)(temp_2 + 0x10) = 0;
+        *(s32 *)(temp_2 + 0x14) = 0;
+        FUN_0047a3d0_rwt(temp_2);
+        FUN_00479030_rwt(temp_2);
+        *(s32 *)(temp_2 + 0) = FUN_0047ab70_rwt();
+        *(s32 *)(temp_2 + 0x14) = FUN_0047b1a0_rwt();
+        return arg0;
+    }
+    return 0;
 }
+#pragma pop
 
-// FUN_00474C60 NONMATCHING
-
-u64 FUN_00474c60(u64 param_1)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+// FUN_00474C60
+s32 FUN_00474c60(s32 arg0)
 {
-  int *piVar1;
-  
-  piVar1 = *(int **)((int)(u8 *)DAT_00960070 + DAT_007ce774);
-  if (piVar1 != (int *)0x0) {
-    if (piVar1[2] != 0) {
-      ((code)FUN_004f3010)();
+    s32 temp_4;
+    s32 temp_4_2;
+    s32 temp_4_3;
+    s32 temp_4_4;
+    s32 temp_4_5;
+    s32 temp_4_6;
+    u8 *temp_17;
+
+    temp_17 = *(u8 **)(DAT_00960070_u8_arr + DAT_007ce774_s32);
+    if (temp_17 != NULL) {
+        temp_4 = *(s32 *)(temp_17 + 8);
+        if (temp_4 != 0) {
+            FUN_004f3010_rwt(temp_4);
+        }
+        temp_4_2 = *(s32 *)(temp_17 + 4);
+        if (temp_4_2 != 0) {
+            FUN_004f3010_rwt(temp_4_2);
+        }
+        temp_4_3 = *(s32 *)(temp_17 + 0x10);
+        if (temp_4_3 != 0) {
+            FUN_004f3010_rwt(temp_4_3);
+        }
+        temp_4_4 = *(s32 *)(temp_17 + 0xC);
+        if (temp_4_4 != 0) {
+            FUN_004f3010_rwt(temp_4_4);
+        }
+        temp_4_5 = *(s32 *)(temp_17 + 0x14);
+        if (temp_4_5 != 0) {
+            FUN_004f3010_rwt(temp_4_5);
+        }
+        temp_4_6 = *(s32 *)(temp_17 + 0);
+        if (temp_4_6 != 0) {
+            FUN_004f3010_rwt(temp_4_6);
+        }
+        DAT_0096017c_rwt2[0](temp_17);
     }
-    if (piVar1[1] != 0) {
-      ((code)FUN_004f3010)();
-    }
-    if (piVar1[4] != 0) {
-      ((code)FUN_004f3010)();
-    }
-    if (piVar1[3] != 0) {
-      ((code)FUN_004f3010)();
-    }
-    if (piVar1[5] != 0) {
-      ((code)FUN_004f3010)();
-    }
-    if (*piVar1 != 0) {
-      ((code)FUN_004f3010)();
-    }
-    (*DAT_0096017c)(piVar1);
-  }
-  return param_1;
+    return arg0;
 }
+#pragma pop
 
 // FUN_00474D30 NONMATCHING
 
@@ -16222,29 +16880,6 @@ int FUN_00475540(int param_1,u64 param_2,u64 param_3,u32 param_4)
     iVar6 = (*(code *)PTR_FUN_0077b250)(param_1,param_2,uVar1,param_4);
   }
   return iVar6;
-}
-
-// FUN_00475C20 NONMATCHING
-void FUN_00475c20(int param_1)
-{
-  int iVar1;
-  u32 uVar3;
-  int *piVar2;
-
-  if ((*(u32 *)(*(int *)(param_1 + iGpffffba80) + 0x44) & 0x10) == 0) {
-    iVar1 = *(int *)(*(int *)(param_1 + iGpffffba80) + 0x9c);
-    uVar3 = 0;
-    piVar2 = (int *)iVar1;
-    do {
-      if (piVar2[0x4e] != 0) {
-        FUN_004c47e0_typed(piVar2[0x4e]);
-        piVar2[0x4e] = 0;
-      }
-      uVar3 = uVar3 + 1;
-      piVar2 = piVar2 + 1;
-    } while (uVar3 <= *(u32 *)(iVar1 + 0xe8));
-  }
-  return;
 }
 
 // FUN_00475CB0 NONMATCHING
@@ -17315,43 +17950,61 @@ void FUN_00477150(int *param_1,int param_2,u64 param_3,u64 param_4,u32 param_5)
   return;
 }
 
-// FUN_00477470 NONMATCHING
-
-void FUN_00477470(int *param_1,u64 param_2,u64 param_3,u64 param_4,
-                 u32 param_5)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+// FUN_00477470
+void FUN_00477470(u8 *arg0, u8 *arg1, s32 *arg2, u8 *arg3, u32 arg4)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *(int *)((int)param_3 + 0x4c);
-  iVar2 = *(int *)(iVar1 + 0xe4);
-  if ((param_5 & 0x10000000) != 0) {
-    ((code)FUN_00474a80)(param_3);
-  }
-  ((code)FUN_004d5e90)();
-  param_1[2] = (u32)((param_5 & 2) == 2 || (param_5 & 0x2000) == 0x2000);
-  param_1[1] = (u32)((param_5 & 0x80) == 0x80 || (param_5 & 0x80000) == 0x80000);
-  *param_1 = 1;
-  param_1[3] = (u32)((param_5 & 4) == 4 || (param_5 & 0x4000) == 0x4000);
-  if (*param_1 != 0) {
-    param_1[4] = *(int *)(iVar2 * 0x24 + iVar1 + 0x140);
-    param_1[5] = 0x10;
-  }
-  if (param_1[2] != 0) {
-    param_1[8] = *(int *)(iVar2 * 0x24 + iVar1 + 0x150);
-    param_1[9] = 4;
-  }
-  if (param_1[1] != 0) {
-    param_1[6] = *(int *)(iVar2 * 0x24 + iVar1 + 0x15c);
-    param_1[7] = 0x10;
-  }
-  if (param_1[3] != 0) {
-    param_1[10] = *(int *)(iVar2 * 0x24 + iVar1 + 0x14c);
-    param_1[0xb] = 8;
-  }
-  return;
+    u8 *base;
+    s32 idx;
+
+    base = *(u8 **)(arg2 + 0x4C / 4);
+    idx = *(s32 *)(base + 0xE4);
+    if (arg4 & 0x10000000) {
+        FUN_00474a80_rwt(arg2);
+    }
+    FUN_004d5e90_rwt();
+    *(s32 *)(arg0 + 8) = ((arg4 & 2) == 2) || ((arg4 & 0x2000) == 0x2000);
+    *(s32 *)(arg0 + 4) = ((arg4 & 0x80) == 0x80) || ((arg4 & 0x80000) == 0x80000);
+    *(s32 *)(arg0 + 0) = 1;
+    *(s32 *)(arg0 + 0xC) = ((arg4 & 4) == 4) || ((arg4 & 0x4000) == 0x4000);
+    if (*(s32 *)(arg0 + 0) != 0) {
+        goto block_0;
+    }
+dispatch_8:
+    if (*(s32 *)(arg0 + 8) != 0) {
+        goto block_8;
+    }
+dispatch_4:
+    if (*(s32 *)(arg0 + 4) != 0) {
+        goto block_4;
+    }
+dispatch_c:
+    if (*(s32 *)(arg0 + 0xC) != 0) {
+        goto block_c;
+    }
+dispatch_end:
+    return;
+block_0:
+    *(s32 *)(arg0 + 0x10) = ((s32 *)(base + 0x140))[idx * 9];
+    *(s32 *)(arg0 + 0x14) = 0x10;
+    goto dispatch_8;
+block_8:
+    *(s32 *)(arg0 + 0x20) = ((s32 *)(base + 0x150))[idx * 9];
+    *(s32 *)(arg0 + 0x24) = 4;
+    goto dispatch_4;
+block_4:
+    *(s32 *)(arg0 + 0x18) = ((s32 *)(base + 0x15C))[idx * 9];
+    *(s32 *)(arg0 + 0x1C) = 0x10;
+    goto dispatch_c;
+block_c:
+    *(s32 *)(arg0 + 0x28) = ((s32 *)(base + 0x14C))[idx * 9];
+    *(s32 *)(arg0 + 0x2C) = 8;
+    goto dispatch_end;
 }
+#pragma pop
 
 // FUN_00477610 NONMATCHING
 
@@ -18099,29 +18752,49 @@ void FUN_00478280(int *param_1,int param_2,int param_3)
   return;
 }
 
-// FUN_00478440 NONMATCHING
-
-u32 FUN_00478440(int param_1,u32 *param_2)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely off
+// FUN_00478440
+s32 FUN_00478440(u8 *arg0, u8 *arg1)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar1 = *(int *)(param_1 + 0x2c);
-  iVar2 = *(int *)(param_1 + 8);
-  iVar3 = *(int *)(iVar2 + DAT_007ce770);
-  iVar4 = *(int *)(iVar3 + 0x9c);
-  *(u32 *)(*(int *)(iVar4 + 0xe4) * 0x24 + iVar4 + 0x140) = param_2[3];
-  *(u32 *)(*(int *)(iVar4 + 0xe4) * 0x24 + iVar4 + 0x150) = *param_2;
-  *(u32 *)(*(int *)(iVar4 + 0xe4) * 0x24 + iVar4 + 0x14c) = param_2[1];
-  *(u32 *)(*(int *)(iVar4 + 0xe4) * 0x24 + iVar4 + 0x15c) = param_2[2];
-  **(code **)(iVar3 + 0x24) = (code)FUN_00477470;
-  ((code)FUN_004861b0)(iVar2,iVar3 + 0x50,*(u32 *)(iVar1 + 4),0xffffffffefffffff);
-  **(code **)(iVar3 + 0x24) = (code)FUN_00477150;
-  return 1;
+    s32 temp_10;
+    s32 temp_4;
+    s32 temp_7;
+    s32 temp_8;
+    s32 temp_9;
+    s32 temp_11;
+    s32 temp_12;
+    s32 mask = 0xEFFFFFFF;
+    void (*callback)(u8 *, u8 *, s32 *, u8 *, u32) = FUN_00477470_rwt;
+    u8 *temp_14;
+    u8 *temp_16;
+    u8 *temp_2;
+    temp_14 = *(u8 **)(arg0 + 0x2C);
+    temp_4 = *(s32 *)(arg0 + 8);
+    temp_16 = *(u8 **)(temp_4 + DAT_007ce770_s32);
+    temp_2 = *(u8 **)(temp_16 + 0x9C);
+    temp_7 = *(s32 *)(temp_2 + 0xE4) * 0x24;
+    *(s32 *)((s32)temp_7 + (s32)temp_2 + 0x140) =
+        *(s32 *)(arg1 + 0xC);
+    temp_11 = *(s32 *)(temp_2 + 0xE4) * 0x24;
+    *(s32 *)((s32)temp_11 + (s32)temp_2 + 0x150) =
+        *(s32 *)(arg1 + 0);
+    temp_12 = *(s32 *)(temp_2 + 0xE4) * 0x24;
+    *(s32 *)((s32)temp_12 + (s32)temp_2 + 0x14C) =
+        *(s32 *)(arg1 + 4);
+    temp_9 = *(s32 *)(temp_2 + 0xE4);
+    temp_10 = *(s32 *)(arg1 + 8);
+    temp_8 = temp_9 * 0x24;
+    *(s32 *)((s32)temp_8 + (s32)temp_2 + 0x15C) = temp_10;
+    *(void (**)(u8 *, u8 *, s32 *, u8 *, u32))(temp_16 + 0x24) = callback;
+    FUN_004861b0_rwt(temp_4, temp_16 + 0x50,
+                  *(s32 *)(temp_14 + 4), mask);
+    *(void (**)(void))(temp_16 + 0x24) = FUN_00477150_rwt;
+    return 1;
 }
+#pragma pop
 
 // FUN_00478520 NONMATCHING
 
@@ -18869,28 +19542,54 @@ void FUN_00479590(int *param_1,u64 param_2,u64 param_3,u64 param_4,
   return;
 }
 
-// FUN_00479840 NONMATCHING
-
-u32 FUN_00479840(int param_1,u32 *param_2)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule off
+#pragma no_branch_likely off
+// FUN_00479840
+s32 FUN_00479840(u8 *arg0, u8 *arg1)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar1 = *(int *)(param_1 + 0x2c);
-  iVar2 = *(int *)(param_1 + 8);
-  iVar3 = *(int *)(iVar2 + iGpffffba80);
-  iVar4 = *(int *)(iVar3 + 0x9c);
-  *(u32 *)(*(int *)(iVar4 + 0xe4) * 0x24 + iVar4 + 0x140) = param_2[1];
-  *(u32 *)(*(int *)(iVar4 + 0xe4) * 0x24 + iVar4 + 0x154) = *param_2;
-  *(u32 *)(*(int *)(iVar4 + 0xe4) * 0x24 + iVar4 + 0x160) = param_2[2];
-  **(code **)(iVar3 + 0x24) = (code)FUN_00479590;
-  ((code)FUN_004861b0)(iVar2,iVar3 + 0x50,*(u32 *)(iVar1 + 4) >> 2,0xffffffffefffffff);
-  **(code **)(iVar3 + 0x24) = (code)FUN_00479170;
-  return 1;
+    // measured: in-body O3 probe for FUN_00479840 code generation.
+    #pragma optimization_level 3
+    s32 mask = 0xEFFFFFFF;
+    void (*callback)(u8 *, s32 *, s32) = FUN_00479590_rwt;
+    u8 *arg0_2c = *(u8 **)(arg0 + 0x2C);
+    s32 temp_4;
+    u8 *temp_16;
+    u8 *temp_2;
+    s32 index;
+    s32 temp_10;
+
+    temp_4 = *(s32 *)(arg0 + 8);
+    temp_16 = *(u8 **)(temp_4 + iGpffffba80_s32);
+    temp_2 = *(u8 **)(temp_16 + 0x9C);
+    {
+        s32 offset;
+        offset = *(s32 *)(temp_2 + 0xE4) * 0x24;
+        *(s32 *)((s32)offset + (s32)temp_2 + 0x140) =
+            *(s32 *)(arg1 + 4);
+    }
+    {
+        s32 offset;
+        offset = *(s32 *)(temp_2 + 0xE4) * 0x24;
+        *(s32 *)((s32)offset + (s32)temp_2 + 0x154) =
+            *(s32 *)(arg1 + 0);
+    }
+    index = *(s32 *)(temp_2 + 0xE4);
+    temp_10 = *(s32 *)(arg1 + 8);
+    {
+        s32 offset;
+        offset = index * 0x24;
+        *(s32 *)((s32)offset + (s32)temp_2 + 0x160) = temp_10;
+    }
+    *(void (**)(u8 *, s32 *, s32))(temp_16 + 0x24) = callback;
+    FUN_004861b0_rwt(temp_4, temp_16 + 0x50,
+                  (u32)*(u32 *)(arg0_2c + 4) >> 2, mask);
+    *(void (**)(u8 *, s32 *, s32))(temp_16 + 0x24) =
+        (void (*)(u8 *, s32 *, s32))FUN_00479170_rwt;
+    return 1;
 }
+#pragma pop
 
 // FUN_00479900 NONMATCHING
 
@@ -19377,77 +20076,101 @@ LAB_0047a4b4:
   return *(int *)(param_1 + 0x10) != 0;
 }
 
-// FUN_0047A510 NONMATCHING
-
-u32 FUN_0047a510(u64 param_1,u64 param_2,u64 param_3,u32 param_4)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_propagation off
+#pragma opt_rebuildconditionals off
+// FUN_0047A510
+// measured: schedule on / no_branch_likely on / opt_rebuildconditionals off /
+// opt_propagation off together reproduce retail's index-refresh branch
+// scheduling and delay-slot fills for FUN_0047a510.
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_rebuildconditionals off
+#pragma opt_propagation off
+s32 FUN_0047a510(s32 arg0, u8 *arg1, s32 arg2, s32 arg3)
 {
-  u8 uVar1;
-  u8 uVar2;
-  u8 uVar3;
-  u32 uVar4;
-  u8 *puVar5;
-  u32 *puVar6;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  u32 uVar10;
-  
-  iVar9 = (int)param_2;
-  iVar8 = *(int *)(iVar9 + 0x4c);
-  if (*(int *)(iVar8 + 0xe0) == 1) {
-    if (*(int *)(iVar8 + 0xe4) < *(int *)(iVar8 + 0xe8)) {
-      iVar7 = *(int *)(iVar8 + 0xe4) + 1;
+    s32 *work;
+    s32 index;
+    s32 value;
+    s32 flags;
+    u8 *dst;
+    u8 byte0;
+    u8 byte1;
+    u8 byte2;
+    u8 byte3;
+    f32 float0;
+    f32 float1;
+
+    work = *(s32 **)(arg1 + 0x4C);
+    flags = arg3;
+    if (work[56] == 1) {
+        index = work[57];
+        if (index >= work[58]) {
+            goto wrap_index;
+        }
+        index += 1;
+apply_index:
+        work[index + 59] |= flags;
+        value = work[work[57] + 59];
+        if (value != 0) {
+            work[work[57] + 59] = 0;
+            flags |= value;
+        }
     }
-    else {
-      iVar7 = 0;
+    if (flags == 0) {
+        goto done_index;
     }
-    iVar7 = iVar7 * 4 + iVar8;
-    *(u32 *)(iVar7 + 0xec) = *(u32 *)(iVar7 + 0xec) | param_4;
-    iVar8 = *(int *)(iVar8 + 0xe4) * 4 + iVar8;
-    uVar4 = *(u32 *)(iVar8 + 0xec);
-    if (uVar4 != 0) {
-      *(u32 *)(iVar8 + 0xec) = 0;
-      param_4 = param_4 | uVar4;
+    if ((flags & 0x10000000) != 0) {
+        goto refresh_index;
     }
-  }
-  if (param_4 != 0) {
-    if ((param_4 & 0x10000000) != 0) {
-      ((code)FUN_00474a80)(param_2);
+second_mask:
+    if ((flags & 0x80000) != 0 && (*(s32 *)(arg1 + 0x58) & 0x80000) != 0) {
+        FUN_00521250_rwt(*(void **)(arg1 + 0x3C), arg1 + 0x90, 0x10);
     }
-    if (((param_4 & 0x80000) != 0) && ((*(u32 *)(iVar9 + 0x58) & 0x80000) != 0)) {
-      ((code)FUN_00521250)(*(u32 *)(iVar9 + 0x3c),iVar9 + 0x90,0x10);
+    if ((flags & 0x100000) != 0 && (*(s32 *)(arg1 + 0x58) & 0x100000) != 0) {
+        FUN_00521250_rwt(*(void **)(arg1 + 0x44), arg1 + 0x90, 0x20);
     }
-    if (((param_4 & 0x100000) != 0) && ((*(u32 *)(iVar9 + 0x58) & 0x100000) != 0)) {
-      ((code)FUN_00521250)(*(u32 *)(iVar9 + 0x44),iVar9 + 0x90,0x20);
+    if ((flags & 0x2000) != 0 && (*(s32 *)(arg1 + 0x58) & 0x40042) == 0) {
+        dst = *(u8 **)(arg1 + 0x24);
+        byte0 = *(u8 *)(arg1 + 0x7C);
+        byte1 = *(u8 *)(arg1 + 0x7D);
+        byte2 = *(u8 *)(arg1 + 0x7E);
+        byte3 = *(u8 *)(arg1 + 0x7F);
+        dst[0] = byte0;
+        dst[1] = byte1;
+        dst[2] = byte2;
+        dst[3] = byte3;
     }
-    if (((param_4 & 0x2000) != 0) && ((*(u32 *)(iVar9 + 0x58) & 0x40042) == 0)) {
-      puVar5 = *(u8 **)(iVar9 + 0x24);
-      uVar1 = *(u8 *)(iVar9 + 0x7d);
-      uVar2 = *(u8 *)(iVar9 + 0x7e);
-      uVar3 = *(u8 *)(iVar9 + 0x7f);
-      *puVar5 = *(u8 *)(iVar9 + 0x7c);
-      puVar5[1] = uVar1;
-      puVar5[2] = uVar2;
-      puVar5[3] = uVar3;
+    if ((flags & 0x40000) != 0 && (*(s32 *)(arg1 + 0x58) & 0x40000) != 0) {
+        FUN_00521250_rwt(*(void **)(arg1 + 0x2C), arg1 + 0x80, 0x10);
     }
-    if (((param_4 & 0x40000) != 0) && ((*(u32 *)(iVar9 + 0x58) & 0x40000) != 0)) {
-      ((code)FUN_00521250)(*(u32 *)(iVar9 + 0x2c),iVar9 + 0x80,0x10);
+    if ((flags & 0x20000) != 0 && (*(s32 *)(arg1 + 0x58) & 0x20000) != 0) {
+        dst = *(u8 **)(arg1 + 0x34);
+        *(f32 *)dst = *(f32 *)(arg1 + 0x78);
+        *(f32 *)(dst + 4) = *(f32 *)(arg1 + 0x78);
     }
-    if (((param_4 & 0x20000) != 0) && ((*(u32 *)(iVar9 + 0x58) & 0x20000) != 0)) {
-      puVar6 = *(u32 **)(iVar9 + 0x34);
-      *puVar6 = *(u32 *)(iVar9 + 0x78);
-      puVar6[1] = *(u32 *)(iVar9 + 0x78);
+    if ((flags & 0x4000) != 0 && (*(s32 *)(arg1 + 0x58) & 4) == 0) {
+        dst = *(u8 **)(arg1 + 0x1C);
+        float0 = *(f32 *)(arg1 + 0x70);
+        float1 = *(f32 *)(arg1 + 0x74);
+        *(f32 *)dst = float0;
+        *(f32 *)(dst + 4) = float1;
     }
-    if (((param_4 & 0x4000) != 0) && ((*(u32 *)(iVar9 + 0x58) & 4) == 0)) {
-      puVar6 = *(u32 **)(iVar9 + 0x1c);
-      uVar10 = *(u32 *)(iVar9 + 0x74);
-      *puVar6 = *(u32 *)(iVar9 + 0x70);
-      puVar6[1] = uVar10;
-    }
-  }
-  return 1;
+done_index:
+    return 1;
+wrap_index:
+    index = 0;
+    goto apply_index;
+refresh_index:
+    FUN_00474a80_rwt2(arg1);
+    goto second_mask;
+return_index:
+    return 1;
 }
+#pragma pop
 
 // FUN_0047A710 NONMATCHING
 
@@ -19737,29 +20460,30 @@ u64 FUN_0047a710(u64 param_1,int *param_2)
   return uVar20;
 }
 
-// FUN_0047AB70 NONMATCHING
-
-long FUN_0047ab70(void)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_propagation on
+#pragma opt_rebuildconditionals on
+// FUN_0047AB70
+s32 FUN_0047ab70(void)
 {
-  long lVar1;
-  long lVar2;
-  u64 uVar3;
-  
-  lVar1 = ((code)FUN_004f2f70)();
-  if (lVar1 != 0) {
-    lVar2 = ((code)FUN_004f4640)(lVar1);
-    if (lVar2 != 0) {
-      uVar3 = ((code)FUN_004f4950)(lVar2,0,0x77b210,0);
-      lVar2 = ((code)FUN_004f3f80)(uVar3);
-      if (lVar2 != 0) {
-        return lVar1;
-      }
+    s32 temp_2;
+    s32 temp_2_2;
+
+    temp_2 = FUN_004f2f70_rwt();
+    if (temp_2 != 0) {
+        temp_2_2 = FUN_004f4640_rwt(temp_2);
+        if ((temp_2_2 != 0) &&
+            (FUN_004f3f80_rwt(FUN_004f4950_rwt(temp_2_2, 0, &D_0077B210, 0)) != 0)) {
+            return temp_2;
+        }
+        FUN_004f3010_rwt(temp_2);
     }
-    ((code)FUN_004f3010)(lVar1);
-  }
-  return 0;
+    return 0;
 }
+#pragma pop
 
 // FUN_0047ABF0 NONMATCHING
 
@@ -19942,34 +20666,46 @@ u32 FUN_0047abf0(int param_1,u32 *param_2)
   return 1;
 }
 
-// FUN_0047B1A0 NONMATCHING
-
-long FUN_0047b1a0(void)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_propagation on
+#pragma opt_rebuildconditionals on
+// FUN_0047B1A0
+// measured: schedule on fills saved-register and call-argument delay slots in FUN_0047b1a0.
+#pragma schedule on
+// measured: no_branch_likely on keeps FUN_0047b1a0's null tests as plain beqz instructions.
+#pragma no_branch_likely on
+s32 FUN_0047b1a0(void)
 {
-  long lVar1;
-  long lVar2;
-  u64 uVar3;
-  u64 uVar4;
-  
-  lVar1 = ((code)FUN_004f2f70)();
-  if (lVar1 != 0) {
-    lVar2 = ((code)FUN_004f4640)(lVar1);
-    if (lVar2 != 0) {
-      uVar3 = ((code)FUN_0049ff00)();
-      uVar4 = ((code)FUN_004f4950)(lVar2,0,uVar3,0);
-      ((code)FUN_004f4830)(uVar4,*(u32 *)uVar3,0,0);
-      lVar2 = ((code)FUN_004f3f80)(uVar4);
-      if (lVar2 != 0) {
-        uVar3 = ((code)FUN_004f4830)(lVar2,*(u32 *)uVar3,0,0);
-        ((code)FUN_0049fe40)(uVar3,1,0x47abf0);
-        return lVar1;
-      }
+    s32 temp_2;
+    s32 *temp_2_3;
+    s32 temp_2_2;
+
+    temp_2 = FUN_004f2f70_rwt();
+    if (temp_2 != 0) {
+        temp_2_2 = FUN_004f4640_rwt(temp_2);
+        if (temp_2_2 != 0) {
+            temp_2_3 = FUN_0049ff00_rwt();
+            temp_2_2 = FUN_004f4950_rwt(temp_2_2, 0, temp_2_3, 0);
+            FUN_004f4830_rwt2(temp_2_2, *temp_2_3, 0, 0);
+            temp_2_2 = FUN_004f3f80_rwt(temp_2_2);
+            if (temp_2_2 != 0) {
+                FUN_0049fe40_rwt2(
+                    (u8 *)FUN_004f4830_rwt2(temp_2_2, *temp_2_3, 0, 0),
+                    1,
+                    (void *)FUN_0047abf0_rwt);
+                return temp_2;
+            }
+        }
+        FUN_004f3010_rwt(temp_2);
+        goto block_5;
     }
-    ((code)FUN_004f3010)(lVar1);
-  }
-  return 0;
+block_5:
+    return 0;
 }
+#pragma pop
 
 // FUN_0047B280 NONMATCHING
 
@@ -20269,49 +21005,49 @@ long FUN_0047bb40(int param_1,int param_2,u32 param_3)
   return lVar1;
 }
 
-// FUN_0047BD20 NONMATCHING
-
-u32 FUN_0047bd20(u64 param_1)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_propagation on
+#pragma opt_rebuildconditionals on
+// FUN_0047BD20
+s32 FUN_0047bd20(u8 *arg0)
 {
-  int iVar1;
-  u32 uVar2;
-  long lVar3;
-  long lVar4;
-  u64 uVar5;
-  
-  lVar3 = ((code)FUN_00493710)(0,0,0);
-  if (lVar3 == 0) {
-    uVar2 = 0;
-  }
-  else {
-    iVar1 = *(int *)((int)lVar3 + 0x5c);
-    *(u32 *)(iVar1 + 4) = 0;
-    *(u32 *)(iVar1 + 8) = 0;
-    *(u32 *)(iVar1 + 0xc) = 0;
-    *(u32 *)(iVar1 + 0x10) = 0x3f800000;
-    lVar4 = ((code)FUN_004933d0)(lVar3);
-    if (lVar4 == 0) {
-      uVar2 = 0;
+    u8 *node;
+    u8 *frame;
+    u8 *sub;
+    u8 *state;
+
+    node = FUN_00493710_rwt(0, 0, 0);
+    if (node != NULL) {
+        sub = *(u8 **)(node + 0x5C);
+        *(s32 *)(sub + 4) = 0;
+        *(s32 *)(sub + 8) = 0;
+        *(s32 *)(sub + 0xC) = 0;
+        *(f32 *)(sub + 0x10) = 1.0f;
+        if (FUN_004933d0_rwt(node) != 0) {
+            goto proceed;
+        }
+        return 0;
     }
-    else {
-      ((code)FUN_004919b0)(param_1,lVar3,0);
-      ((code)FUN_00493b60)(lVar3);
-      uVar5 = ((code)FUN_00494be0)();
-      ((code)FUN_00495340)((int)lVar3 + 0x20,uVar5);
-      ((code)FUN_00494cc0)(uVar5);
-      uVar2 = 1;
-      iVar1 = *(int *)((int)param_1 + iGpffffba80);
-      *(u32 *)(iVar1 + 0x24) = 0;
-      *(u32 *)(iVar1 + 0x28) = 0;
-      *(u32 *)(iVar1 + 0x2c) = 0;
-      *(u32 *)(iVar1 + 0x30) = 0;
-      *(u32 *)(iVar1 + 0x34) = 0;
-      *(u32 *)(iVar1 + 0x38) = 0;
-    }
-  }
-  return uVar2;
+    return 0;
+proceed:
+    FUN_004919b0_rwt(arg0, node, 0);
+    FUN_00493b60_rwt(node);
+    frame = FUN_00494be0_rwt();
+    FUN_00495340_rwt(node + 0x20, frame);
+    FUN_00494cc0_rwt(frame);
+    state = *(u8 **)(arg0 + iGpffffba80_s32);
+    *(s32 *)(state + 0x24) = 0;
+    *(s32 *)(state + 0x28) = 0;
+    *(s32 *)(state + 0x2C) = 0;
+    *(s32 *)(state + 0x30) = 0;
+    *(s32 *)(state + 0x34) = 0;
+    *(s32 *)(state + 0x38) = 0;
+    return 1;
 }
+#pragma pop
 
 // FUN_0047BE10 NONMATCHING
 
@@ -20353,98 +21089,122 @@ u64 FUN_0047be10(int param_1,int param_2,u64 param_3)
   return 0;
 }
 
-// FUN_0047BF80 NONMATCHING
-
-void FUN_0047bf80(int param_1)
-
+#pragma push
+#pragma optimization_level 3
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_propagation on
+#pragma opt_rebuildconditionals on
+// FUN_0047BF80
+void FUN_0047bf80(s32 arg0)
 {
-  int iVar1;
-  u32 uVar2;
-  
-  iVar1 = *(int *)(param_1 + iGpffffba80);
-  **(code **)(iVar1 + 0x24) = (code)FUN_00488550;
-  uVar2 = *(u32 *)(iVar1 + 0xa8);
-  if ((uVar2 & 8) == 8) {
-    if ((uVar2 & 0x1000000) == 0x1000000) {
-      **(code **)(iVar1 + 0x28) = (code)FUN_00483170;
+    u8 *obj;
+    u8 *obj2;
+    s32 flags;
+    void (*callback)(void);
+
+    callback = FUN_00488550_rwt;
+    obj = *(u8 **)((u8 *)arg0 + iGpffffba80_s32);
+    *(void (**)(void))(obj + 0x24) = callback;
+    flags = *(s32 *)(obj + 0xA8);
+    obj2 = obj + 0x50;
+    if ((flags & 8) == 8) {
+        if ((flags & 0x01000000) == 0x01000000) {
+            *(void (**)(void))(obj + 0x28) = FUN_00483170_rwt;
+        } else {
+            *(void (**)(void))(obj + 0x28) = FUN_00482a50_rwt;
+        }
+    } else if ((flags & 0x8000) == 0x8000) {
+        if ((flags & 0x01000000) == 0x01000000) {
+            *(void (**)(void))(obj + 0x28) = FUN_0047c8c0_rwt;
+        } else {
+            *(void (**)(void))(obj + 0x28) = FUN_0047c240_rwt;
+        }
+    } else if ((flags & 0x20) == 0x20) {
+        if ((flags & 4) == 4) {
+            if ((flags & 0x01000000) == 0x01000000) {
+                *(void (**)(void))(obj + 0x28) = FUN_00481860_rwt;
+            } else {
+                *(void (**)(void))(obj + 0x28) = FUN_0047e9e0_rwt;
+            }
+        } else if ((flags & 0x01000000) == 0x01000000) {
+            *(void (**)(void))(obj + 0x28) = FUN_0047fb10_rwt;
+        } else {
+            *(void (**)(void))(obj + 0x28) = FUN_0047cfd0_rwt;
+        }
+    } else if ((flags & 4) == 4) {
+        if ((flags & 0x01000000) == 0x01000000) {
+            *(void (**)(void))(obj + 0x28) = FUN_00480c30_rwt;
+        } else {
+            *(void (**)(void))(obj + 0x28) = FUN_0047de30_rwt;
+        }
+    } else if ((flags & 0x01000000) == 0x01000000) {
+        *(void (**)(void))(obj + 0x28) = FUN_0047c8c0_rwt;
+    } else {
+        *(void (**)(void))(obj + 0x28) = FUN_0047c240_rwt;
     }
-    else {
-      **(code **)(iVar1 + 0x28) = (code)FUN_00482a50;
+
+    flags = *(s32 *)(obj2 + 0x58);
+    if ((flags & 0x80) == 0x80) {
+        goto stage2_304;
     }
-  }
-  else if ((uVar2 & 0x8000) == 0x8000) {
-    if ((uVar2 & 0x1000000) == 0x1000000) {
-      **(code **)(iVar1 + 0x28) = (code)FUN_0047c8c0;
+    if ((flags & 0x100) == 0x100) {
+        goto stage2_314;
     }
-    else {
-      **(code **)(iVar1 + 0x28) = (code)FUN_0047c240;
+    if ((flags & 0x80000) == 0x80000) {
+        goto stage2_324;
     }
-  }
-  else if ((uVar2 & 0x20) == 0x20) {
-    if ((uVar2 & 4) == 4) {
-      if ((uVar2 & 0x1000000) == 0x1000000) {
-        **(code **)(iVar1 + 0x28) = (code)FUN_00481860;
-      }
-      else {
-        **(code **)(iVar1 + 0x28) = (code)FUN_0047e9e0;
-      }
+    if ((flags & 0x100000) == 0x100000) {
+        *(void (**)(void))(obj + 0x2C) = FUN_00485ff0_rwt;
+        goto stage3;
     }
-    else if ((uVar2 & 0x1000000) == 0x1000000) {
-      **(code **)(iVar1 + 0x28) = (code)FUN_0047fb10;
+    *(void (**)(void))(obj + 0x2C) = NULL;
+
+stage3:
+    flags = *(s32 *)(obj2 + 0x58);
+    if ((flags & 2) == 2) {
+        goto stage3_334;
     }
-    else {
-      **(code **)(iVar1 + 0x28) = (code)FUN_0047cfd0;
+    if ((flags & 0x40) == 0x40) {
+        goto stage3_344;
     }
-  }
-  else if ((uVar2 & 4) == 4) {
-    if ((uVar2 & 0x1000000) == 0x1000000) {
-      **(code **)(iVar1 + 0x28) = (code)FUN_00480c30;
+    if ((flags & 0x40000) == 0x40000) {
+        *(void (**)(void))(obj + 0x30) = FUN_00485110_rwt;
+        goto stage4;
     }
-    else {
-      **(code **)(iVar1 + 0x28) = (code)FUN_0047de30;
+    *(void (**)(void))(obj + 0x30) = FUN_00485440_rwt;
+
+stage4:
+    flags = *(s32 *)(obj2 + 0x58);
+    if ((flags & 0x10) == 0x10) {
+        goto stage4_354;
     }
-  }
-  else if ((uVar2 & 0x1000000) == 0x1000000) {
-    **(code **)(iVar1 + 0x28) = (code)FUN_0047c8c0;
-  }
-  else {
-    **(code **)(iVar1 + 0x28) = (code)FUN_0047c240;
-  }
-  uVar2 = *(u32 *)(iVar1 + 0xa8);
-  if ((uVar2 & 0x80) == 0x80) {
-    **(code **)(iVar1 + 0x2c) = (code)FUN_00485750;
-  }
-  else if ((uVar2 & 0x100) == 0x100) {
-    **(code **)(iVar1 + 0x2c) = (code)FUN_00485e20;
-  }
-  else if ((uVar2 & 0x80000) == 0x80000) {
-    **(code **)(iVar1 + 0x2c) = (code)FUN_00485ef0;
-  }
-  else if ((uVar2 & 0x100000) == 0x100000) {
-    **(code **)(iVar1 + 0x2c) = (code)FUN_00485ff0;
-  }
-  else {
-    *(u32 *)(iVar1 + 0x2c) = 0;
-  }
-  uVar2 = *(u32 *)(iVar1 + 0xa8);
-  if ((uVar2 & 2) == 2) {
-    **(code **)(iVar1 + 0x30) = (code)FUN_004838e0;
-  }
-  else if ((uVar2 & 0x40) == 0x40) {
-    **(code **)(iVar1 + 0x30) = (code)FUN_00485070;
-  }
-  else if ((uVar2 & 0x40000) == 0x40000) {
-    **(code **)(iVar1 + 0x30) = (code)FUN_00485110;
-  }
-  else {
-    **(code **)(iVar1 + 0x30) = (code)FUN_00485440;
-  }
-  if ((*(u32 *)(iVar1 + 0xa8) & 0x10) == 0x10) {
-    *(u8 **)(iVar1 + 0x34) = &LAB_00486100;
-  }
-  *(u8 **)(iVar1 + 0x38) = &LAB_00488b80;
-  return;
+    goto finish;
+
+finish:
+    *(void (**)(void))(obj + 0x38) = (void (*)())LAB_00488b80_u8_arr;
+    return;
+
+stage2_304:
+    *(void (**)(void))(obj + 0x2C) = FUN_00485750_rwt;
+    goto stage3;
+stage2_314:
+    *(void (**)(void))(obj + 0x2C) = FUN_00485e20_rwt;
+    goto stage3;
+stage2_324:
+    *(void (**)(void))(obj + 0x2C) = FUN_00485ef0_rwt;
+    goto stage3;
+stage3_334:
+    *(void (**)(void))(obj + 0x30) = FUN_004838e0_rwt;
+    goto stage4;
+stage3_344:
+    *(void (**)(void))(obj + 0x30) = FUN_00485070_rwt;
+    goto stage4;
+stage4_354:
+    *(void (**)(void))(obj + 0x34) = (void (*)())LAB_00486100_u8_arr;
+    goto finish;
 }
+#pragma pop
 
 // FUN_0047C240 NONMATCHING
 
@@ -29251,56 +30011,68 @@ u64 FUN_0048d480(float param_1,int param_2,long param_3,u64 param_4,long param_5
   return param_4;
 }
 
-// FUN_0048D960 NONMATCHING
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_common_subs on
+#pragma opt_propagation on
+#pragma opt_rebuildconditionals on
+#pragma tailcall off
+// FUN_0048D960
+u8 *FUN_0048d960(u8 *arg0) {
+    u8 *stream;
+    u8 *result;
+    u32 code;
+    s32 pair[2];
 
-u64 FUN_0048d960(u64 param_1)
-
-{
-  long lVar1;
-  long lVar2;
-  u64 uVar3;
-  u32 uStack_10;
-  u32 uStack_c;
-  u32 uStack_4;
-  
-  uVar3 = 0;
-  lVar1 = ((code)FUN_004c58a0)(2,1,param_1);
-  if (lVar1 != 0) {
-    lVar2 = ((code)FUN_004c1600)(lVar1,0xc,0,&uStack_4);
-    if (lVar2 != 0) {
-      if ((uStack_4 < 0x35000) || (0x37002 < uStack_4)) {
-        uStack_10 = 0x102;
-        uStack_c = ((code)FUN_004c1d10)(0xffffffff80000004);
-        ((code)FUN_004c1c50)(&uStack_10);
-      }
-      else {
-        uVar3 = ((code)FUN_0048d0e0)(lVar1);
-      }
+    result = NULL;
+    stream = FUN_004c58a0_rwt(2, 1, arg0);
+    if (stream != NULL) {
+        if (FUN_004c1600_rwt(stream, 0xC, 0, &code) != 0) {
+            if ((code >= 0x35000) && (code < 0x37003)) {
+                result = FUN_0048d0e0_rwt(stream);
+            } else {
+                pair[0] = 0x102;
+                pair[1] = FUN_004c1d10_rwt(-0x7FFFFFFC);
+                FUN_004c1c50_rwt(pair);
+            }
+        }
+        FUN_004c5780_rwt(stream, 0);
     }
-    ((code)FUN_004c5780)(lVar1,0);
-  }
-  return uVar3;
+    return result;
 }
+#pragma pop
 
-// FUN_0048DA30 NONMATCHING
+#pragma push
+#pragma optimization_level 2
+#pragma schedule on
+#pragma no_branch_likely on
+#pragma opt_common_subs on
+#pragma opt_propagation on
+#pragma opt_rebuildconditionals on
+#pragma tailcall off
+// FUN_0048DA30
+s32 FUN_0048da30(u8 *arg0) {
+    u8 *temp_4;
+    u8 *temp_4_2;
+    void (*callback)(u8 *);
 
-u32 FUN_0048da30(u64 param_1)
-
-{
-  int iVar1;
-  
-  iVar1 = (int)param_1;
-  if (*(int *)(iVar1 + 0x14) != 0) {
-    (*DAT_0096017c)();
-    *(u32 *)(iVar1 + 0x14) = 0;
-  }
-  if (*(int *)(iVar1 + 0x10) != 0) {
-    (*DAT_0096017c)();
-    *(u32 *)(iVar1 + 0x10) = 0;
-  }
-  (*DAT_0096017c)(param_1);
-  return 1;
+    temp_4 = *(u8 **)(arg0 + 0x14);
+    if (temp_4 != NULL) {
+        DAT_0096017c_rwt2[0](temp_4);
+        *(u8 **)(arg0 + 0x14) = NULL;
+    }
+    temp_4_2 = *(u8 **)(arg0 + 0x10);
+    if (temp_4_2 != NULL) {
+        DAT_0096017c_rwt2[0](temp_4_2);
+        *(u8 **)(arg0 + 0x10) = NULL;
+    }
+    callback = DAT_0096017c_rwt2[0];
+    callback(arg0);
+    return 1;
 }
+#pragma pop
 
 // FUN_0048DAB0 NONMATCHING
 

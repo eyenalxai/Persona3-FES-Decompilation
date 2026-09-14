@@ -1999,45 +1999,72 @@ u32 func_001a11d0()
 
 
 
-// FUN_001a1210 NONMATCHING
+#pragma push
+#pragma opt_propagation off
+// FUN_001a1210
+
 void func_001a1210(RwCamera* camera, const RwV3d* target, const RwV3d* position, const RwV3d* upVector)
 {
-    RwV3d defaultUp;
-    RwFrame* data;
-    RwMatrix* right;
-    RwV3d* up;
+    struct {
+        s64 qword;
+        f32 value;
+    } local;
+    s64 source_qword;
+    f32 source_value;
+    f32 *fallback;
+    u8 *temp_18;
+    u8 *temp_17;
+    f32 *temp_16;
+    u8 *temp_4;
+    u8 *temp_4_2;
+    f32 first_a;
+    f32 first_c;
 
-    up = &defaultUp;
-    *(s64*) &defaultUp = *(s64*)DAT_00678ab8;
-    defaultUp.z = *(f32*)(DAT_00678ab8 + 8);
-    if (upVector == NULL)
-    {
-        up = &defaultUp;
+    fallback = (f32 *)&local;
+    source_qword = *(s64 *)DAT_00678ab8;
+    source_value = *(f32 *)(DAT_00678ab8 + 8);
+    local.qword = source_qword;
+    local.value = source_value;
+    if (upVector == NULL) {
+        temp_16 = fallback;
+    } else {
+        temp_16 = (f32 *)upVector;
     }
-    else
-    {
-        up = (RwV3d*)upVector;
-    }
-
-    data = camera->object.object.parent;
-    right = &data->modelling;
-    data->modelling.pos = *target;
-    right->at.x = position->x - data->modelling.pos.x;
-    right->at.y = position->y - data->modelling.pos.y;
-    right->at.z = position->z - data->modelling.pos.z;
-    RwV3dNormalize(&right->at, &right->at);
-
-    right->right.x = right->at.y * up->z - right->at.z * up->y;
-    right->right.y = up->x * right->at.z - up->z * right->at.x;
-    right->right.z = up->y * right->at.x - up->x * right->at.y;
-    RwV3dNormalize(&right->right, &right->right);
-    right->up.x = right->at.y * right->right.z - right->at.z * right->right.y;
-    right->up.y = right->at.z * right->right.x - right->at.x * right->right.z;
-    right->up.z = right->at.x * right->right.y - right->at.y * right->right.x;
-    RwV3dNormalize(&right->up, &right->up);
-    RwMatrixUpdate(right);
-    func_004cb270(data);
+    temp_18 = *(u8 **)((u8 *)camera + 4);
+    temp_17 = temp_18 + 0x10;
+    *(RwV3d *)(temp_18 + 0x40) = *target;
+    *(f32 *)(temp_18 + 0x30) = *(f32 *)((u8 *)position + 0) - *(f32 *)(temp_18 + 0x40);
+    *(f32 *)(temp_18 + 0x34) = *(f32 *)((u8 *)position + 4) - *(f32 *)(temp_18 + 0x44);
+    *(f32 *)(temp_18 + 0x38) = *(f32 *)((u8 *)position + 8) - *(f32 *)(temp_18 + 0x48);
+    temp_4 = temp_17 + 0x20;
+    RwV3dNormalize((RwV3d *)temp_4, (RwV3d *)temp_4);
+    *(f32 *)(temp_17 + 0) =
+        *(f32 *)(temp_17 + 0x24) * temp_16[2] -
+        *(f32 *)(temp_17 + 0x28) * temp_16[1];
+    *(f32 *)(temp_17 + 4) =
+        *(f32 *)(temp_17 + 0x28) * temp_16[0] -
+        *(f32 *)(temp_17 + 0x20) * temp_16[2];
+    first_a = *(f32 *)(temp_17 + 0x24);
+    first_c = *(f32 *)(temp_17 + 0x20);
+    *(f32 *)(temp_17 + 8) =
+        first_c * temp_16[1] -
+        first_a * temp_16[0];
+    RwV3dNormalize((RwV3d *)temp_17, (RwV3d *)temp_17);
+    *(f32 *)(temp_17 + 0x10) =
+        *(f32 *)(temp_17 + 0x24) * *(f32 *)(temp_17 + 8) -
+        *(f32 *)(temp_17 + 0x28) * *(f32 *)(temp_17 + 4);
+    *(f32 *)(temp_17 + 0x14) =
+        *(f32 *)(temp_17 + 0x28) * *(f32 *)(temp_17 + 0) -
+        *(f32 *)(temp_17 + 0x20) * *(f32 *)(temp_17 + 8);
+    *(f32 *)(temp_17 + 0x18) =
+        *(f32 *)(temp_17 + 0x20) * *(f32 *)(temp_17 + 4) -
+        *(f32 *)(temp_17 + 0x24) * *(f32 *)(temp_17 + 0);
+    temp_4_2 = temp_17 + 0x10;
+    RwV3dNormalize((RwV3d *)temp_4_2, (RwV3d *)temp_4_2);
+    RwMatrixUpdate((RwMatrix *)temp_17);
+    func_004cb270(temp_18);
 }
+#pragma pop
 
 // FUN_001a13b0
 void* func_001a13b0(SceneDrawObject* object, void** listHead)

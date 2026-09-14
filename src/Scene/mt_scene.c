@@ -2114,96 +2114,50 @@ u32 FUN_003b8470(u16 param_1,u16 param_2)
 }
 #define FUN_003b8470(...) ((u32 (*)(...))FUN_003b8470)(__VA_ARGS__)
 #undef FUN_003b8540
-/* Measured W389: opt_common_subs off + opt_lifetimes on, with/without nd 197/190, object 312/308 (window 336). */
-/* W418 negative: changing the FUN_003b8540 stack assignment from 0.0 to 0.0f produced no metric changes; reverted. */
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_lifetimes on
-// FUN_003B8540 NONMATCHING
-
-
-u32 FUN_003b8540(float *param_1,float *param_2,float *param_3,float *param_4)
-
-
-
+typedef struct SceneVecBits
 {
+    u64 xy;
+    float z;
+} __attribute__((packed)) SceneVecBits;
+#pragma alias FUN_0052e9a0_mt_scene FUN_0052e9a0
+extern u32 FUN_0052e9a0_mt_scene(u32 param_1);
+/* Removing these volatile loads loses FUN_003B8540 (MATCH nd0 -> MISMATCH nd5) - measured W170. */
+// FUN_003B8540
 
-  u32 uVar1;
+u32 FUN_003b8540(float *param_1, float *param_2, float *param_3, float *param_4)
+{
+    u32 uVar1;
+    float fVar2;
+    u64 txy;
+    float tz;
+    float dif[3];
+    float afStack_20[4];
+    SceneVecBits source;
 
-  u32 uVar2;
-
-  float fVar3;
-
-  float fVar4;
-
-  float fStack_30;
-
-  float fStack_2c;
-
-  float afStack_20 [4];
-
-  float fStack_10[3];
-
-  
-
-  fVar4 = *(f32 *)DAT_006a2dd0_abs;
-  
-  uVar2 = *(u64 *)DAT_006a2dc8_abs;
-
-  fStack_10[0] = *param_2 - *param_1;
-  fStack_10[1] = param_2[1] - param_1[1];
-  fStack_10[2] = param_2[2] - param_1[2];
-
-  fVar3 = FUN_004c69f0_mt_scene(afStack_20,fStack_10);
-
-  if (fVar3 == 0.0f) {
-
-    uVar1 = 0;
-
-  }
-
-  else {
-
-    afStack_20[1] = 0.0;
-    fStack_30 = *(float *)&uVar2;
-    
-    fStack_2c = *(((float *)&uVar2) + 1);
-
-
-    uVar2 = FUN_00530da0_mt_scene(afStack_20[2] * fVar4 +
-
-                         afStack_20[0] * fStack_30 + fStack_2c * 0.0f + 0.0f + 0.0f);
-
-    uVar2 = FUN_0052e9a0(uVar2);
-
-    fVar4 = FUN_005318a0_mt_scene((u32)uVar2);
-
-    fVar4 = DAT_007caf18 * fVar4;
-
-    if (afStack_20[0] < 0.0f) {
-
-      fVar4 = fVar4 * -1.0f;
-
+    txy = ((volatile SceneVecBits *)DAT_006a2dc8_abs)->xy;
+    tz = *(volatile float *)DAT_006a2dd0_abs;
+    *(volatile u64 *)&source.xy = txy;
+    *(volatile float *)&source.z = tz;
+    dif[0] = param_2[0] - param_1[0];
+    dif[1] = param_2[1] - param_1[1];
+    dif[2] = param_2[2] - param_1[2];
+    fVar2 = FUN_004c69f0_mt_scene(afStack_20, dif);
+    if (fVar2 == 0.0f) {
+        return 0;
     }
-
-    *param_4 = fVar4;
-
-    *param_3 = fStack_10[0];
-    
-    param_3[1] = fStack_10[1];
-    
-    param_3[2] = fStack_10[2];
-
-    uVar1 = 1;
-
-  }
-
-  return uVar1;
-
+    afStack_20[1] = 0.0f;
+    uVar1 = FUN_00530da0_mt_scene(afStack_20[0] * ((float *)&source.xy)[0] +
+                                  afStack_20[1] * ((float *)&source.xy)[1] +
+                                  afStack_20[2] * source.z);
+    uVar1 = FUN_0052e9a0_mt_scene(uVar1);
+    fVar2 = DAT_007caf18 * FUN_005318a0_mt_scene(uVar1);
+    if (afStack_20[0] < 0.0f) {
+        fVar2 = fVar2 * -1.0f;
+    }
+    *param_4 = fVar2;
+    *(RwV3d *)param_3 = *(RwV3d *)dif;
+    return 1;
 }
-#pragma pop
-#pragma opt_lifetimes reset
-#pragma opt_common_subs reset
 #undef FUN_003b8540
 #undef FUN_003b8690
 // FUN_003B8690

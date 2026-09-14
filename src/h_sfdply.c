@@ -1577,11 +1577,13 @@ void func_0010c7d0(HSfdQueueSlot* slot)
  * 0x10c is addu $v0,$a0,$v0 / addu $v0,$v1,$v0 (candidate / retail):
  * global-base/index register colouring. */
 
-// FUN_0010CAC0 NONMATCHING
+#pragma push
+#pragma opt_loop_invariants on
+// FUN_0010CAC0
+
 void func_0010cac0(void)
 {
     s16 i;
-    HSfdDecodeSlot* slots;
     s16 j;
 
     FUN_00512868();
@@ -1596,14 +1598,12 @@ void func_0010cac0(void)
     FUN_005129c0(1, 0x8010, 0x801, 0xFCC);
     FUN_0051db00(3, 0x80, 0x7F, 0x7F);
 
-    i = 0;
-    slots = sSfdDecodeSlots_abs;
-    for (; i < HSFD_DECODE_SLOTS; i++)
+    for (i = 0; i < HSFD_DECODE_SLOTS; i++)
     {
-        slots[i].state = 0;
-        slots[i].request = NULL;
-        slots[i].status = 0;
-        slots[i].index = i;
+        *(s16*)((u8*)sSfdDecodeSlots_abs + i * 0x44 + 0) = 0;
+        *(s32*)((u8*)sSfdDecodeSlots_abs + i * 0x44 + 4) = 0;
+        *(s32*)((u8*)sSfdDecodeSlots_abs + i * 0x44 + 0x18) = 0;
+        *(s16*)((u8*)sSfdDecodeSlots_abs + i * 0x44 + 0xA) = i;
     }
     j = 0;
     *(s32*)sSfdFrameIndex_abs = 0;
@@ -1617,6 +1617,7 @@ void func_0010cac0(void)
     sSfdDecodeSlots[4].intermediate = (u8*)FUN_0051d6f8(0x19000);
     sSfdDecodeSlots[5].intermediate = (u8*)FUN_0051d6f8(0x19000);
 }
+#pragma pop
 #pragma opt_loop_invariants reset
 
 

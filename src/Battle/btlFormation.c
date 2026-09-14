@@ -3282,126 +3282,146 @@ void func_002b96e0(int param_1,u32 param_2)
   return;
 }
 
-// FUN_002b96f0 NONMATCHING
-
-void func_002b96f0(float param_1,float param_2,float *param_3,u32 *param_4,int param_5,
-                   u32 param_6)
+extern void func_004bdde0_reordered(void *frame, const void *vector, f32 angle, u32 mode);
+#pragma alias func_004bdde0_reordered func_004bdde0
+#pragma alias DAT_00696440_abs DAT_00696440
+extern u8 DAT_00696440_abs[];
+#pragma alias DAT_00696460_abs DAT_00696460
+extern u8 DAT_00696460_abs[];
+extern void func_004bdde0_reordered(void *frame, const void *vector, f32 angle, u32 mode);
+#pragma alias func_004bdde0_reordered func_004bdde0
+#pragma alias DAT_00696440_arr DAT_00696440
+extern f32 DAT_00696440_arr[];
+#pragma alias DAT_00696460_arr DAT_00696460
+extern f32 DAT_00696460_arr[];
+extern void func_004bdde0_reordered(void *frame, const void *vector, f32 angle, u32 mode);
+#pragma alias func_004bdde0_reordered func_004bdde0
+// FUN_002b96f0
+void func_002b96f0(float param_1,float param_2,float *param_3,u32 *param_4,int param_5,u32 param_6)
 {
-  u8 *out = (u8 *)(u32)param_6;
-  u8 bVar1 = *(u8 *)(param_5 + 2);
-  float fVar3 = 0.0f;
-  float fStack_10[4];
-  float uStack_20[4];
-  float vectorWork[4];
-  float origin[4];
+    f32 fparg0 = param_1;
+    f32 fparg1 = param_2;
+    f32 *arg0 = param_3;
+    s32 *arg1 = (s32 *)param_4;
+    u8 *arg2 = (u8 *)(u32)param_5;
+    u8 *arg3 = (u8 *)(u32)param_6;
+    struct Vec4 {
+        f32 value[4];
+    };
+    f32 fStack_10[4];
+    f32 uStack_20[4];
+    f32 vectorWork[4];
+    f32 origin[4];
+    f32 var_f20;
+    f32 neg_limit;
+    s32 var_16;
+    u8 temp_6;
+    u8 temp_7;
 
-  if (*(u8 *)(param_5 + 1) == 4) {
-    if (bVar1 == 8) {
-      fVar3 = param_1;
-      if (*(short *)(param_5 + 4) == 0) {
-        fVar3 = 2.0f;
-      }
+    temp_6 = *(u8 *)(arg2 + 1);
+    temp_7 = *(u8 *)(arg2 + 2);
+    if (temp_6 == 4) {
+        var_16 = temp_7 & 0xFF;
+        if (var_16 == 8) {
+            var_f20 = (*(u16 *)(arg2 + 4) == 0) ? 2.0f : fparg0;
+        } else {
+            var_f20 = 2.0f;
+        }
+    } else {
+        var_f20 = *(f32 *)((u8 *)arg0 + 4) + fparg1 * DAT_00696440_arr[temp_6];
+        var_16 = temp_7 & 0xFF;
+        if ((var_16 == 8) && (*(u16 *)(arg2 + 4) != 0)) {
+            var_f20 += fparg0;
+        }
     }
-    else {
-      fVar3 = 2.0f;
+    switch (var_16) {
+    case 8:
+        *(f32 *)((u8 *)arg3 + 0) = *(f32 *)((u8 *)arg0 + 0);
+        *(f32 *)((u8 *)arg3 + 4) = var_f20;
+        *(f32 *)((u8 *)arg3 + 8) = *(f32 *)((u8 *)arg0 + 8);
+        break;
+    case 9:
+    case 10:
+        func_003297a0(origin);
+        __asm__ volatile(
+            "lqc2 $vf10, 0(%0) \n"
+            :
+            : "r"(origin)
+            : "$vf10", "memory");
+        if (fparg0 < fparg1) {
+            fparg1 = fparg1;
+        } else {
+            fparg1 = fparg0;
+        }
+        neg_limit = -fparg1;
+        if (var_16 == 9) {
+            origin[0] = *(f32 *)((u8 *)arg0 + 0);
+            origin[1] = *(f32 *)((u8 *)arg0 + 4);
+            origin[2] = *(f32 *)((u8 *)arg0 + 8);
+        } else {
+            origin[0] = *(f32 *)((u8 *)arg0 + 0);
+            origin[1] = var_f20;
+            origin[2] = *(f32 *)((u8 *)arg0 + 8);
+        }
+        __asm__ volatile(
+            "lqc2 $vf11, 0(%0) \n"
+            "vsub.xyzw $vf11, $vf11, $vf10 \n"
+            :
+            : "r"(origin)
+            : "$vf10", "$vf11", "memory");
+        if (var_16 == 10) {
+            __asm__ volatile(
+                "sqc2 $vf11, 0(%0) \n"
+                :
+                : "r"(vectorWork)
+                : "$vf11", "memory");
+            vectorWork[1] = 0.0f;
+            __asm__ volatile(
+                "lqc2 $vf11, 0(%0) \n"
+                :
+                : "r"(vectorWork)
+                : "$vf11", "memory");
+        }
+        __asm__ volatile(
+            "vmul.xyz $vf2, $vf11, $vf11 \n"
+            "vmulax.w $ACC, $vf0, $vf2x \n"
+            "vmadday.w $ACC, $vf0, $vf2y \n"
+            "vmaddz.w $vf2, $vf0, $vf2z \n"
+            "vrsqrt $Q, $vf0w, $vf2w \n"
+            "vwaitq \n"
+            "vmulq.xyz $vf11, $vf11, $Q \n"
+            :
+            :
+            : "$vf2", "$vf11", "ACC", "Q", "memory");
+        __asm__ volatile(
+            "mfc1 $3, %0 \n"
+            "nop \n"
+            "qmtc2 $3, $vf2 \n"
+            "vmulx.xyzw $vf11, $vf11, $vf2x \n"
+            :
+            : "f"(neg_limit)
+            : "$3", "$vf2", "$vf11", "memory");
+        __asm__ volatile(
+            "lqc2 $vf10, 0(%0) \n"
+            "vadd.xyzw $vf10, $vf10, $vf11 \n"
+            "sqc2 $vf10, 0(%1) \n"
+            :
+            : "r"(origin), "r"(arg3)
+            : "$vf10", "$vf11", "memory");
+        break;
+    default:
+        *(struct Vec4 *)uStack_20 = *(struct Vec4 *)arg1;
+        func_004bdde0_reordered(uStack_20, (const void *)&D_00697880, DAT_00696460_arr[temp_7], 2);
+        func_004be1e0(fStack_10, (const void *)&D_00697890, 1, (u8 *)uStack_20);
+        fStack_10[0] = fStack_10[0] * fparg0;
+        fStack_10[1] = fStack_10[1] * fparg0;
+        fStack_10[2] = fStack_10[2] * fparg0;
+        *(f32 *)((u8 *)arg3 + 0) = *(f32 *)((u8 *)arg0 + 0) + fStack_10[0];
+        *(f32 *)((u8 *)arg3 + 4) = var_f20 + fStack_10[1];
+        *(f32 *)((u8 *)arg3 + 8) = *(f32 *)((u8 *)arg0 + 8) + fStack_10[2];
+        break;
     }
-  }
-  else {
-    fVar3 = param_2 * *(float *)(&DAT_00696440 + (u32)*(u8 *)(param_5 + 1) * 4) +
-            param_3[1] + 0.0f;
-    if ((bVar1 == 8) && (*(short *)(param_5 + 4) != 0)) {
-      fVar3 += param_1;
-    }
-  }
-
-  if ((bVar1 == 10) || (bVar1 == 9)) {
-    float scale;
-    u32 scaleBits;
-
-    func_003297a0(origin);
-    __asm__ volatile (
-        ".set noreorder          \n"
-        "lqc2 vf10, 0(%0)        \n"
-        ".set reorder"
-        :
-        : "r" (origin)
-        : "vf10", "memory"
-    );
-    if (param_1 >= param_2) {
-      param_2 = param_1;
-    }
-    scale = -param_2;
-    *(RwV4d*)origin = *(RwV4d*)param_3;
-    if (bVar1 != 9) {
-      origin[1] = fVar3;
-    }
-    __asm__ volatile (
-        ".set noreorder          \n"
-        "lqc2 vf11, 0(%0)        \n"
-        "vsub.xyz vf11, vf11, vf10\n"
-        ".set reorder"
-        :
-        : "r" (origin)
-        : "vf11", "memory"
-    );
-    if (bVar1 == 10) {
-      __asm__ volatile (
-          ".set noreorder          \n"
-          "sqc2 vf11, 0(%0)        \n"
-          ".set reorder"
-          :
-          : "r" (vectorWork)
-          : "memory"
-      );
-      *(u32 *)&vectorWork[1] = 0;
-      __asm__ volatile (
-          ".set noreorder          \n"
-          "lqc2 vf11, 0(%0)        \n"
-          ".set reorder"
-          :
-          : "r" (vectorWork)
-          : "vf11", "memory"
-      );
-    }
-    __asm__ volatile (
-        ".set noreorder             \n"
-        "vmul.xyz vf2, vf11, vf11   \n"
-        "vmulax.w ACC, vf0, vf2x    \n"
-        "vmadday.w ACC, vf0, vf2y   \n"
-        "vmaddz.w vf2, vf0, vf2z    \n"
-        "vrsqrt Q, vf0w, vf2w       \n"
-        "vwaitq                     \n"
-        "vmulq.xyz vf11, vf11, Q    \n"
-        "mfc1 %0, %1                \n"
-        "nop                        \n"
-        "qmtc2.ni %0, vf2           \n"
-        "vmulx.xyzw vf11, vf11, vf2x\n"
-        "lqc2 vf10, 0(%2)           \n"
-        "vadd.xyzw vf10, vf10, vf11 \n"
-        "sqc2 vf10, 0(%3)           \n"
-        ".set reorder"
-        : "=r" (scaleBits)
-        : "f" (scale), "r" (origin), "r" (out)
-        : "vf2", "vf10", "vf11", "ACC", "Q", "memory"
-    );
-  }
-  else if (bVar1 == 8) {
-    *(float *)out = *param_3;
-    *(float *)(out + 4) = fVar3;
-    *(float *)(out + 8) = param_3[2];
-  }
-  else {
-    uStack_20[0] = *(float *)param_4;
-    uStack_20[1] = *((float *)param_4 + 1);
-    uStack_20[2] = *((float *)param_4 + 2);
-    uStack_20[3] = *((float *)param_4 + 3);
-    func_004bdde0(*(float *)(&DAT_00696460 + (u32)bVar1 * 4),uStack_20,(const void *)0x697880,2);
-    func_004be1e0(fStack_10,(const void *)0x697890,1,uStack_20);
-    *(float *)out = *param_3 + fStack_10[0] * param_1;
-    *(float *)(out + 4) = fVar3 + fStack_10[1] * param_1;
-    *(float *)(out + 8) = param_3[2] + fStack_10[2] * param_1;
-  }
-  *(u32 *)(out + 0xc) = 0;
+    *(s32 *)((u8 *)arg3 + 0xC) = 0;
 }
 
 // FUN_002b99d0
@@ -4854,56 +4874,64 @@ void func_002bacb0(u32 *param_1)
  * pointer/volatile variants measured nd126 at 348/352 (rate 0.362069)
  * and nd127 at 352/352 (rate 0.360795); declaration-only variants stayed
  * nd3. */
-// FUN_002bad60 NONMATCHING
-
+#pragma push
+#pragma opt_propagation off
+#pragma push
+#pragma opt_propagation off
+#pragma push
+#pragma opt_propagation off
+// FUN_002bad60
 u32 func_002bad60(u32 *param_1)
-
 {
-  short sVar1;
-  u16 *puVar2;
-  int iVar3;
-  u16 functionIndex;
-  u32 unaff_s2_lo;
-  u32 unaff_s1_lo;
-  
-  if (func_002b9350_u32(*param_1) == 0)
-    return 0;
-  puVar2 = (u16 *)param_1[4];
-    if ((*(u32 *)(puVar2 + 2) & 0xff000000) == 0) {
-      return 1;
+    s16 sVar1;
+    u16 *puVar2;
+    int iVar3;
+    u16 functionIndex;
+    u32 unaff_s2_lo;
+    u32 unaff_s1_lo;
+
+    if (!func_002b9350_u32(param_1[0])) {
+        return 0;
     }
-    else {
-      functionIndex = *(volatile u16 *)(param_1 + 3);
-      iVar3 = func_002b9370(*param_1,functionIndex);
-      if ((*puVar2 & 0x40) == 0) {
-        if ((int)param_1[6] >= iVar3 * 2 + -0xd) {
-          *puVar2 = *puVar2 | 0x100;
-          return 0;
+    puVar2 = (u16 *)param_1[4];
+    if ((*(u32 *)(puVar2 + 2) & 0xff000000) == 0) {
+        return 1;
+    }
+    functionIndex = *(u16 *)(param_1 + 3);
+    iVar3 = func_002b9370(param_1[functionIndex & 0], functionIndex);
+    if ((*puVar2 & 0x40) == 0) {
+        if ((int)param_1[6] >= iVar3 * 2 - 0xd) {
+            *puVar2 = *puVar2 | 0x100;
+            return 0;
         }
         if (param_1[6] == 0) {
-          u32 flags = param_1[7];
-          if ((flags & 0xc00) != 0xc00) {
-          sVar1 = *(short *)(param_1 + 3);
-          switch (sVar1) {
-          case 0:
-            unaff_s2_lo = param_1[1];
-            unaff_s1_lo = param_1[2];
-            break;
-          case 1:
-            unaff_s2_lo = param_1[2];
-            unaff_s1_lo = param_1[1];
-            break;
-          }
-          *(u32 *)(puVar2 + 8) =
-              func_002b93e0_4arg(*param_1,sVar1,unaff_s2_lo,unaff_s1_lo);
-          *puVar2 = *puVar2 | 0x30;
+            u32 flags = param_1[7];
+
+            if ((flags & 0xc00) != 0xc00) {
+                sVar1 = *(short *)(param_1 + 3);
+                switch (sVar1) {
+                case 0:
+                    unaff_s2_lo = param_1[1];
+                    unaff_s1_lo = param_1[2];
+                    break;
+                case 1:
+                    unaff_s2_lo = param_1[2];
+                    unaff_s1_lo = param_1[1];
+                    break;
+                }
+                *(u32 *)(puVar2 + 8) =
+                    (u32)func_002b93e0(param_1[0], sVar1 & 0xffff,
+                                       unaff_s2_lo, unaff_s1_lo, flags);
+                *puVar2 = *puVar2 | 0x30;
+            }
         }
-          }
         param_1[6] = param_1[6] + 2;
-      }
     }
-  return 0;
+    return 0;
 }
+#pragma pop
+#pragma pop
+#pragma pop
 
 #pragma opt_lifetimes reset
 /* W367 measured: opt_propagation off nd2117 -> 2094, object 3236/3248; baseline object 3248/3248. */

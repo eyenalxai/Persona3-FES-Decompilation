@@ -88,60 +88,60 @@ typedef struct FldFilterCameraWork
     ResrcModelChar* playerResrc;// 0xcc
 } FldFilterCameraWork;
 
-// FUN_001d4460 NONMATCHING
+#pragma push
+#pragma opt_loop_invariants on
+#pragma opt_propagation off
+// FUN_001d4460
+
 static void K_FldFilter_InitQuads(RwCamera* camera)
 {
-    f32* vertex;
-    FilterQuad (*grid)[FLDFILTER_GRID_WIDTH];
-    FilterQuad* row;
-    s32 y;
-    s32 x;
-    s32 rowOffset;
-    s32 rightOffset;
-    s32 topOffset;
-    s32 bottomOffset;
-    f32 z;
-    f32 recipZ;
-    f32 bottom;
+    f32 depth = camera->nearPlane;
+    f32 inv = 1.0f / depth;
+    s32 i;
+    s32 j;
+    u8 *row;
+    u8 *p;
+    f32 left;
     f32 top;
-    z = camera->nearPlane;
-    recipZ = 1.0f / z;
-    y = 0;
-    grid = (FilterQuad (*)[FLDFILTER_GRID_WIDTH])sFilterGrid_abs;
-    while (y < FLDFILTER_GRID_HEIGHT)
-    {
-        x = 0;
-        row = grid[y];
-        topOffset = y * FLDFILTER_QUAD_YPIXELS;
-        bottomOffset = topOffset + FLDFILTER_QUAD_YPIXELS;
-        bottom = (f32)bottomOffset;
-        top = (f32)topOffset;
-        while (x < FLDFILTER_GRID_WIDTH)
-        {
-            rowOffset = x * FLDFILTER_QUAD_XPIXELS;
-            vertex = (f32*)&row[x];
-            vertex[0] = (f32)rowOffset;
-            vertex[1] = top;
-            vertex[2] = z;
-            x++;
-            rightOffset = x * FLDFILTER_QUAD_XPIXELS;
-            vertex[0x10] = (f32)rightOffset;
-            vertex[0x11] = top;
-            vertex[0x12] = z;
-            vertex[0x20] = (f32)rowOffset;
-            vertex[0x21] = bottom;
-            vertex[0x22] = z;
-            vertex[0x30] = (f32)rightOffset;
-            vertex[0x31] = bottom;
-            vertex[0x32] = z;
-            vertex[6] = recipZ;
-            vertex[0x16] = recipZ;
-            vertex[0x26] = recipZ;
-            vertex[0x36] = recipZ;
+    f32 right;
+    f32 bottom;
+    s32 x;
+    s32 top_y;
+    s32 bottom_y;
+
+    for (i = 0; i < 7; i++) {
+        j = 0;
+        row = sFilterGrid_abs + (i << 11);
+        while (j < 8) {
+            x = (j * 5) << 4;
+            p = row + (j << 8);
+            left = (f32)x;
+            *(f32 *)(p + 0) = left;
+            top_y = i << 6;
+            bottom_y = top_y + 64;
+            top = (f32)top_y;
+            *(f32 *)(p + 4) = top;
+            *(f32 *)(p + 8) = depth;
+            j++;
+            right = (f32)((j * 5) << 4);
+            *(f32 *)(p + 64) = right;
+            *(f32 *)(p + 68) = top;
+            *(f32 *)(p + 72) = depth;
+            *(f32 *)(p + 128) = left;
+            bottom = (f32)bottom_y;
+            *(f32 *)(p + 132) = bottom;
+            *(f32 *)(p + 136) = depth;
+            *(f32 *)(p + 192) = right;
+            *(f32 *)(p + 196) = bottom;
+            *(f32 *)(p + 200) = depth;
+            *(f32 *)(p + 24) = inv;
+            *(f32 *)(p + 88) = inv;
+            *(f32 *)(p + 152) = inv;
+            *(f32 *)(p + 216) = inv;
         }
-        y++;
     }
 }
+#pragma pop
 
 // FUN_001d4560
 void K_FldFilter_Init()

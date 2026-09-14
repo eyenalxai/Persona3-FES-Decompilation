@@ -886,8 +886,9 @@ static void H_Dbprt_DrawText3D(void)
  * 0xf4 addu $v1,$s3,$v1 / addiu $v1,$v1,0x60 (candidate / retail):
  * stack-address scheduling. */
 
-// FUN_00104D10 NONMATCHING
-void H_Dbprt_FmtAt(volatile /* Removing this qualifier worsens H_Dbprt_FmtAt (NONMATCHING nd170 -> NONMATCHING nd290, size 412 -> 424) - measured W170. */ RwV2d pos, const char* fmt, ...)
+// FUN_00104D10
+
+void H_Dbprt_FmtAt(volatile /* Removing this qualifier loses FUN_00104D10 (MATCH nd0 -> MISMATCH nd295) - measured W170. */ RwV2d pos, const char* fmt, ...)
 {
     char buffer[HDBPRT_LOG_MAXCHAR];
     s32 character;
@@ -897,6 +898,8 @@ void H_Dbprt_FmtAt(volatile /* Removing this qualifier worsens H_Dbprt_FmtAt (NO
     f32 posY;
     char glyph;
     va_list args;
+    s32 read_int;
+    u8* read;
     posY = pos.y;
 
     va_start(args, fmt);
@@ -913,8 +916,9 @@ void H_Dbprt_FmtAt(volatile /* Removing this qualifier worsens H_Dbprt_FmtAt (NO
         {
             break;
         }
-        glyph = *(char*)((u8*)(uintptr_t)character +
-                         (uintptr_t)buffer);
+        read_int = (s32)((u8*)buffer + character);
+        read = (u8*)read_int;
+        glyph = *(s8*)read;
         if (glyph == '\0')
         {
             break;
