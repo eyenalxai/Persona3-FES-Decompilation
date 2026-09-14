@@ -3770,53 +3770,6 @@ bool FUN_004d13e0(void)
 }
 #pragma schedule off
 
-// FUN_004D1420 NONMATCHING
-undefined8 FUN_004d1420(undefined8 param_1)
-
-{
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  
-  if (*(int *)((int)&DAT_00960094 + iGpffffbc60) != 0) {
-    (*DAT_0096017c)();
-    *(undefined4 *)((int)&DAT_00960094 + iGpffffbc60) = 0;
-    *(undefined2 *)((int)&DAT_00960098 + iGpffffbc60) = 0;
-  }
-  puVar2 = puGpffffbc58;
-  puVar4 = (undefined4 *)((int)DAT_00960070 + iGpffffbc60);
-  if ((*(int *)((int)&DAT_00960078 + iGpffffbc60) != 0) &&
-     (*(int *)(&DAT_0096007c + iGpffffbc60) != 0)) {
-    puVar1 = (undefined4 *)*puVar4;
-    do {
-      if (puVar1 == puVar4) goto LAB_004d1550;
-      puVar3 = puVar1 + -4;
-      puVar1 = (undefined4 *)*puVar1;
-    } while (puVar3 != puGpffffbc58);
-    if (*(undefined4 **)((int)&DAT_00960080 + iGpffffbc60) == puGpffffbc58) {
-      *(undefined4 *)((int)&DAT_00960080 + iGpffffbc60) = 0;
-    }
-    FUN_004d0dc0((undefined8)(int)puGpffffbc58,(code *)0x4d0f00,0);
-    FUN_004c6560(0x77e6f0,puVar2);
-    *(undefined4 *)puVar2[5] = puVar2[4];
-    *(undefined4 *)(puVar2[4] + 4) = puVar2[5];
-    (*DAT_0096018c)(*(undefined4 *)(&DAT_0096007c + iGpffffbc60),puVar2);
-    puGpffffbc58 = (undefined4 *)0x0;
-    puVar4 = (undefined4 *)((int)DAT_00960070 + iGpffffbc60);
-  }
-LAB_004d1550:
-  if (puVar4[2] != 0) {
-    FUN_004c3c30();
-    *(undefined4 *)((int)&DAT_00960078 + iGpffffbc60) = 0;
-  }
-  if (*(int *)(&DAT_0096007c + iGpffffbc60) != 0) {
-    FUN_004c3c30();
-    *(undefined4 *)(&DAT_0096007c + iGpffffbc60) = 0;
-  }
-  iGpffffbc64 = iGpffffbc64 + -1;
-  return param_1;
-}
 
 // FUN_004D15E0 NONMATCHING
 undefined8 FUN_004d15e0(undefined8 param_1,int param_2)

@@ -2058,3 +2058,67 @@ extern rwTexDictionary_l *puGpffffbc58;
 extern int iGpffffbc64;
 
 #pragma schedule on
+// FUN_004D1420
+void *FUN_004d1420(void *instance, RwInt32 offset, RwInt32 size)
+{
+  if (*(void **)((u8 *)DAT_00960070 + iGpffffbc60 + 0x24))
+  {
+    (*DAT_0096017c)(*(void **)((u8 *)DAT_00960070 + iGpffffbc60 + 0x24));
+    *(void **)((u8 *)DAT_00960070 + iGpffffbc60 + 0x24) = (void *)NULL;
+    *(u16 *)((u8 *)DAT_00960070 + iGpffffbc60 + 0x28) = 0;
+  }
+
+  if (*(void **)((u8 *)DAT_00960070 + iGpffffbc60 + 8) &&
+      *(void **)((u8 *)DAT_00960070 + iGpffffbc60 + 0xC))
+  {
+    RwLLLink *cur, *end;
+    RwBool texDictsExistOnShutdown;
+
+    cur = ((RwLinkList *)((u8 *)DAT_00960070 + iGpffffbc60))->link.next;
+    end = &((RwLinkList *)((u8 *)DAT_00960070 + iGpffffbc60))->link;
+
+    /* All objects should be destroyed by the app before shutdown. */
+    texDictsExistOnShutdown = (cur != end);
+
+    while (cur != end)
+    {
+      rwTexDictionary_l *dummy = puGpffffbc58;
+      RwLLLink *next = cur->next;
+      rwTexDictionary_l *dict = (rwTexDictionary_l *)((u8 *)cur - 0x10);
+
+      /* Only remove the dummy texture dictionary created in _rwTextureOpen */
+      if (dict == dummy)
+      {
+        FUN_004d0d10(*(rwTexDictionary_l * volatile *)&puGpffffbc58);
+        puGpffffbc58 = (rwTexDictionary_l *)NULL;
+
+        /* refetch the extents of the texture dictionary list */
+        cur = ((RwLinkList *)((u8 *)DAT_00960070 + iGpffffbc60))->link.next;
+        end = &((RwLinkList *)((u8 *)DAT_00960070 + iGpffffbc60))->link;
+        texDictsExistOnShutdown = (cur != end);
+        break;
+      }
+
+      cur = next;
+    }
+  }
+
+  if (*(void **)((u8 *)DAT_00960070 + iGpffffbc60 + 8))
+  {
+    /* Destroy the free list */
+    FUN_004c3c30(*(void **)((u8 *)DAT_00960070 + iGpffffbc60 + 8));
+    *(void **)((u8 *)DAT_00960070 + iGpffffbc60 + 8) = (void *)NULL;
+  }
+
+  if (*(void **)((u8 *)DAT_00960070 + iGpffffbc60 + 0xC))
+  {
+    /* Destroy the free list */
+    FUN_004c3c30(*(void **)((u8 *)DAT_00960070 + iGpffffbc60 + 0xC));
+    *(void **)((u8 *)DAT_00960070 + iGpffffbc60 + 0xC) = (void *)NULL;
+  }
+
+  /* One less module instance */
+  iGpffffbc64 = iGpffffbc64 - 1;
+
+  return instance;
+}
