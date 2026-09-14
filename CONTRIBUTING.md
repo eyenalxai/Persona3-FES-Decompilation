@@ -72,6 +72,18 @@ Create the machine-local verification config at `tools/verify_config.local.json`
 
 The file is gitignored. You may provide the same paths with `P3_MWCC` and `P3_RETAIL_ELF` environment variables.
 
+### Per-unit compiler versions
+
+Retail did not use one compiler build for every object. The RenderWare Graphics
+3.7 block was linked as a prebuilt library built with MWCCPS2 3.0.1 b119, while
+Atlus's own code is the project default 3.0.1 b210. `config/compiler_units.txt`
+maps a unit to a version key, the key resolves through `mwcc_versions` in the
+local config (`tools/verify_config.local.json` / `tools/build_config.local.json`)
+or a `P3_MWCC_<KEY>` environment variable, and `config/version_flags.txt` adds
+that version's flags. Units listed in `config/speed_units.txt` are built with
+the `-O<n>,p` speed variant. A unit that names a version with no configured
+compiler fails verification instead of silently scoring against b210.
+
 Extract the loadable image and generate assembly/data with:
 
 ```sh

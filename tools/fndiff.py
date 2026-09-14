@@ -22,7 +22,7 @@ import tempfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from verify import (REPO, TOOLS, ObjectFile, RetailElf, load_config,
-                    mask_bytes, scan_markers, window_for)
+                    mask_bytes, scan_markers, window_for, compile_command)
 
 try:
     from capstone import Cs, CS_ARCH_MIPS, CS_MODE_MIPS64, CS_MODE_LITTLE_ENDIAN
@@ -67,7 +67,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix="p3fndiff_") as td:
         opath = Path(td) / "out.o"
         proc = subprocess.run(
-            [cfg["mwcc"], "-O2", "-Iinclude", "-c", str(cpath), "-o", str(opath)],
+            compile_command(cpath, cfg, opath),
             cwd=str(REPO), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         if proc.returncode:
             sys.exit(proc.stdout)

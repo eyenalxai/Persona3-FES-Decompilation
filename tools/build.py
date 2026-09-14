@@ -69,6 +69,7 @@ def cfg():
     if not isinstance(c["cflags"], list) or not all(isinstance(flag, str) for flag in c["cflags"]):
         sys.exit("build: cflags in tools/verify_config*.json must be a JSON string list")
     c["compile_flags"] = [*c["cflags"], "-Iinclude"]
+    c["mwcc_versions"] = V.compiler_versions(c)
     return c
 
 
@@ -747,8 +748,10 @@ def _cache_inputs(mode):
     return inputs
 
 
-def _cache_tools(c, mode):
+def _cache_tools(c, mode, src=None):
     tools = {"mwcc": c["mwcc"]}
+    if src is not None:
+        tools["mwcc"] = V.unit_compiler(src, c)
     if mode == "link":
         tools.update({
             "assembler": AS_TOOL.argv,
@@ -760,9 +763,10 @@ def _cache_tools(c, mode):
 def compile_eligibility(c, src, cache):
     relative = src.relative_to(REPO)
     obj = OBJ / "eligibility" / (relative.as_posix().replace("/", "_") + ".o")
+    flags = V.unit_compile_flags(src, c["compile_flags"])
 
     def produce(temporary):
-        command = [c["mwcc"], *c["compile_flags"], "-c", str(src), "-o", str(temporary)]
+        command = [V.unit_compiler(src, c), *flags, "-c", str(src), "-o", str(temporary)]
         process = subprocess.run(command, cwd=REPO, stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT, text=True)
         return process.returncode == 0 and temporary.is_file(), process.stdout
@@ -772,8 +776,8 @@ def compile_eligibility(c, src, cache):
         output=obj,
         source=src,
         include_dirs=_include_dirs(c["compile_flags"]),
-        flags=c["compile_flags"],
-        tools=_cache_tools(c, "eligibility"),
+        flags=flags,
+        tools=_cache_tools(c, "eligibility", src),
         inputs=_cache_inputs("eligibility"),
         producer=produce,
     )
@@ -782,9 +786,10 @@ def compile_eligibility(c, src, cache):
 
 def compile_c(c, src, obj, cache):
     mwccgap = REPO / "tools" / "mwccgap" / "mwccgap.py"
+    unit_cflags = V.unit_compile_flags(src, list(c["cflags"]))
     command_flags = [
-        "--mwcc-path", c["mwcc"], "--macro-inc-path", str(ASM / "macro.inc"),
-        "--as-march", "r5900", "--as-mabi", "eabi", *c["cflags"], "-Iinclude",
+        "--mwcc-path", V.unit_compiler(src, c), "--macro-inc-path", str(ASM / "macro.inc"),
+        "--as-march", "r5900", "--as-mabi", "eabi", *unit_cflags, "-Iinclude",
     ]
     if not AS_TOOL.wsl and len(AS_TOOL.argv) == 1:
         command_flags[0:0] = ["--as-path", AS_TOOL.argv[0]]
@@ -801,7 +806,7 @@ def compile_c(c, src, obj, cache):
         source=src,
         include_dirs=_include_dirs(c["compile_flags"]),
         flags=command_flags,
-        tools=_cache_tools(c, "link"),
+        tools=_cache_tools(c, "link", src),
         inputs=_cache_inputs("link"),
         values=CACHE_TOOL_VERSIONS,
         producer=produce,

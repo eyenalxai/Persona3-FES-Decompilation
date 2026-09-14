@@ -1,0 +1,18 @@
+# Extra compile flags per compiler version key (see config/compiler_units.txt):
+# `<version key> <flag> [flag ...]`, appended by tools/verify.py::unit_compile_flags
+# in both verify and build.
+#
+# The b119 units reconstruct the RenderWare Graphics 3.7 block, which retail
+# linked as a prebuilt library.  Measured 2026-09-14 by compiling the Persona 4
+# RenderWare sources with b119 and comparing the objects against Persona 3
+# retail bytes: -O4,p reproduces the block (`-O4` replaces the default -O2,
+# `,p` is applied per config/speed_units.txt).  `-inline auto` is a b119-block
+# idiom (retail inlines small same-unit callees while the out-of-line copy is
+# still emitted).  -DRWBUILDNUMBER=55 matches retail's chunk headers; it is
+# harmless for code that does not read the macro.
+#
+# The Persona 4 tree additionally passes -nosyspath and ten -Iinclude/rw/...
+# paths because it compiles the RenderWare sources against the vendored 3.7
+# headers.  Ported bodies land in the existing src/rw units and use the
+# project headers, so those paths are not listed here yet.
+cw3.0.1b119 -O4 -inline auto -DRWBUILDNUMBER=55

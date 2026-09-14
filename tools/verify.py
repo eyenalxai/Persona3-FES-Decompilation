@@ -80,7 +80,145 @@ def load_config():
     for k in ("mwcc", "retail_elf"):
         if not Path(cfg[k]).is_file():
             sys.exit(f"verify: {k} does not exist: {cfg[k]}")
+    cfg["mwcc_versions"] = compiler_versions(cfg)
     return cfg
+
+
+# ------------------------------------------------- per-unit compiler version
+#
+# Retail did not use one compiler build for everything.  The RenderWare 3.7
+# block (and any other prebuilt vendor object) was linked as an object built
+# with an earlier MWCCPS2, while Atlus's own code is 3.0.1 b210.  The split is
+# carried per translation unit the same way config/gcc_units.txt carries
+# ee-gcc units: each line of config/compiler_units.txt is `<unit> <version
+# key>`, and the key names an entry of `mwcc_versions` in the local config (or
+# the environment variable `P3_MWCC_<KEY>`, non-alphanumerics folded to `_`).
+# A unit naming a version with no configured compiler is an error, never a
+# silent fallback: that would score its functions against the wrong compiler.
+COMPILER_UNITS_PATH = REPO / "config" / "compiler_units.txt"
+_COMPILER_UNITS: dict[str, str] | None = None
+
+
+def compiler_units() -> dict[str, str]:
+    global _COMPILER_UNITS
+    if _COMPILER_UNITS is None:
+        _COMPILER_UNITS = {}
+        if COMPILER_UNITS_PATH.is_file():
+            for line in COMPILER_UNITS_PATH.read_text().splitlines():
+                line = line.split("#", 1)[0].strip()
+                if not line:
+                    continue
+                parts = line.split()
+                if len(parts) != 2:
+                    sys.exit(f"verify: {COMPILER_UNITS_PATH.name}: expected "
+                             f"`<unit> <version>`, got {line!r}")
+                _COMPILER_UNITS[parts[0]] = parts[1]
+    return _COMPILER_UNITS
+
+
+def _version_env_name(key: str) -> str:
+    return "P3_MWCC_" + re.sub(r"[^A-Za-z0-9]", "_", key).upper()
+
+
+def compiler_versions(cfg: dict) -> dict[str, str]:
+    """Version key -> compiler path, from config `mwcc_versions` plus environment."""
+    versions = dict(cfg.get("mwcc_versions") or {})
+    for key in set(compiler_units().values()) | set(versions):
+        env = os.environ.get(_version_env_name(key))
+        if env:
+            versions[key] = env
+    return versions
+
+
+def unit_compiler(cpath: Path, cfg: dict) -> str:
+    """The compiler binary this unit is verified and built with."""
+    try:
+        relative = cpath.resolve().relative_to(REPO).as_posix()
+    except ValueError:
+        return cfg["mwcc"]
+    key = compiler_units().get(relative)
+    if key is None:
+        return cfg["mwcc"]
+    path = (cfg.get("mwcc_versions") or compiler_versions(cfg)).get(key)
+    if not path:
+        sys.exit(f"verify: {relative} names compiler version {key!r}; "
+                 "add it to `mwcc_versions` in tools/verify_config.local.json / "
+                 "tools/build_config.local.json, or via P3_MWCC_<KEY>")
+    return path
+
+
+# Extra compile flags per compiler version, config/version_flags.txt:
+# `<version key> <flag> [flag ...]`, appended to the flags of every unit
+# compiler_units.txt maps to that key.  The RenderWare block is built against
+# the vendored RenderWare 3.7 headers under include/rw and at -O4.
+VERSION_FLAGS_PATH = REPO / "config" / "version_flags.txt"
+_VERSION_FLAGS: dict[str, list[str]] | None = None
+
+
+def version_flags() -> dict[str, list[str]]:
+    global _VERSION_FLAGS
+    if _VERSION_FLAGS is None:
+        _VERSION_FLAGS = {}
+        if VERSION_FLAGS_PATH.is_file():
+            for line in VERSION_FLAGS_PATH.read_text().splitlines():
+                line = line.split("#", 1)[0].strip()
+                if not line:
+                    continue
+                key, *extra = line.split()
+                _VERSION_FLAGS.setdefault(key, []).extend(extra)
+    return _VERSION_FLAGS
+
+
+# Some units were built with the `-O<n>,p` speed variant.  It is a command-line
+# state with no #pragma spelling, so it is carried per unit in
+# config/speed_units.txt.
+SPEED_UNITS_PATH = REPO / "config" / "speed_units.txt"
+_SPEED_UNITS: set[str] | None = None
+
+
+def speed_units() -> set[str]:
+    global _SPEED_UNITS
+    if _SPEED_UNITS is None:
+        _SPEED_UNITS = set()
+        if SPEED_UNITS_PATH.is_file():
+            for line in SPEED_UNITS_PATH.read_text().splitlines():
+                line = line.split("#", 1)[0].strip()
+                if line:
+                    _SPEED_UNITS.add(line)
+    return _SPEED_UNITS
+
+
+def is_speed_unit(cpath: Path) -> bool:
+    try:
+        return cpath.resolve().relative_to(REPO).as_posix() in speed_units()
+    except ValueError:
+        return False
+
+
+def unit_compile_flags(cpath: Path, flags: list[str]) -> list[str]:
+    """A non-default compiler version's own `-O<n>` replaces the default level;
+    its other flags are appended.  Units listed in config/speed_units.txt get
+    the `,p` suffix on their `-O<n>`."""
+    out = list(flags)
+    try:
+        key = compiler_units().get(cpath.resolve().relative_to(REPO).as_posix())
+    except ValueError:
+        key = None
+    if key is not None:
+        extra = version_flags().get(key, [])
+        level = [f for f in extra if re.fullmatch(r"-O[0-4]", f)]
+        if level:
+            out = [level[-1] if re.fullmatch(r"-O[0-4]", f) else f for f in out]
+        out.extend(f for f in extra if not re.fullmatch(r"-O[0-4]", f))
+    if is_speed_unit(cpath):
+        out = [f + ",p" if re.fullmatch(r"-O[0-4]", f) else f for f in out]
+    return out
+
+
+def compile_command(cpath: Path, cfg: dict, opath: Path) -> list[str]:
+    """The project compile command for one unit, honoring its compiler version."""
+    return [unit_compiler(cpath, cfg), *unit_compile_flags(cpath, ["-O2", "-Iinclude"]),
+            "-c", str(cpath), "-o", str(opath)]
 
 
 # ---------------------------------------------------------------- ELF parsing
@@ -626,7 +764,7 @@ def compile_object(cpath, cfg, objdir=None):
         objdir = Path(tmp)
     opath = Path(objdir) / (rel.as_posix().replace("/", "_") + ".o")
     proc = subprocess.run(
-        [cfg["mwcc"], "-O2", "-Iinclude", "-c", str(cpath), "-o", str(opath)],
+        compile_command(cpath, cfg, opath),
         cwd=str(REPO), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     if proc.returncode or not opath.is_file():
         return None, proc.stdout
@@ -641,7 +779,7 @@ def verify_file(cpath, cfg, retail, boundaries, objdir):
         return results
     opath = objdir / (rel.as_posix().replace("/", "_") + ".o")
     proc = subprocess.run(
-        [cfg["mwcc"], "-O2", "-Iinclude", "-c", str(cpath), "-o", str(opath)],
+        compile_command(cpath, cfg, opath),
         cwd=str(REPO), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     if proc.returncode or not opath.is_file():
         for mk in markers:

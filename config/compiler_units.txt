@@ -1,0 +1,17 @@
+# Translation units that retail built with an MWCCPS2 build other than the
+# project default 3.0.1 b210.  Format: `<unit path> <version key>`; the key
+# names an entry of `mwcc_versions` in tools/verify_config.local.json /
+# tools/build_config.local.json (or P3_MWCC_<KEY> in the environment).
+#
+# Why per unit: the two compilers separate cleanly by object, not by address
+# region.  The RenderWare Graphics 3.7 block was linked as a prebuilt library
+# built with 3.0.1 b119, while Atlus's own code is b210 (measured 2026-09-14:
+# 35 sampled RenderWare-derived functions from the Persona 4 tree, compiled
+# under b119, are instruction-identical to Persona 3's retail bytes, while
+# b210 emits `sq` prologues and different colouring for the same source).
+# tools/verify.py::unit_compiler selects the binary per unit; a unit that
+# names an unconfigured version fails outright rather than scoring against
+# b210.  The block's units are also listed in config/speed_units.txt because
+# retail built them at `-O4,p`.
+#
+# (No units are listed yet; the first entries land with the ported bodies.)

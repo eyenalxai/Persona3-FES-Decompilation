@@ -1,0 +1,10 @@
+# Translation units that retail built with MWCCPS2's "optimize for speed"
+# variant (`-O<n>,p`) rather than the plain level.
+#
+# `,p` is command-line state: no #pragma spelling reaches it, and it survives a
+# later `#pragma optimization_level N`, so it is carried per unit here and
+# applied by tools/verify.py::unit_compile_flags in both verify and build.
+# The RenderWare Graphics 3.7 block needs it (`-O4,p`); measured 2026-09-14
+# against Persona 3 retail with the Persona 4 RenderWare sources.
+#
+# (No units are listed yet; the first entries land with the ported bodies.)
